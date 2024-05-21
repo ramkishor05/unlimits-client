@@ -9,7 +9,7 @@ package com.brijframework.client.model;
 public class ClientUnlimitsDTO {
 
 	private Long tagId;
-
+	
 	public Long getTagId() {
 		return tagId;
 	}
@@ -17,5 +17,5 @@ public class ClientUnlimitsDTO {
 	public void setTagId(Long tagId) {
 		this.tagId = tagId;
 	}
-	
+
 }
