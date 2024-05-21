@@ -1,6 +1,6 @@
 # HTTP Server (Tomcat) Port
 server: 
-  port: 8089
+  port: 5555
 logging.level.org.hibernate.SQL: DEBUG
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 # Disable Spring Boot's "Whitelabel" default error page, so we can use our own
@@ -10,34 +10,42 @@ error:
 
 spring:
    application:
-     name: unlimits_docs
+     name: unlimits_client
    main:
      allow-bean-definition-overriding: true
-
+   sql.init.mode: always
+   datasource:
+     driverClassName: com.mysql.cj.jdbc.Driver
+     url: jdbc:mysql://localhost:3306/unlimits_client?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+     username: root
+     password: root
+     show-sql: true
+   jpa: 
+     hibernate: 
+       dialect: org.hibernate.dialect.MySQLDialect
+       ddl-auto: update
+       format_sql: true
+       show_sql: true
+       naming: 
+         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 springdoc:
-  enable-native-support: true
   api-docs:
-    enabled: true
+    path: /v3/api-docs
   swagger-ui:
-    enabled: true
     path: /api/swagger-ui.html
-    config-url: /v3/api-docs/swagger-config
-    urls:
-      - url: http://51.79.159.7:8080/auth/v3/api-docs
-        name: unlimits_auth
-        primaryName: unlimits_auth
-      - url: http://51.79.159.7:8080/content/v3/api-docs
-        name: unlimits_content
-        primaryName: unlimits_content
-      - url: http://51.79.159.7:8080/integration/v3/api-docs
-        name: unlimits_integration
-        primaryName: unlimits_integration
+    
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-
+        
+openapi:
+  service:
+    title: client
+    version: 1.0.0
+    url: http://localhost:5555 #api gateway url
+    
 # Discovery Server Access
 eureka:
     client:

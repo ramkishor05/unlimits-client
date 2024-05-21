@@ -11,18 +11,42 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.brijframework</groupId>
-	<artifactId>unlimits-docs</artifactId>
+	<artifactId>unlimits-client</artifactId>
 	<version>1.1</version>
-	<name>unlimits-docs</name>
+	<name>unlimits-client</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.mapstruct.version>1.6.0.Beta1</org.mapstruct.version>
 	</properties>
 	<dependencies>
+		
+		<dependency>
+			<groupId>com.brijframework</groupId>
+			<artifactId>unlimits-rest</artifactId>
+			<version>1.1</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.33</version>
 		</dependency>
 
 		<dependency>
@@ -79,7 +103,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.brijframework.docs.DocsApp</mainClass>
+					<mainClass>com.brijframework.client.ClientApp</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

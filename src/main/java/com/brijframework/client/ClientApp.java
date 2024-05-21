@@ -1,12 +1,12 @@
-package com.brijframework.docs;
+package com.brijframework.client;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class DocsApp {
+public class ClientApp {
     public static void main(String[] args) {
-        SpringApplication.run(DocsApp.class, args);
+        SpringApplication.run(ClientApp.class, args);
     }
 }

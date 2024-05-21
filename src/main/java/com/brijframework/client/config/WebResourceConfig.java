@@ -1,4 +1,4 @@
-package com.brijframework.docs.config;
+package com.brijframework.client.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
