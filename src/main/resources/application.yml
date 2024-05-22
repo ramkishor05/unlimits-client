@@ -44,7 +44,7 @@ openapi:
   service:
     title: client
     version: 1.0.0
-    url: http://localhost:5555 #api gateway url
+    url: http://51.79.159.7:8080/client #api gateway url
     
 # Discovery Server Access
 eureka:

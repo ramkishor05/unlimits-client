@@ -7,13 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.brijframework.client.entities.EOClientUnlimits;
+import com.brijframework.client.entities.visualise.EOClientVisualiseImage;
 
 /**
  *  @author omnie
  */
 @Repository
 @Transactional
-public interface ClientUnlimitsRepository extends JpaRepository<EOClientUnlimits, Long>{
+public interface ClientVisualiseImageRepository extends JpaRepository<EOClientVisualiseImage, Long>{
 
 }

@@ -1,15 +1,15 @@
 package com.brijframework.client.config;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.brijframework.client.constants.ClientConstants;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
@@ -17,8 +17,7 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class OpenApiConfig {
 
-	private static final String AUTHORIZATION = "Authorization";
-	private final String moduleName = "Auth";
+	private final String moduleName = "Client";
 	private final String apiVersion = "1.1";
 
 	@Value("${openapi.service.url}")
@@ -26,7 +25,7 @@ public class OpenApiConfig {
 	
 	@Bean
 	public OpenAPI customOpenAPI() {
-		final String securitySchemeName = AUTHORIZATION;
+		final String securitySchemeName = ClientConstants. AUTHORIZATION;
 		final String apiTitle = String.format("%s API", StringUtils.capitalize(moduleName));
 		return new OpenAPI().addServersItem(new Server().url(serverUrl))
 				.addSecurityItem(new SecurityRequirement()
@@ -39,20 +38,4 @@ public class OpenApiConfig {
 				.info(new Info().title(apiTitle).version(apiVersion));
 	}
 	
-	@Bean
-	public GroupedOpenApi publicApi() {
-	    return GroupedOpenApi.builder()
-	        .group("add-user-id-header")
-	        .addOperationCustomizer((operation, $) -> {
-	            operation.addParametersItem(
-	                new HeaderParameter()
-	                    .name("clientId")
-	                    .description("clientId")
-	                    .required(true)
-	            );
-	            return operation;
-	        })
-	        .build();
-	}
-
 }

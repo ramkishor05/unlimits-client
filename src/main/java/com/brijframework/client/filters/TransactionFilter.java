@@ -3,7 +3,6 @@ package com.brijframework.client.filters;
 import static com.brijframework.client.constants.ClientConstants.APP_ID_KEY;
 import static com.brijframework.client.constants.ClientConstants.BUSINESS_ID_KEY;
 import static com.brijframework.client.constants.ClientConstants.CUST_APP_ID;
-import static com.brijframework.client.constants.ClientConstants.OWNER_ID_KEY;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.unlimits.rest.token.TokenUtil;
 
+import com.brijframework.client.constants.ClientConstants;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.util.CommanUtil;
@@ -37,7 +38,7 @@ public class TransactionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     	System.out.println("TransactionFilter start");
         HttpServletRequest req = (HttpServletRequest) request;
-        String ownerId = req.getHeader(OWNER_ID_KEY);
+        String ownerId = TokenUtil.getUserId(req.getHeader(ClientConstants.AUTHORIZATION)); //req.getHeader(OWNER_ID_KEY);
         System.out.println("ownerId="+ownerId);
         String appId = req.getHeader(APP_ID_KEY);
         System.out.println("appId="+appId);

@@ -7,6 +7,10 @@ package com.brijframework.client.constants;
  *  @author omnie
  */
 public class ClientConstants {
+	
+	public static final String AUTHORIZATION = "Authorization";
+	
+	public static final String BEARER = "Bearer ";
 
 	public static final String APP_ID_KEY="appId";
 	
