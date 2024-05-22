@@ -1,9 +1,12 @@
 /**
  * 
  */
-package com.brijframework.client.entities;
+package com.brijframework.client.entities.unlimits;
 
 import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
+
+import com.brijframework.client.entities.EOCustBusinessApp;
+import com.brijframework.client.entities.EOCustObject;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
