@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -77,5 +80,36 @@ public class ClientVisualiseExampleServiceImpl extends CrudServiceImpl<UIClientV
 		}
 		EOCustBusinessApp eoCustBusinessApp = custBusinessAppRepository.getReferenceById(Long.valueOf(list.get(0)));
 		return clientVisualiseExampleMapper.mapToDTO(eoCustBusinessApp.getClientVisualiseExample());
+	}
+	
+
+	@Override
+	protected List<EOClientVisualiseExample> repositoryFindAll(Map<String, List<String>> headers) {
+		List<String> list = headers.get(CUST_APP_ID);
+		if(CollectionUtils.isEmpty(list)) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		EOCustBusinessApp eoCustBusinessApp = custBusinessAppRepository.getReferenceById(Long.valueOf(list.get(0)));
+		return clientVisualiseExampleRepository.findAllByCustBusinessApp(eoCustBusinessApp);
+	}
+	
+	@Override
+	protected Page<EOClientVisualiseExample> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable) {
+		List<String> list = headers.get(CUST_APP_ID);
+		if(CollectionUtils.isEmpty(list)) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		EOCustBusinessApp eoCustBusinessApp = custBusinessAppRepository.getReferenceById(Long.valueOf(list.get(0)));
+		return clientVisualiseExampleRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+	}
+	
+	@Override
+	protected List<EOClientVisualiseExample> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
+		List<String> list = headers.get(CUST_APP_ID);
+		if(CollectionUtils.isEmpty(list)) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		EOCustBusinessApp eoCustBusinessApp = custBusinessAppRepository.getReferenceById(Long.valueOf(list.get(0)));
+		return clientVisualiseExampleRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
 	}
 }
