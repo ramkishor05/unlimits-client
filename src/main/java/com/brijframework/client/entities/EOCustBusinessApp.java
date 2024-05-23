@@ -1,9 +1,15 @@
 package com.brijframework.client.entities;
-import static com.brijframework.client.constants.TableConstants.*;
+import static com.brijframework.client.constants.TableConstants.APP_ID;
+import static com.brijframework.client.constants.TableConstants.BUSINESS_ID;
+import static com.brijframework.client.constants.TableConstants.CUST_ID;
+import static com.brijframework.client.constants.TableConstants.EOCUST_BUSINESS_APP;
 
-import com.brijframework.client.entities.visualise.EOClientVisualiseExample;
-import com.brijframework.client.entities.visualise.EOClientVisualiseImage;
-import com.brijframework.client.entities.visualise.EOClientVisualiseTag;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
+import com.brijframework.client.visualise.entities.EOClientVisualiseExample;
+import com.brijframework.client.visualise.entities.EOClientVisualiseImage;
+import com.brijframework.client.visualise.entities.EOClientVisualiseTag;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +47,18 @@ public class EOCustBusinessApp extends EOCustObject {
 	@JoinColumn(name = "CURRENT_VISUALISE_EXAMPLE_ID")
 	@OneToOne
 	private EOClientVisualiseExample clientVisualiseExample;
+	
+	@JoinColumn(name = "CURRENT_UNLIMITS_TAG_ID")
+	@OneToOne
+	private EOClientUnlimitsTag clientUnlimitsTag;
+	
+	@JoinColumn(name = "CURRENT_UNLIMITS_IMAGE_ID")
+	@OneToOne
+	private EOClientUnlimitsImage clientUnlimitsImage;
+	
+	@JoinColumn(name = "CURRENT_UNLIMITS_EXAMPLE_ID")
+	@OneToOne
+	private EOClientUnlimitsExample clientUnlimitsExample;
 	
 	public EOCustBusinessApp() {
 	}
@@ -98,6 +116,31 @@ public class EOCustBusinessApp extends EOCustObject {
 
 	public void setClientVisualiseExample(EOClientVisualiseExample clientVisualiseExample) {
 		this.clientVisualiseExample = clientVisualiseExample;
+	}
+
+
+	public EOClientUnlimitsTag getClientUnlimitsTag() {
+		return clientUnlimitsTag;
+	}
+
+	public void setClientUnlimitsTag(EOClientUnlimitsTag clientUnlimitsTag) {
+		this.clientUnlimitsTag = clientUnlimitsTag;
+	}
+
+	public EOClientUnlimitsImage getClientUnlimitsImage() {
+		return clientUnlimitsImage;
+	}
+
+	public void setClientUnlimitsImage(EOClientUnlimitsImage clientUnlimitsImage) {
+		this.clientUnlimitsImage = clientUnlimitsImage;
+	}
+
+	public EOClientUnlimitsExample getClientUnlimitsExample() {
+		return clientUnlimitsExample;
+	}
+
+	public void setClientUnlimitsExample(EOClientUnlimitsExample clientUnlimitsExample) {
+		this.clientUnlimitsExample = clientUnlimitsExample;
 	}
 	
 }

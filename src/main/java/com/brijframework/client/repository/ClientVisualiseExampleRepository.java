@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.brijframework.client.entities.visualise.EOClientVisualiseExample;
+import com.brijframework.client.visualise.entities.EOClientVisualiseExample;
 
 /**
  *  @author omnie

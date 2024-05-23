@@ -10,14 +10,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
-import com.brijframework.client.visualise.entities.EOClientVisualiseTag;
-import com.brijframework.client.visualise.model.UIClientVisualiseTag;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
+import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 
 /**
  *  @author omnie
  */
 
 @Mapper(componentModel = SPRING, implementationPackage = APP_CLIENT_PACKAGE_IMPL, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClientVisualiseTagMapper extends GenericMapper<EOClientVisualiseTag, UIClientVisualiseTag>{
+public interface ClientUnlimitsTagMapper extends GenericMapper<EOClientUnlimitsTag, UIClientUnlimitsTag>{
 
 }

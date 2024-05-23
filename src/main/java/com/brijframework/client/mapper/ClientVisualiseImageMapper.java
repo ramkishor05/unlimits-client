@@ -10,8 +10,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
-import com.brijframework.client.entities.visualise.EOClientVisualiseImage;
-import com.brijframework.client.model.visualise.UIClientVisualiseImage;
+import com.brijframework.client.visualise.entities.EOClientVisualiseImage;
+import com.brijframework.client.visualise.model.UIClientVisualiseImage;
 
 /**
  *  @author omnie
