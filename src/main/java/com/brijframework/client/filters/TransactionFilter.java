@@ -39,12 +39,15 @@ public class TransactionFilter implements Filter {
     	System.out.println("TransactionFilter start");
         HttpServletRequest req = (HttpServletRequest) request;
         String ownerId = TokenUtil.getUserId(req.getHeader(ClientConstants.AUTHORIZATION)); //req.getHeader(OWNER_ID_KEY);
+        String userRole = TokenUtil.getUserRole(req.getHeader(ClientConstants.AUTHORIZATION)); 
         System.out.println("ownerId="+ownerId);
         String appId = req.getHeader(APP_ID_KEY);
         System.out.println("appId="+appId);
         String businessId = req.getHeader(BUSINESS_ID_KEY);
         System.out.println("businessId="+businessId);
         TransactionRequest requestWrapper = new TransactionRequest(req);
+        requestWrapper.setAttribute("USER_ROLE", userRole);
+        requestWrapper.putHeader("USER_ROLE", userRole);
         if(Objects.nonNull(ownerId)&& CommanUtil.isNumeric(ownerId) && Objects.nonNull(businessId) && CommanUtil.isNumeric(businessId) && Objects.nonNull(appId) && CommanUtil.isNumeric(appId)) {
         	EOCustBusinessApp custBusinessApp =custBusinessAppRepository.findByCustIdAndAppIdAndBusinessId(Long.valueOf(ownerId), Long.valueOf(appId),Long.valueOf(businessId)).orElse(new EOCustBusinessApp(Long.valueOf(appId), Long.valueOf(ownerId), Long.valueOf(businessId)));
         	EOCustBusinessApp eoCustBusinessApp=custBusinessAppRepository.save(custBusinessApp);
