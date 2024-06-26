@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.unlimits.rest.token.TokenUtil;
+import org.unlimits.rest.token.ApiTokenContext;
 
 import com.brijframework.client.constants.ClientConstants;
 import com.brijframework.client.entities.EOCustBusinessApp;
@@ -38,8 +38,8 @@ public class TransactionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     	System.out.println("TransactionFilter start");
         HttpServletRequest req = (HttpServletRequest) request;
-        String ownerId = TokenUtil.getUserId(req.getHeader(ClientConstants.AUTHORIZATION)); //req.getHeader(OWNER_ID_KEY);
-        String userRole = TokenUtil.getUserRole(req.getHeader(ClientConstants.AUTHORIZATION)); 
+        String ownerId = ApiTokenContext.getUserId(req.getHeader(ClientConstants.AUTHORIZATION)); //req.getHeader(OWNER_ID_KEY);
+        String userRole = ApiTokenContext.getUserRole(req.getHeader(ClientConstants.AUTHORIZATION)); 
         System.out.println("ownerId="+ownerId);
         String appId = req.getHeader(APP_ID_KEY);
         System.out.println("appId="+appId);
