@@ -1,10 +1,20 @@
 package com.brijframework.client.unlimits.model;
 
 public class UIClientUnlimits {
+	
+	private String name;
 
 	private Long categoryId;
 
 	private Long subCategoryId;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Long getCategoryId() {
 		return categoryId;

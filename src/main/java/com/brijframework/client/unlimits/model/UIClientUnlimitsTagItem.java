@@ -4,7 +4,7 @@ public class UIClientUnlimitsTagItem {
 
 	private Long tagId;
 
-	private Long tagName;
+	private String tagName;
 
 	public Long getTagId() {
 		return tagId;
@@ -14,11 +14,11 @@ public class UIClientUnlimitsTagItem {
 		this.tagId = tagId;
 	}
 
-	public Long getTagName() {
+	public String getTagName() {
 		return tagName;
 	}
 
-	public void setTagName(Long tagName) {
+	public void setTagName(String tagName) {
 		this.tagName = tagName;
 	}
 

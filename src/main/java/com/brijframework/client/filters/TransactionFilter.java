@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.unlimits.rest.token.ApiTokenContext;
+import org.unlimits.rest.context.ApiTokenContext;
 
 import com.brijframework.client.constants.ClientConstants;
 import com.brijframework.client.entities.EOCustBusinessApp;
