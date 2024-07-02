@@ -4,6 +4,8 @@ import static com.brijframework.client.constants.TableConstants.BUSINESS_ID;
 import static com.brijframework.client.constants.TableConstants.CUST_ID;
 import static com.brijframework.client.constants.TableConstants.EOCUST_BUSINESS_APP;
 
+import org.unlimits.rest.crud.beans.IUserAccount;
+
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
@@ -23,7 +25,7 @@ import jakarta.persistence.UniqueConstraint;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = EOCUST_BUSINESS_APP, uniqueConstraints = {@UniqueConstraint (columnNames = {APP_ID, CUST_ID, BUSINESS_ID })})
-public class EOCustBusinessApp extends EOCustObject {
+public class EOCustBusinessApp extends EOCustObject implements IUserAccount{
 
 	private static final long serialVersionUID = 1L;
 	

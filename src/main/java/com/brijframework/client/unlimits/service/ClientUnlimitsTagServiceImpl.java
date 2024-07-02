@@ -8,6 +8,7 @@ import static com.brijframework.client.constants.ClientConstants.CUST_APP_ID;
 import java.util.List;
 import java.util.Map;
 
+import org.brijframework.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 
@@ -54,22 +56,32 @@ public class ClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClientUnlimi
 
 	@Override
 	protected void preAdd(UIClientUnlimitsTag data, EOClientUnlimitsTag entity, Map<String, List<String>> headers) {
-		List<String> list = headers.get(CUST_APP_ID);
-		if(CollectionUtils.isEmpty(list)) {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.setCustBusinessApp(custBusinessAppRepository.getReferenceById(Long.valueOf(list.get(0))));
+		if(StringUtil.isEmpty(data.getName())) {
+			int maxTransactionId = clientUnlimitsTagRepository.getMaxTransactionId(eoCustBusinessApp.getId());
+			data.setName("Unlimits "+maxTransactionId);
+			entity.setName("Unlimits "+maxTransactionId);
+		}
+		entity.setCustBusinessApp(eoCustBusinessApp);
 		entity.getCustBusinessApp().setClientUnlimitsTag(entity);
 		entity.getTagItems().forEach(tagItem->tagItem.setUnlimitsTag(entity));
 	}
 	
 	@Override
 	protected void preUpdate(UIClientUnlimitsTag data, EOClientUnlimitsTag entity, Map<String, List<String>> headers) {
-		List<String> list = headers.get(CUST_APP_ID);
-		if(CollectionUtils.isEmpty(list)) {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.setCustBusinessApp(custBusinessAppRepository.getReferenceById(Long.valueOf(list.get(0))));
+		if(StringUtil.isEmpty(data.getName())) {
+			int maxTransactionId = clientUnlimitsTagRepository.getMaxTransactionId(eoCustBusinessApp.getId());
+			data.setName("Unlimits "+maxTransactionId);
+			entity.setName("Unlimits "+maxTransactionId);
+		}
+		entity.setCustBusinessApp(eoCustBusinessApp);
 		entity.getTagItems().forEach(tagItem->tagItem.setUnlimitsTag(entity));
 	}
 	

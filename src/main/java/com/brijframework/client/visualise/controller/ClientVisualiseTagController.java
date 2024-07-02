@@ -18,12 +18,15 @@ import com.brijframework.client.visualise.entities.EOClientVisualiseTag;
 import com.brijframework.client.visualise.model.UIClientVisualiseTag;
 import com.brijframework.client.visualise.service.ClientVisualiseTagService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 /**
  *  @author omnie
  */
 @RestController
 @RequestMapping(value = "/api/client/visualise/tag")
 @CrossOrigin("*")
+@Hidden
 public class ClientVisualiseTagController extends CrudController<UIClientVisualiseTag, EOClientVisualiseTag, Long>{
 	
 	@Autowired

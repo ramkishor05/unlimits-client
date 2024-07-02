@@ -22,9 +22,9 @@ import com.brijframework.client.unlimits.service.ClientUnlimitsTagService;
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/client/unlimits/tag")
+@RequestMapping(value = "/api/client/affermation")
 @CrossOrigin("*")
-public class ClientAffermationLibararyController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
+public class ClientAffermationController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 	
 	@Autowired
 	private ClientUnlimitsTagService clientUnlimitsTagService;

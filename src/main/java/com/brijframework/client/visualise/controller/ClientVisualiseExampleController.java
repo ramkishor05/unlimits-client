@@ -18,12 +18,15 @@ import com.brijframework.client.visualise.entities.EOClientVisualiseExample;
 import com.brijframework.client.visualise.model.UIClientVisualiseExample;
 import com.brijframework.client.visualise.service.ClientVisualiseExampleService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 /**
  *  @author omnie
  */
 @RestController
 @RequestMapping(value = "/api/client/visualise/example")
 @CrossOrigin("*")
+@Hidden
 public class ClientVisualiseExampleController extends CrudController<UIClientVisualiseExample, EOClientVisualiseExample, Long>{
 	
 	@Autowired

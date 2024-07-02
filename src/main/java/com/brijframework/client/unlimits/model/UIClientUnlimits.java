@@ -2,11 +2,21 @@ package com.brijframework.client.unlimits.model;
 
 public class UIClientUnlimits {
 	
+	private String date;
+	
 	private String name;
 
 	private Long categoryId;
 
 	private Long subCategoryId;
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
 
 	public String getName() {
 		return name;

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +42,9 @@ public interface ClientUnlimitsExampleRepository extends JpaRepository<EOClientU
 	 * @return
 	 */
 	List<EOClientUnlimitsExample> findAllByCustBusinessApp(EOCustBusinessApp eoCustBusinessApp, Sort sort);
-	
+
+
+	@Query(nativeQuery = true,  value = "SELECT COALESCE(MAX(id), 0)+1 FROM EOCLIENT_UNLIMITS_EXAMPLE where CUST_BUSINESS_APP_ID=?1")
+	int getMaxTransactionId(Long custBusniessAppId);
 	
 }

@@ -18,12 +18,15 @@ import com.brijframework.client.visualise.entities.EOClientVisualiseImage;
 import com.brijframework.client.visualise.model.UIClientVisualiseImage;
 import com.brijframework.client.visualise.service.ClientVisualiseImageService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 /**
  *  @author omnie
  */
 @RestController
 @RequestMapping(value = "/api/client/visualise/image")
 @CrossOrigin("*")
+@Hidden
 public class ClientVisualiseImageController extends CrudController<UIClientVisualiseImage, EOClientVisualiseImage, Long>{
 	
 	@Autowired
