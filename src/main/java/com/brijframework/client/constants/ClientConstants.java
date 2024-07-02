@@ -20,7 +20,11 @@ public class ClientConstants {
 	
 	public static final String CUST_APP_ID="custAppId";
 	
+	public static final String USER_ROLE = "USER_ROLE";
+	
 	public static final String SPRING = "spring";
 	
 	public static final String APP_CLIENT_PACKAGE_IMPL = "com.brijframework.client.mapper.impl";
+	
+	public static final String MY_UNLIMITS = "My Unlimits ";
 }

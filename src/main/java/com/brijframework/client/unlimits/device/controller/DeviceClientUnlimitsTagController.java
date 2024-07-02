@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.controller;
+package com.brijframework.client.unlimits.device.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -14,31 +14,31 @@ import org.unlimits.rest.crud.beans.Response;
 import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
-import com.brijframework.client.unlimits.service.ClientUnlimitsImageService;
+import com.brijframework.client.unlimits.device.service.DeviceClientUnlimitsTagService;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
+import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 
 /**
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/client/unlimits/image")
+@RequestMapping(value = "/api/device/client/unlimits/tag")
 @CrossOrigin("*")
-public class ClientUnlimitsImageController extends CrudController<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>{
+public class DeviceClientUnlimitsTagController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 	
 	@Autowired
-	private ClientUnlimitsImageService clientUnlimitsImageService;
+	private DeviceClientUnlimitsTagService clientUnlimitsTagService;
 
 	@Override
-	public CrudService<UIClientUnlimitsImage, EOClientUnlimitsImage, Long> getService() {
-		return clientUnlimitsImageService;
+	public CrudService<UIClientUnlimitsTag, EOClientUnlimitsTag, Long> getService() {
+		return clientUnlimitsTagService;
 	}
 	
     @GetMapping("/current")
 	public Response getCuurent(@RequestHeader(required =false)  MultiValueMap<String,String> headers){
     	Response response=new Response();
 		try {
-			response.setData(clientUnlimitsImageService.getCurrent(headers));
+			response.setData(clientUnlimitsTagService.getCurrent(headers));
 			response.setSuccess(SUCCESS);
 			response.setMessage(SUCCESSFULLY_PROCCEED);
 			return response;

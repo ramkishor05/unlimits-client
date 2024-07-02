@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.service;
+package com.brijframework.client.unlimits.global.service;
 
 import org.unlimits.rest.crud.service.CrudService;
 
@@ -11,6 +11,6 @@ import com.brijframework.client.unlimits.model.UIClientJournal;
 /**
  *  @author omnie
  */
-public interface ClientJournalService extends CrudService<UIClientJournal, EOClientJournal, Long>{
+public interface GlobalClientJournalService extends CrudService<UIClientJournal, EOClientJournal, Long>{
 
 }

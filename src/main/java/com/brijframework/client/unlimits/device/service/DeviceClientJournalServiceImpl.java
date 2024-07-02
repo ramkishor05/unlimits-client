@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.service;
+package com.brijframework.client.unlimits.device.service;
 
 import java.util.List;
 import java.util.Map;
@@ -27,8 +27,8 @@ import com.brijframework.client.unlimits.model.UIClientJournal;
  * @author omnie
  */
 @Service
-public class ClientJournalServiceImpl extends CrudServiceImpl<UIClientJournal, EOClientJournal, Long>
-		implements ClientJournalService {
+public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJournal, EOClientJournal, Long>
+		implements DeviceClientJournalService {
 
 	@Autowired
 	private ClientJournalRepository clientJournalRepository;

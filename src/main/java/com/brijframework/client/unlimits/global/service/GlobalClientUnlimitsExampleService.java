@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.service;
+package com.brijframework.client.unlimits.global.service;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
 /**
  *  @author omnie
  */
-public interface ClientUnlimitsExampleService extends CrudService<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>{
+public interface GlobalClientUnlimitsExampleService extends CrudService<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>{
 
 	UIClientUnlimitsExample getCurrent(Map<String, List<String>> headers);
 

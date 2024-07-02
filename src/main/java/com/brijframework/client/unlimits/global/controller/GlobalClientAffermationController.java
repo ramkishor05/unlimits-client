@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.controller;
+package com.brijframework.client.unlimits.global.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -14,31 +14,31 @@ import org.unlimits.rest.crud.beans.Response;
 import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
-import com.brijframework.client.unlimits.service.ClientUnlimitsExampleService;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
+import com.brijframework.client.unlimits.global.service.GlobalClientUnlimitsTagService;
+import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 
 /**
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/client/unlimits/example")
+@RequestMapping(value = "/api/global/client/affermation")
 @CrossOrigin("*")
-public class ClientUnlimitsExampleController extends CrudController<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>{
+public class GlobalClientAffermationController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 	
 	@Autowired
-	private ClientUnlimitsExampleService clientUnlimitsExampleService;
+	private GlobalClientUnlimitsTagService clientUnlimitsTagService;
 
 	@Override
-	public CrudService<UIClientUnlimitsExample, EOClientUnlimitsExample, Long> getService() {
-		return clientUnlimitsExampleService;
+	public CrudService<UIClientUnlimitsTag, EOClientUnlimitsTag, Long> getService() {
+		return clientUnlimitsTagService;
 	}
 	
     @GetMapping("/current")
 	public Response getCuurent(@RequestHeader(required =false)  MultiValueMap<String,String> headers){
     	Response response=new Response();
 		try {
-			response.setData(clientUnlimitsExampleService.getCurrent(headers));
+			response.setData(clientUnlimitsTagService.getCurrent(headers));
 			response.setSuccess(SUCCESS);
 			response.setMessage(SUCCESSFULLY_PROCCEED);
 			return response;

@@ -3,6 +3,8 @@ package com.brijframework.client.filters;
 import static com.brijframework.client.constants.ClientConstants.APP_ID_KEY;
 import static com.brijframework.client.constants.ClientConstants.BUSINESS_ID_KEY;
 import static com.brijframework.client.constants.ClientConstants.CUST_APP_ID;
+import static com.brijframework.client.constants.ClientConstants.OWNER_ID_KEY;
+import static com.brijframework.client.constants.ClientConstants.USER_ROLE;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -38,21 +40,19 @@ public class TransactionFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    	System.out.println("TransactionFilter start");
         HttpServletRequest req = (HttpServletRequest) request;
         TransactionRequest requestWrapper = new TransactionRequest(req);
         String apiToken = req.getHeader(ClientConstants.AUTHORIZATION);
         if(StringUtil.isNonEmpty(apiToken)) {
-	        String ownerId = ApiTokenContext.getUserId(apiToken); //req.getHeader(OWNER_ID_KEY);
-	        String userRole = ApiTokenContext.getUserRole(apiToken); 
-	        System.out.println("ownerId="+ownerId);
+        	String userRole = ApiTokenContext.getUserRole(apiToken); 
+        	requestWrapper.setAttribute(USER_ROLE, userRole);
+	        requestWrapper.putHeader(USER_ROLE, userRole);
+	        String ownerId = req.getHeader(OWNER_ID_KEY);
+	        if(StringUtil.isEmpty(ownerId)) {
+	        	ownerId=ApiTokenContext.getUserId(apiToken);
+	        }
 	        String appId = req.getHeader(APP_ID_KEY);
-	        System.out.println("appId="+appId);
 	        String businessId = req.getHeader(BUSINESS_ID_KEY);
-	        System.out.println("businessId="+businessId);
-	       
-	        requestWrapper.setAttribute("USER_ROLE", userRole);
-	        requestWrapper.putHeader("USER_ROLE", userRole);
 	        if(Objects.nonNull(ownerId)&& CommanUtil.isNumeric(ownerId) && Objects.nonNull(businessId) && CommanUtil.isNumeric(businessId) && Objects.nonNull(appId) && CommanUtil.isNumeric(appId)) {
 	        	EOCustBusinessApp custBusinessApp =custBusinessAppRepository.findByCustIdAndAppIdAndBusinessId(Long.valueOf(ownerId), Long.valueOf(appId),Long.valueOf(businessId)).orElse(new EOCustBusinessApp(Long.valueOf(appId), Long.valueOf(ownerId), Long.valueOf(businessId)));
 	        	EOCustBusinessApp eoCustBusinessApp=custBusinessAppRepository.save(custBusinessApp);
@@ -80,10 +80,8 @@ public class TransactionFilter implements Filter {
 	         		req.setAttribute(CUST_APP_ID, ""+eoCustBusinessApp.getId());
 	         		ApiSecurityContext.getContext().setCurrentAccount(eoCustBusinessApp);
 	        	}
-	        	
 	         }
         }
         chain.doFilter(requestWrapper, response);
-        System.out.println("TransactionFilter end");
     }
 }

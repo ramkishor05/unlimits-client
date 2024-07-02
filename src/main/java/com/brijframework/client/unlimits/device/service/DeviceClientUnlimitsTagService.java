@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.service;
+package com.brijframework.client.unlimits.device.service;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 /**
  *  @author omnie
  */
-public interface ClientUnlimitsTagService extends CrudService<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
+public interface DeviceClientUnlimitsTagService extends CrudService<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 
 	UIClientUnlimitsTag getCurrent(Map<String, List<String>> headers);
 

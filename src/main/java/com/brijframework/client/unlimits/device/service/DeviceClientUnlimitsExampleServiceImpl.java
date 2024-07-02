@@ -1,7 +1,8 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.service;
+package com.brijframework.client.unlimits.device.service;
+import static com.brijframework.client.constants.ClientConstants.MY_UNLIMITS;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientUnlimitsExampleMapper;
 import com.brijframework.client.repository.ClientUnlimitsExampleRepository;
+import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
 import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
 
@@ -28,11 +30,15 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
  * @author omnie
  */
 @Service
-public class ClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>
-		implements ClientUnlimitsExampleService {
+public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>
+		implements DeviceClientUnlimitsExampleService {
 
 	@Autowired
 	private ClientUnlimitsExampleRepository clientUnlimitsExampleRepository;
+
+	@Autowired
+	private CustBusinessAppRepository custBusinessAppRepository;
+
 	
 	@Autowired
 	private ClientUnlimitsExampleMapper clientUnlimitsExampleMapper;
@@ -55,10 +61,20 @@ public class ClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UIClientUn
 		}
 		if(StringUtil.isEmpty(data.getName())) {
 			int maxTransactionId = clientUnlimitsExampleRepository.getMaxTransactionId(eoCustBusinessApp.getId());
-			data.setName("Unlimits "+maxTransactionId);
-			entity.setName("Unlimits "+maxTransactionId);
+			data.setName(MY_UNLIMITS+maxTransactionId);
+			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
+	}
+	
+	@Override
+	protected void postAdd(UIClientUnlimitsExample data, EOClientUnlimitsExample entity) {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if(eoCustBusinessApp==null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		eoCustBusinessApp.setClientUnlimitsExample(entity);
+		custBusinessAppRepository.save(eoCustBusinessApp);
 	}
 	
 	@Override
@@ -69,10 +85,20 @@ public class ClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UIClientUn
 		}
 		if(StringUtil.isEmpty(data.getName())) {
 			int maxTransactionId = clientUnlimitsExampleRepository.getMaxTransactionId(eoCustBusinessApp.getId());
-			data.setName("Unlimits "+maxTransactionId);
-			entity.setName("Unlimits "+maxTransactionId);
+			data.setName(MY_UNLIMITS+maxTransactionId);
+			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
+	}
+	
+	@Override
+	protected void postUpdate(UIClientUnlimitsExample data, EOClientUnlimitsExample entity) {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if(eoCustBusinessApp==null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		eoCustBusinessApp.setClientUnlimitsExample(entity);
+		custBusinessAppRepository.save(eoCustBusinessApp);
 	}
 	
 	@Override

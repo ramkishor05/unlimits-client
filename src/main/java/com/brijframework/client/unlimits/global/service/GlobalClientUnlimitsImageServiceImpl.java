@@ -1,7 +1,8 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.service;
+package com.brijframework.client.unlimits.global.service;
+import static com.brijframework.client.constants.ClientConstants.MY_UNLIMITS;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientUnlimitsImageMapper;
 import com.brijframework.client.repository.ClientUnlimitsImageRepository;
+import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
 import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
 
@@ -28,11 +30,14 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
  * @author omnie
  */
 @Service
-public class ClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>
-		implements ClientUnlimitsImageService {
+public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>
+		implements GlobalClientUnlimitsImageService {
 
 	@Autowired
 	private ClientUnlimitsImageRepository clientUnlimitsImageRepository;
+	
+	@Autowired
+	private CustBusinessAppRepository custBusinessAppRepository;
 
 	@Autowired
 	private ClientUnlimitsImageMapper clientUnlimitsImageMapper;
@@ -55,12 +60,21 @@ public class ClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClientUnli
 		}
 		if(StringUtil.isEmpty(data.getName())) {
 			int maxTransactionId = clientUnlimitsImageRepository.getMaxTransactionId(eoCustBusinessApp.getId());
-			data.setName("Unlimits "+maxTransactionId);
-			entity.setName("Unlimits "+maxTransactionId);
+			data.setName(MY_UNLIMITS+maxTransactionId);
+			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
-		entity.getCustBusinessApp().setClientUnlimitsImage(entity);
 		entity.getImageItems().forEach(tagItem->tagItem.setUnlimitsImage(entity));
+	}
+	
+	@Override
+	protected void postAdd(UIClientUnlimitsImage data, EOClientUnlimitsImage entity) {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if(eoCustBusinessApp==null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		eoCustBusinessApp.setClientUnlimitsImage(entity);
+		custBusinessAppRepository.save(eoCustBusinessApp);
 	}
 	
 	@Override
@@ -71,11 +85,21 @@ public class ClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClientUnli
 		}
 		if(StringUtil.isEmpty(data.getName())) {
 			int maxTransactionId = clientUnlimitsImageRepository.getMaxTransactionId(eoCustBusinessApp.getId());
-			data.setName("Unlimits "+maxTransactionId);
-			entity.setName("Unlimits "+maxTransactionId);
+			data.setName(MY_UNLIMITS+maxTransactionId);
+			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
 		entity.getImageItems().forEach(tagItem->tagItem.setUnlimitsImage(entity));
+	}
+	
+	@Override
+	protected void postUpdate(UIClientUnlimitsImage data, EOClientUnlimitsImage entity) {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if(eoCustBusinessApp==null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		eoCustBusinessApp.setClientUnlimitsImage(entity);
+		custBusinessAppRepository.save(eoCustBusinessApp);
 	}
 	
 	@Override
@@ -91,7 +115,7 @@ public class ClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClientUnli
 	protected List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
-			throw new UserNotFoundException("Invalid client");
+			return clientUnlimitsImageRepository.findAll();
 		}
 		return clientUnlimitsImageRepository.findAllByCustBusinessApp(eoCustBusinessApp);
 	}
@@ -100,7 +124,7 @@ public class ClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClientUnli
 	protected Page<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
-			throw new UserNotFoundException("Invalid client");
+			return clientUnlimitsImageRepository.findAll(pageable);
 		}
 		return clientUnlimitsImageRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
 	}
@@ -109,7 +133,7 @@ public class ClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClientUnli
 	protected List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
-			throw new UserNotFoundException("Invalid client");
+			return clientUnlimitsImageRepository.findAll(sort);
 		}
 		return clientUnlimitsImageRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
 	}

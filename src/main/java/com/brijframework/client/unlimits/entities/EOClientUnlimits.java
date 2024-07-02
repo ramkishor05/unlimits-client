@@ -7,6 +7,8 @@ import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_AP
 
 import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.entities.EOCustObject;
 
@@ -30,6 +32,7 @@ public abstract class EOClientUnlimits extends EOCustObject {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DATE_AT")
+	@CreationTimestamp
 	private Date date;
 
 	@Column(name = "NAME")

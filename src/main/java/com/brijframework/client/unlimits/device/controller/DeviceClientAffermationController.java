@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.controller;
+package com.brijframework.client.unlimits.device.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -14,20 +14,20 @@ import org.unlimits.rest.crud.beans.Response;
 import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
+import com.brijframework.client.unlimits.device.service.DeviceClientUnlimitsTagService;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
 import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
-import com.brijframework.client.unlimits.service.ClientUnlimitsTagService;
 
 /**
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/client/affermation")
+@RequestMapping(value = "/api/device/client/affermation")
 @CrossOrigin("*")
-public class ClientAffermationController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
+public class DeviceClientAffermationController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 	
 	@Autowired
-	private ClientUnlimitsTagService clientUnlimitsTagService;
+	private DeviceClientUnlimitsTagService clientUnlimitsTagService;
 
 	@Override
 	public CrudService<UIClientUnlimitsTag, EOClientUnlimitsTag, Long> getService() {
