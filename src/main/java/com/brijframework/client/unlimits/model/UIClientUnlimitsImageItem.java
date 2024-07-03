@@ -1,20 +1,24 @@
 package com.brijframework.client.unlimits.model;
 
-public class UIClientUnlimitsImageItem {
+import org.unlimits.rest.model.UIModel;
 
-	private Long imageId;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(value = Include.NON_NULL)
+public class UIClientUnlimitsImageItem extends UIModel{
+
+	private String imageId;
 
 	private String imageName;
 
 	private String imageUrl;
 
-	private String imageContent;
-
-	public Long getImageId() {
+	public String getImageId() {
 		return imageId;
 	}
 
-	public void setImageId(Long imageId) {
+	public void setImageId(String imageId) {
 		this.imageId = imageId;
 	}
 
@@ -32,14 +36,6 @@ public class UIClientUnlimitsImageItem {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-	public String getImageContent() {
-		return imageContent;
-	}
-
-	public void setImageContent(String imageContent) {
-		this.imageContent = imageContent;
 	}
 
 }

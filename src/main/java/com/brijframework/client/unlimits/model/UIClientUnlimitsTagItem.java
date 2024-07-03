@@ -1,16 +1,22 @@
 package com.brijframework.client.unlimits.model;
 
-public class UIClientUnlimitsTagItem {
+import org.unlimits.rest.model.UIModel;
 
-	private Long tagId;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(value = Include.NON_NULL)
+public class UIClientUnlimitsTagItem extends UIModel{
+
+	private String tagId;
 
 	private String tagName;
 
-	public Long getTagId() {
+	public String getTagId() {
 		return tagId;
 	}
 
-	public void setTagId(Long tagId) {
+	public void setTagId(String tagId) {
 		this.tagId = tagId;
 	}
 

@@ -9,9 +9,6 @@ import org.unlimits.rest.crud.beans.IUserAccount;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
-import com.brijframework.client.visualise.entities.EOClientVisualiseExample;
-import com.brijframework.client.visualise.entities.EOClientVisualiseImage;
-import com.brijframework.client.visualise.entities.EOClientVisualiseTag;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,18 +34,6 @@ public class EOCustBusinessApp extends EOCustObject implements IUserAccount{
 
 	@Column(name = BUSINESS_ID, nullable = false)
 	private long businessId;
-	
-	@JoinColumn(name = "CURRENT_VISUALISE_TAG_ID")
-	@OneToOne
-	private EOClientVisualiseTag clientVisualiseTag;
-	
-	@JoinColumn(name = "CURRENT_VISUALISE_IMAGE_ID")
-	@OneToOne
-	private EOClientVisualiseImage clientVisualiseImage;
-	
-	@JoinColumn(name = "CURRENT_VISUALISE_EXAMPLE_ID")
-	@OneToOne
-	private EOClientVisualiseExample clientVisualiseExample;
 	
 	@JoinColumn(name = "CURRENT_UNLIMITS_TAG_ID")
 	@OneToOne
@@ -95,31 +80,6 @@ public class EOCustBusinessApp extends EOCustObject implements IUserAccount{
 	public void setBusinessId(long businessId) {
 		this.businessId = businessId;
 	}
-
-	public EOClientVisualiseTag getClientVisualiseTag() {
-		return clientVisualiseTag;
-	}
-
-	public void setClientVisualiseTag(EOClientVisualiseTag clientVisualiseTag) {
-		this.clientVisualiseTag = clientVisualiseTag;
-	}
-
-	public EOClientVisualiseImage getClientVisualiseImage() {
-		return clientVisualiseImage;
-	}
-
-	public void setClientVisualiseImage(EOClientVisualiseImage clientVisualiseImage) {
-		this.clientVisualiseImage = clientVisualiseImage;
-	}
-
-	public EOClientVisualiseExample getClientVisualiseExample() {
-		return clientVisualiseExample;
-	}
-
-	public void setClientVisualiseExample(EOClientVisualiseExample clientVisualiseExample) {
-		this.clientVisualiseExample = clientVisualiseExample;
-	}
-
 
 	public EOClientUnlimitsTag getClientUnlimitsTag() {
 		return clientUnlimitsTag;

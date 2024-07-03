@@ -24,7 +24,7 @@ public class EOClientUnlimitsImageItem extends EOCustObject {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "IMAGE_ID", nullable = true)
-	private Long imageId;
+	private String imageId;
 
 	@Column(name = "IMAGE_NAME", nullable = true)
 	private String imageName;
@@ -36,11 +36,11 @@ public class EOClientUnlimitsImageItem extends EOCustObject {
 	@ManyToOne
 	private EOClientUnlimitsImage unlimitsImage;
 
-	public Long getImageId() {
+	public String getImageId() {
 		return imageId;
 	}
 
-	public void setImageId(Long imageId) {
+	public void setImageId(String imageId) {
 		this.imageId = imageId;
 	}
 

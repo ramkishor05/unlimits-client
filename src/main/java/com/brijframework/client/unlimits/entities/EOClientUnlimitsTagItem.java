@@ -24,7 +24,7 @@ public class EOClientUnlimitsTagItem extends EOCustObject {
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "TAG_ID", nullable = true)
-	private Long tagId;
+	private String tagId;
 	
 	@Column(name = "TAG_NAME", nullable = true)
 	private String tagName;
@@ -33,11 +33,11 @@ public class EOClientUnlimitsTagItem extends EOCustObject {
 	@ManyToOne
 	private EOClientUnlimitsTag unlimitsTag;
 
-	public Long getTagId() {
+	public String getTagId() {
 		return tagId;
 	}
 
-	public void setTagId(Long tagId) {
+	public void setTagId(String tagId) {
 		this.tagId = tagId;
 	}
 
