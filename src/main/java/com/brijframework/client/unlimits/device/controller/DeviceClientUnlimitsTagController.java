@@ -22,7 +22,7 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/device/client/unlimits/tag")
+@RequestMapping({"/api/device/client/unlimits/tag","/api/client/unlimits/tag"})
 @CrossOrigin("*")
 public class DeviceClientUnlimitsTagController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 	

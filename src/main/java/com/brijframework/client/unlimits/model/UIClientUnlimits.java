@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(value = Include.NON_NULL)
-public class UIClientUnlimits extends UIModel{
-	
+public class UIClientUnlimits extends UIModel {
+
 	private String date;
-	
+
 	private String name;
+
+	private Long year;
 
 	private Long categoryId;
 
@@ -30,6 +32,14 @@ public class UIClientUnlimits extends UIModel{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getYear() {
+		return year;
+	}
+
+	public void setYear(Long year) {
+		this.year = year;
 	}
 
 	public Long getCategoryId() {

@@ -18,7 +18,7 @@ import com.brijframework.client.unlimits.model.UIClientJournal;
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/device/client/journals")
+@RequestMapping({"/api/device/client/journals", "/api/client/journals"})
 @CrossOrigin("*")
 public class DeviceClientJournalController extends CrudController<UIClientJournal, EOClientJournal, Long>{
 	
