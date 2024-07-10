@@ -15,17 +15,13 @@ import jakarta.persistence.Table;
  * @author omnie
  */
 @Entity
-@Table(name = "EOCLIENT_UNLIMITS_IMAGE_ITEM")
-public class EOClientUnlimitsImageItem extends EOCustObject {
+@Table(name = "EOCLIENT_UNLIMITS_EXAMPLE_ITEM")
+public class EOClientUnlimitsExampleItem extends EOCustObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-
-	@Column(name = "YEAR")
-	private Long year;
 
 	@Column(name = "IMAGE_ID", nullable = true)
 	private String imageId;
@@ -33,9 +29,9 @@ public class EOClientUnlimitsImageItem extends EOCustObject {
 	@Column(name = "IMAGE_URL", nullable = true)
 	private String imageUrl;
 
-	@JoinColumn(name = "UNLIMITS_IMAGE_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "UNLIMITS_EXAMPLE_ID", referencedColumnName = "ID")
 	@ManyToOne
-	private EOClientUnlimitsImage unlimitsImage;
+	private EOClientUnlimitsExample unlimitsExample;
 
 	public String getImageId() {
 		return imageId;
@@ -53,12 +49,12 @@ public class EOClientUnlimitsImageItem extends EOCustObject {
 		this.imageUrl = imageUrl;
 	}
 
-	public EOClientUnlimitsImage getUnlimitsImage() {
-		return unlimitsImage;
+	public EOClientUnlimitsExample getUnlimitsExample() {
+		return unlimitsExample;
 	}
 
-	public void setUnlimitsImage(EOClientUnlimitsImage unlimitsImage) {
-		this.unlimitsImage = unlimitsImage;
+	public void setUnlimitsExample(EOClientUnlimitsExample unlimitsExample) {
+		this.unlimitsExample = unlimitsExample;
 	}
 
 }

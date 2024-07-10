@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(value = Include.NON_NULL)
 public class UIClientUnlimitsImageItem extends UIModel{
 
+	private Long year;
+	
 	private String imageId;
 
 	private String imageName;
@@ -36,6 +38,14 @@ public class UIClientUnlimitsImageItem extends UIModel{
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public Long getYear() {
+		return year;
+	}
+
+	public void setYear(Long year) {
+		this.year = year;
 	}
 
 }

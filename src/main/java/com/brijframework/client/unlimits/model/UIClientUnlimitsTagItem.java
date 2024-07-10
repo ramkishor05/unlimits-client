@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(value = Include.NON_NULL)
 public class UIClientUnlimitsTagItem extends UIModel{
 
+	private Long year;
+
 	private String tagId;
 
 	private String tagName;
@@ -26,6 +28,14 @@ public class UIClientUnlimitsTagItem extends UIModel{
 
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
+	}
+
+	public Long getYear() {
+		return year;
+	}
+
+	public void setYear(Long year) {
+		this.year = year;
 	}
 
 }

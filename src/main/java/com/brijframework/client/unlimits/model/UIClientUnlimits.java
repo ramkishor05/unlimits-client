@@ -12,8 +12,6 @@ public class UIClientUnlimits extends UIModel {
 
 	private String name;
 
-	private Long year;
-
 	private Long categoryId;
 
 	private Long subCategoryId;
@@ -32,14 +30,6 @@ public class UIClientUnlimits extends UIModel {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Long getYear() {
-		return year;
-	}
-
-	public void setYear(Long year) {
-		this.year = year;
 	}
 
 	public Long getCategoryId() {

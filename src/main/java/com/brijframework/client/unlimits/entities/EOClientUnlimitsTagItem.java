@@ -23,6 +23,10 @@ public class EOClientUnlimitsTagItem extends EOCustObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+
+	@Column(name = "YEAR")
+	private Long year;
+	
 	@Column(name = "TAG_ID", nullable = true)
 	private String tagId;
 	
@@ -47,6 +51,14 @@ public class EOClientUnlimitsTagItem extends EOCustObject {
 
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
+	}
+
+	public Long getYear() {
+		return year;
+	}
+
+	public void setYear(Long year) {
+		this.year = year;
 	}
 
 	public EOClientUnlimitsTag getUnlimitsTag() {

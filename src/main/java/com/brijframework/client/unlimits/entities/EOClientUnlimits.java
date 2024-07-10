@@ -38,9 +38,6 @@ public abstract class EOClientUnlimits extends EOCustObject {
 	@Column(name = "NAME")
 	private String name;
 
-	@Column(name = "YEAR")
-	private Long year;
-
 	@Column(name = "CATEGORY_ID")
 	private Long categoryId;
 
@@ -73,14 +70,6 @@ public abstract class EOClientUnlimits extends EOCustObject {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Long getYear() {
-		return year;
-	}
-
-	public void setYear(Long year) {
-		this.year = year;
 	}
 
 	public Long getCategoryId() {
