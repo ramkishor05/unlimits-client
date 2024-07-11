@@ -5,6 +5,8 @@ package com.brijframework.client.unlimits.entities;
 
 import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
 
+import java.util.Date;
+
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.entities.EOCustObject;
 
@@ -13,6 +15,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  * @author omnie
@@ -28,6 +32,13 @@ public class EOClientJournal extends EOCustObject {
 	
 	@Column(name = "JOURNAL_ID")
 	private Long journalId;
+	
+	@Column(name = "JOURNAL_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date journalDate;
+	
+	@Column(name = "JOURNAL_QUESTION")
+	private String journalQuestion;
 
 	@Column(name = "JOURNAL_ANSWER")
 	private String journalAnswer;

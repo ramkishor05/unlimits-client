@@ -73,7 +73,7 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp);
+		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp, Sort.by("journalDate").descending());
 	}
 
 	@Override
