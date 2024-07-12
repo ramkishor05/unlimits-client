@@ -53,7 +53,7 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 
 	@Override
-	protected void preAdd(UIClientUnlimitsImage data, EOClientUnlimitsImage entity, Map<String, List<String>> headers) {
+	public void preAdd(UIClientUnlimitsImage data, EOClientUnlimitsImage entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -68,7 +68,7 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	protected void postAdd(UIClientUnlimitsImage data, EOClientUnlimitsImage entity) {
+	public void postAdd(UIClientUnlimitsImage data, EOClientUnlimitsImage entity) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -78,7 +78,7 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	protected void preUpdate(UIClientUnlimitsImage data, EOClientUnlimitsImage entity, Map<String, List<String>> headers) {
+	public void preUpdate(UIClientUnlimitsImage data, EOClientUnlimitsImage entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -93,7 +93,7 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	protected void postUpdate(UIClientUnlimitsImage data, EOClientUnlimitsImage entity) {
+	public void postUpdate(UIClientUnlimitsImage data, EOClientUnlimitsImage entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -112,7 +112,7 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	protected List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers) {
+	public List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -121,7 +121,7 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	protected Page<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable) {
+	public Page<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -130,7 +130,7 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	protected List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
+	public List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");

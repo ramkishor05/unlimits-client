@@ -24,7 +24,7 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
 @RestController
 @RequestMapping({ "/api/device/client/unlimits/image", "/api/client/unlimits/image"})
 @CrossOrigin("*")
-public class DeviceClientUnlimitsImageController extends CrudController<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>{
+public class DeviceClientUnlimitsImageController implements CrudController<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>{
 	
 	@Autowired
 	private DeviceClientUnlimitsImageService clientUnlimitsImageService;

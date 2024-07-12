@@ -24,7 +24,7 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 @RestController
 @RequestMapping({"/api/device/client/affermation", "/api/client/affermation"})
 @CrossOrigin("*")
-public class DeviceClientAffermationController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
+public class DeviceClientAffermationController implements CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 	
 	@Autowired
 	private DeviceClientUnlimitsTagService clientUnlimitsTagService;

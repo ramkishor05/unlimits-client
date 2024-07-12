@@ -24,7 +24,7 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 @RestController
 @RequestMapping(value = "/api/global/client/unlimits/tag")
 @CrossOrigin("*")
-public class GlobalClientUnlimitsTagController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
+public class GlobalClientUnlimitsTagController implements CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 	
 	@Autowired
 	private GlobalClientUnlimitsTagService clientUnlimitsTagService;

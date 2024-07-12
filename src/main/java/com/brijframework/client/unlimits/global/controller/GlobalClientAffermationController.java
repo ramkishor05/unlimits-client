@@ -24,7 +24,7 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 @RestController
 @RequestMapping(value = "/api/global/client/affermation")
 @CrossOrigin("*")
-public class GlobalClientAffermationController extends CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
+public class GlobalClientAffermationController implements CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
 	
 	@Autowired
 	private GlobalClientUnlimitsTagService clientUnlimitsTagService;

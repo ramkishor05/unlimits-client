@@ -24,7 +24,7 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
 @RestController
 @RequestMapping({"/api/device/client/unlimits/example", "/api/client/unlimits/example"})
 @CrossOrigin("*")
-public class DeviceClientUnlimitsExampleController extends CrudController<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>{
+public class DeviceClientUnlimitsExampleController implements CrudController<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>{
 	
 	@Autowired
 	private DeviceClientUnlimitsExampleService clientUnlimitsExampleService;

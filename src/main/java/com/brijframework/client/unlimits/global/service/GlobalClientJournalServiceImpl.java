@@ -47,7 +47,7 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	protected void preAdd(UIClientJournal data, EOClientJournal entity,
+	public void preAdd(UIClientJournal data, EOClientJournal entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
@@ -57,7 +57,7 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	protected void preUpdate(UIClientJournal data, EOClientJournal entity,
+	public void preUpdate(UIClientJournal data, EOClientJournal entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
@@ -68,7 +68,7 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 
 
 	@Override
-	protected List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers) {
+	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
@@ -77,7 +77,7 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	protected Page<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable) {
+	public Page<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
@@ -86,7 +86,7 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	protected List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
+	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");

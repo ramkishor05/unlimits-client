@@ -1,5 +1,8 @@
 package com.brijframework.client.unlimits.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.unlimits.rest.model.UIModel;
 
 public class UIClientJournal extends UIModel{
@@ -44,4 +47,12 @@ public class UIClientJournal extends UIModel{
 		this.journalAnswer = journalAnswer;
 	}
 
+	public Date toJournalDate() {
+		try {
+			return new SimpleDateFormat("MM/dd/yyyy").parse(journalDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Date();
+	}
 }

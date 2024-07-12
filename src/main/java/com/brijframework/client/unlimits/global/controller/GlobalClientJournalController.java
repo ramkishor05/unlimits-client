@@ -20,7 +20,7 @@ import com.brijframework.client.unlimits.model.UIClientJournal;
 @RestController
 @RequestMapping(value = "/api/global/client/journals")
 @CrossOrigin("*")
-public class GlobalClientJournalController extends CrudController<UIClientJournal, EOClientJournal, Long>{
+public class GlobalClientJournalController implements CrudController<UIClientJournal, EOClientJournal, Long>{
 	
 	@Autowired
 	private GlobalClientJournalService clientJournalService;
