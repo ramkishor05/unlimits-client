@@ -120,7 +120,7 @@ public class GlobalClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public Page<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable) {
+	public Page<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			return clientUnlimitsExampleRepository.findAll(pageable);

@@ -55,6 +55,22 @@ public class EOClientJournal extends EOCustObject {
 		this.journalId = journalId;
 	}
 
+	public Date getJournalDate() {
+		return journalDate;
+	}
+
+	public void setJournalDate(Date journalDate) {
+		this.journalDate = journalDate;
+	}
+
+	public String getJournalQuestion() {
+		return journalQuestion;
+	}
+
+	public void setJournalQuestion(String journalQuestion) {
+		this.journalQuestion = journalQuestion;
+	}
+
 	public String getJournalAnswer() {
 		return journalAnswer;
 	}
