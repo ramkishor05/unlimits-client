@@ -1,6 +1,22 @@
 # HTTP Server (Tomcat) Port
 server: 
+  host: 51.79.159.7
   port: 5555
+  resource:
+    location: file:C:/app_runs/unlimits-resources/resource
+  database:
+    host: 15.235.207.206
+    port: 3306
+    username: unlimits_usr
+    password: JJeV!EhBbuR
+    schema: unlimits_client
+  gateway:
+    host: 51.79.159.7
+    port: 8080
+    endpoint: client
+  eureka:
+    host: 51.79.159.7
+    port: 1111
 logging.level.org.hibernate.SQL: DEBUG
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 # Disable Spring Boot's "Whitelabel" default error page, so we can use our own
@@ -16,9 +32,9 @@ spring:
    sql.init.mode: always
    datasource:
      driverClassName: com.mysql.cj.jdbc.Driver
-     url: jdbc:mysql://localhost:3306/unlimits_client?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
-     username: root
-     password: root
+     url: jdbc:mysql://${server.database.host}:${server.database.port}/${server.database.schema}?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+     username: ${server.database.username}
+     password: ${server.database.password}
      show-sql: true
    jpa: 
      hibernate: 
@@ -44,10 +60,10 @@ openapi:
   service:
     title: client
     version: 1.0.0
-    url: http://51.79.159.7:8080/client #api gateway url
+    url: http://${server.gateway.host}:${server.gateway.port}/${server.gateway.endpoint} #api gateway url
     
 # Discovery Server Access
 eureka:
     client:
       serviceUrl:
-        defaultZone: http://localhost:1111/eureka/       
+        defaultZone: http://${server.gateway.host}:${server.gateway.port}/eureka/       

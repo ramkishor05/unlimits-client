@@ -113,7 +113,7 @@ public class GlobalClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers) {
+	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			return clientUnlimitsTagRepository.findAll();
@@ -131,7 +131,7 @@ public class GlobalClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
+	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			return clientUnlimitsTagRepository.findAll(sort);

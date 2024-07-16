@@ -8,9 +8,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.unlimits.rest.repository.CustomRepository;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.unlimits.entities.EOClientJournal;
@@ -20,7 +20,13 @@ import com.brijframework.client.unlimits.entities.EOClientJournal;
  */
 @Repository
 @Transactional
-public interface ClientJournalRepository extends JpaRepository<EOClientJournal, Long>{
+public interface ClientJournalRepository extends CustomRepository<EOClientJournal, Long>{
+	
+	/**
+	 * @param eoCustBusinessApp
+	 * @return
+	 */
+	List<EOClientJournal> findAllByCustBusinessAppAndJournalId(EOCustBusinessApp eoCustBusinessApp, Long journalId);
 
 	/**
 	 * @param eoCustBusinessApp

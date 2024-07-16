@@ -115,7 +115,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers) {
+	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
 		List<String> list = headers.get(CUST_APP_ID);
 		if(CollectionUtils.isEmpty(list)) {
 			throw new UserNotFoundException("Invalid client");
@@ -134,7 +134,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
+	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");

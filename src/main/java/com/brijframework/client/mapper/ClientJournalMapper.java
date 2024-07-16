@@ -13,6 +13,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 
 import com.brijframework.client.unlimits.entities.EOClientJournal;
 import com.brijframework.client.unlimits.model.UIClientJournal;
+import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_MM_DD_YY;
 
 /**
  *  @author omnie
@@ -22,10 +23,10 @@ import com.brijframework.client.unlimits.model.UIClientJournal;
 public interface ClientJournalMapper extends GenericMapper<EOClientJournal, UIClientJournal>{
 
 	@Override
-	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = "MM/dd/yyyy")
+	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = UI_DATE_FORMAT_MM_DD_YY)
     UIClientJournal mapToDTO(EOClientJournal e) ;
 	
 	@Override
-	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = "MM/dd/yyyy")
+	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = UI_DATE_FORMAT_MM_DD_YY)
     EOClientJournal mapToDAO(UIClientJournal d);
 }

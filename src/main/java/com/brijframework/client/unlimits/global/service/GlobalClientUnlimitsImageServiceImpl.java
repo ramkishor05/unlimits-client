@@ -112,7 +112,7 @@ public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	public List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers) {
+	public List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			return clientUnlimitsImageRepository.findAll();
@@ -130,7 +130,7 @@ public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	public List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
+	public List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			return clientUnlimitsImageRepository.findAll(sort);

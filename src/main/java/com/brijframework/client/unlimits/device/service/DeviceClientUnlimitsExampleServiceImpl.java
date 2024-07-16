@@ -111,7 +111,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers) {
+	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -129,7 +129,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
+	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");

@@ -68,7 +68,7 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 
 
 	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers) {
+	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
@@ -86,7 +86,7 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort) {
+	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
