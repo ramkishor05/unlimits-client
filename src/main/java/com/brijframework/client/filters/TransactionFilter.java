@@ -44,6 +44,7 @@ public class TransactionFilter implements Filter {
         TransactionRequest requestWrapper = new TransactionRequest(req);
         String apiToken = req.getHeader(ClientConstants.AUTHORIZATION);
         if(StringUtil.isNonEmpty(apiToken)) {
+        	ApiTokenContext.getContext().setCurrentToken(apiToken);
         	String userRole = ApiTokenContext.getUserRole(apiToken); 
         	requestWrapper.setAttribute(USER_ROLE, userRole);
 	        requestWrapper.putHeader(USER_ROLE, userRole);

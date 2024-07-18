@@ -1,39 +1,37 @@
-/**
- * 
- */
 package com.brijframework.client.unlimits.entities;
 
 import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
 
-import com.brijframework.client.entities.EOCustBusinessApp;
-import com.brijframework.client.entities.EOCustObject;
+import java.util.List;
 
+import com.brijframework.client.entities.EOCustBusinessApp;
+import com.brijframework.client.entities.EOEntityObject;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-/**
- * @author omnie
- */
 @Entity
-@Table(name = "EOCLIENT_AFFIRMATION")
-public class EOClientAffirmation extends EOCustObject {
+@Table(name = "EOCLIENT_AFFIRMATION_ITEM")
+public class EOClientAffirmationGroup extends EOEntityObject{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Column(name ="NAME")
 	private String name;
 	
 	@Column(name ="DESCRIPTION")
 	private String description;
-
-	@Column(name ="URL")
-	private String url;
+	
+	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+	private List<EOClientAffirmationItem> affirmations;
 
 	@JoinColumn(name = CUST_BUSINESS_APP_ID, nullable = false)
 	@ManyToOne
@@ -63,11 +61,12 @@ public class EOClientAffirmation extends EOCustObject {
 		this.description = description;
 	}
 
-	public String getUrl() {
-		return url;
+	public List<EOClientAffirmationItem> getAffirmations() {
+		return affirmations;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setAffirmations(List<EOClientAffirmationItem> affirmations) {
+		this.affirmations = affirmations;
 	}
+	
 }

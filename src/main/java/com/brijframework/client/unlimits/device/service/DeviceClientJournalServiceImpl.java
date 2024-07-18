@@ -22,13 +22,13 @@ import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientJournalMapper;
 import com.brijframework.client.repository.ClientJournalRepository;
 import com.brijframework.client.unlimits.entities.EOClientJournal;
-import com.brijframework.client.unlimits.model.UIClientJournal;
+import com.brijframework.client.unlimits.model.UIClientJournalItem;
 
 /**
  * @author omnie
  */
 @Service
-public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJournal, EOClientJournal, Long>
+public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJournalItem, EOClientJournal, Long>
 		implements DeviceClientJournalService {
 
 	@Autowired
@@ -43,12 +43,12 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public GenericMapper<EOClientJournal, UIClientJournal> getMapper() {
+	public GenericMapper<EOClientJournal, UIClientJournalItem> getMapper() {
 		return clientJournalMapper;
 	}
 
 	@Override
-	public void preAdd(UIClientJournal data, EOClientJournal entity,
+	public void preAdd(UIClientJournalItem data, EOClientJournal entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
@@ -62,7 +62,7 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public void preUpdate(UIClientJournal data, EOClientJournal entity,
+	public void preUpdate(UIClientJournalItem data, EOClientJournal entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {

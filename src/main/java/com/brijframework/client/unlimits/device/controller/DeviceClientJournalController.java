@@ -17,7 +17,7 @@ import org.unlimits.rest.crud.service.CrudService;
 
 import com.brijframework.client.unlimits.device.service.DeviceClientJournalService;
 import com.brijframework.client.unlimits.entities.EOClientJournal;
-import com.brijframework.client.unlimits.model.UIClientJournal;
+import com.brijframework.client.unlimits.model.UIClientJournalItem;
 import com.brijframework.client.unlimits.model.UIClientJournalGroup;
 
 /**
@@ -26,27 +26,27 @@ import com.brijframework.client.unlimits.model.UIClientJournalGroup;
 @RestController
 @RequestMapping({"/api/device/client/journals", "/api/client/journals"})
 @CrossOrigin("*")
-public class DeviceClientJournalController implements CrudController<UIClientJournal, EOClientJournal, Long>{
+public class DeviceClientJournalController implements CrudController<UIClientJournalItem, EOClientJournal, Long>{
 	
 	@Autowired
 	private DeviceClientJournalService clientJournalService;
 
 	@Override
-	public CrudService<UIClientJournal, EOClientJournal, Long> getService() {
+	public CrudService<UIClientJournalItem, EOClientJournal, Long> getService() {
 		return clientJournalService;
 	}
 	
 	@Override
-	public Object customizedResponse(List<UIClientJournal> values) {
+	public Object customizedResponse(List<UIClientJournalItem> values) {
 		SimpleDateFormat dateFormat=new SimpleDateFormat("MM/dd/yyyy");
-		return values.stream().collect(Collectors.groupingBy(UIClientJournal::toJournalDate)).entrySet().stream().map(entry->new UIClientJournalGroup(dateFormat.format(entry.getKey()), entry.getValue())).toList();
+		return values.stream().collect(Collectors.groupingBy(UIClientJournalItem::toJournalDate)).entrySet().stream().map(entry->new UIClientJournalGroup(dateFormat.format(entry.getKey()), entry.getValue())).toList();
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object customizedResponse(PageDetail fetchPageObject) {
 		SimpleDateFormat dateFormat=new SimpleDateFormat("MM/dd/yyyy");
-		fetchPageObject.setElements(((List<UIClientJournal>)fetchPageObject.getElements()).stream().collect(Collectors.groupingBy(UIClientJournal::toJournalDate)).entrySet().stream().map(entry->new UIClientJournalGroup(dateFormat.format(entry.getKey()), entry.getValue())).toList());
+		fetchPageObject.setElements(((List<UIClientJournalItem>)fetchPageObject.getElements()).stream().collect(Collectors.groupingBy(UIClientJournalItem::toJournalDate)).entrySet().stream().map(entry->new UIClientJournalGroup(dateFormat.format(entry.getKey()), entry.getValue())).toList());
 		return fetchPageObject;
 	}
 

@@ -6,11 +6,11 @@ package com.brijframework.client.unlimits.device.service;
 import org.unlimits.rest.crud.service.CrudService;
 
 import com.brijframework.client.unlimits.entities.EOClientJournal;
-import com.brijframework.client.unlimits.model.UIClientJournal;
+import com.brijframework.client.unlimits.model.UIClientJournalItem;
 
 /**
  *  @author omnie
  */
-public interface DeviceClientJournalService extends CrudService<UIClientJournal, EOClientJournal, Long>{
+public interface DeviceClientJournalService extends CrudService<UIClientJournalItem, EOClientJournal, Long>{
 
 }

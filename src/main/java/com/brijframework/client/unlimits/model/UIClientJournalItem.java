@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.unlimits.rest.model.UIModel;
 
-public class UIClientJournal extends UIModel{
+public class UIClientJournalItem extends UIModel{
 
 	private Long journalId;
 	

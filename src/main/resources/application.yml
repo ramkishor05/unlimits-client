@@ -66,4 +66,4 @@ openapi:
 eureka:
     client:
       serviceUrl:
-        defaultZone: http://${server.gateway.host}:${server.gateway.port}/eureka/       
+        defaultZone: http://${server.eureka.host}:${server.eureka.port}/eureka/       

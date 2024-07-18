@@ -12,7 +12,7 @@ import org.unlimits.rest.crud.service.CrudService;
 
 import com.brijframework.client.unlimits.entities.EOClientJournal;
 import com.brijframework.client.unlimits.global.service.GlobalClientJournalService;
-import com.brijframework.client.unlimits.model.UIClientJournal;
+import com.brijframework.client.unlimits.model.UIClientJournalItem;
 
 /**
  *  @author omnie
@@ -20,13 +20,13 @@ import com.brijframework.client.unlimits.model.UIClientJournal;
 @RestController
 @RequestMapping(value = "/api/global/client/journals")
 @CrossOrigin("*")
-public class GlobalClientJournalController implements CrudController<UIClientJournal, EOClientJournal, Long>{
+public class GlobalClientJournalController implements CrudController<UIClientJournalItem, EOClientJournal, Long>{
 	
 	@Autowired
 	private GlobalClientJournalService clientJournalService;
 
 	@Override
-	public CrudService<UIClientJournal, EOClientJournal, Long> getService() {
+	public CrudService<UIClientJournalItem, EOClientJournal, Long> getService() {
 		return clientJournalService;
 	}
 }

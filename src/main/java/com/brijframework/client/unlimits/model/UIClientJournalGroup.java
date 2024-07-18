@@ -5,13 +5,13 @@ import java.util.List;
 public class UIClientJournalGroup {
 
 	private String journalDate;
-	private List<UIClientJournal> journals;
+	private List<UIClientJournalItem> journals;
 	
 	public UIClientJournalGroup() {
 	}
 	
 
-	public UIClientJournalGroup(String journalDate, List<UIClientJournal> journals) {
+	public UIClientJournalGroup(String journalDate, List<UIClientJournalItem> journals) {
 		super();
 		this.journalDate = journalDate;
 		this.journals = journals;
@@ -25,11 +25,11 @@ public class UIClientJournalGroup {
 		this.journalDate = journalDate;
 	}
 
-	public List<UIClientJournal> getJournals() {
+	public List<UIClientJournalItem> getJournals() {
 		return journals;
 	}
 
-	public void setJournals(List<UIClientJournal> journals) {
+	public void setJournals(List<UIClientJournalItem> journals) {
 		this.journals = journals;
 	}
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.global.service;
+package com.brijframework.client.unlimits.device.service;
 
 import java.util.List;
 import java.util.Map;
@@ -18,80 +18,82 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.mapper.ClientJournalMapper;
-import com.brijframework.client.repository.ClientJournalRepository;
-import com.brijframework.client.unlimits.entities.EOClientJournal;
-import com.brijframework.client.unlimits.model.UIClientJournalItem;
+import com.brijframework.client.mapper.ClientCommitmentGroupMapper;
+import com.brijframework.client.repository.ClientCommitmentGroupRepository;
+import com.brijframework.client.unlimits.entities.EOClientCommitmentGroup;
+import com.brijframework.client.unlimits.model.UIClientCommitmentGroup;
 
 /**
  * @author omnie
  */
 @Service
-public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJournalItem, EOClientJournal, Long>
-		implements GlobalClientJournalService {
+public class DeviceClientCommitmentServiceImpl extends CrudServiceImpl<UIClientCommitmentGroup, EOClientCommitmentGroup, Long>
+		implements DeviceClientCommitmentService {
 
 	@Autowired
-	private ClientJournalRepository clientJournalRepository;
+	private ClientCommitmentGroupRepository clientCommitmentRepository;
 
 	@Autowired
-	private ClientJournalMapper clientJournalMapper;
+	private ClientCommitmentGroupMapper clientCommitmentMapper;
 
 	@Override
-	public JpaRepository<EOClientJournal, Long> getRepository() {
-		return clientJournalRepository;
+	public JpaRepository<EOClientCommitmentGroup, Long> getRepository() {
+		return clientCommitmentRepository;
 	}
 
 	@Override
-	public GenericMapper<EOClientJournal, UIClientJournalItem> getMapper() {
-		return clientJournalMapper;
+	public GenericMapper<EOClientCommitmentGroup, UIClientCommitmentGroup> getMapper() {
+		return clientCommitmentMapper;
 	}
 
 	@Override
-	public void preAdd(UIClientJournalItem data, EOClientJournal entity,
+	public void preAdd(UIClientCommitmentGroup data, EOClientCommitmentGroup entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
+		entity.getCommitments().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
 
 	@Override
-	public void preUpdate(UIClientJournalItem data, EOClientJournal entity,
+	public void preUpdate(UIClientCommitmentGroup data, EOClientCommitmentGroup entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
+		entity.getCommitments().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
 
 
 	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
+	public List<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp);
+		return clientCommitmentRepository.findAllByCustBusinessApp(eoCustBusinessApp, Sort.by("CommitmentDate").descending());
 	}
 
 	@Override
-	public Page<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
+	public Page<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+		return clientCommitmentRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
 	}
 
 	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
+	public List<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
+		return clientCommitmentRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
 	}
 
 }
