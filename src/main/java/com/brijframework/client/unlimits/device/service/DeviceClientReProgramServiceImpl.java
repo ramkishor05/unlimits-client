@@ -18,8 +18,8 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.model.UIResource;
-import com.brijframework.client.forgin.repository.ResourceRepository;
+import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.repository.ResourceClient;
 import com.brijframework.client.mapper.ClientReProgramGroupMapper;
 import com.brijframework.client.mapper.ClientReProgramItemMapper;
 import com.brijframework.client.repository.ClientReProgramGroupRepository;
@@ -51,7 +51,7 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 	private ClientReProgramItemMapper clientReProgramItemMapper;
 
 	@Autowired
-	private ResourceRepository resourceRepository;
+	private ResourceClient resourceRepository;
 
 	@Override
 	public JpaRepository<EOClientReProgramGroup, Long> getRepository() {
@@ -65,22 +65,32 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 	
 	@Override
 	public void preAdd(UIClientReProgramGroup data, Map<String, List<String>> headers) {
+		ResourceFile resource = data.getContent();
+		if(resource!=null) {
+			resource.setFolderName(REPROGRAM);
+			resourceRepository.add(REPROGRAM, resource.getFileName(), resource.getFileContent());
+		}
 		for(UIClientReProgramItem reProgramItem:   data.getReprograms()) {
-			UIResource resource = reProgramItem.getResource();
-			if(resource!=null) {
-				resource.setFolderName(REPROGRAM);
-				resourceRepository.add(REPROGRAM, resource.getFileName(), resource.getFileContent());
+			ResourceFile resourceFile = reProgramItem.getContent();
+			if(resourceFile!=null) {
+				resourceFile.setFolderName(REPROGRAM);
+				resourceRepository.add(REPROGRAM, resourceFile.getFileName(), resourceFile.getFileContent());
 			}
 		}
 	}
 	
 	@Override
 	public void preUpdate(UIClientReProgramGroup data, Map<String, List<String>> headers) {
+		ResourceFile resource = data.getContent();
+		if(resource!=null) {
+			resource.setFolderName(REPROGRAM);
+			resourceRepository.add(REPROGRAM, resource.getFileName(), resource.getFileContent());
+		}
 		for(UIClientReProgramItem reProgramItem:   data.getReprograms()) {
-			UIResource resource = reProgramItem.getResource();
-			if(resource!=null) {
-				resource.setFolderName(REPROGRAM);
-				resourceRepository.add(REPROGRAM, resource.getFileName(), resource.getFileContent());
+			ResourceFile resourceFile = reProgramItem.getContent();
+			if(resourceFile!=null) {
+				resourceFile.setFolderName(REPROGRAM);
+				resourceRepository.add(REPROGRAM, resourceFile.getFileName(), resourceFile.getFileContent());
 			}
 		}
 	}

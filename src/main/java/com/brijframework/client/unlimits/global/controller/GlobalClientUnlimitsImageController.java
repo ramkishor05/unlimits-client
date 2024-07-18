@@ -18,12 +18,15 @@ import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
 import com.brijframework.client.unlimits.global.service.GlobalClientUnlimitsImageService;
 import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 /**
  *  @author omnie
  */
 @RestController
 @RequestMapping(value = "/api/global/client/unlimits/image")
 @CrossOrigin("*")
+@Hidden
 public class GlobalClientUnlimitsImageController implements CrudController<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>{
 	
 	@Autowired

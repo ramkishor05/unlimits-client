@@ -29,6 +29,15 @@ public class EOClientReProgramGroup extends EOCustObject {
 
 	@Column(name = "DESCRIPTION")
 	private String description;
+	
+	@Column(name = "REPROGRAM_ID")
+	private Long reprogramId;
+
+	@Column(name = "RESOURCE_ID")
+	private Long resourceId;
+
+	@Column(name ="URL")
+	private String url;
 
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
 	private List<EOClientReProgramItem> reprograms;
@@ -59,6 +68,30 @@ public class EOClientReProgramGroup extends EOCustObject {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Long getReprogramId() {
+		return reprogramId;
+	}
+
+	public void setReprogramId(Long reprogramId) {
+		this.reprogramId = reprogramId;
+	}
+
+	public Long getResourceId() {
+		return resourceId;
+	}
+
+	public void setResourceId(Long resourceId) {
+		this.resourceId = resourceId;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public List<EOClientReProgramItem> getReprograms() {

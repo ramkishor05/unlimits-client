@@ -5,11 +5,19 @@ import java.util.List;
 
 import org.unlimits.rest.model.UIModel;
 
+import com.brijframework.client.forgin.model.ResourceFile;
+
 public class UIClientReProgramGroup extends UIModel {
 
 	private String name;
 
 	private String description;
+
+	private Long reprogramId;
+
+	private ResourceFile content;
+
+	private String url;
 
 	private List<UIClientReProgramItem> reprograms;
 
@@ -29,9 +37,33 @@ public class UIClientReProgramGroup extends UIModel {
 		this.description = description;
 	}
 
+	public Long getReprogramId() {
+		return reprogramId;
+	}
+
+	public void setReprogramId(Long reprogramId) {
+		this.reprogramId = reprogramId;
+	}
+
+	public ResourceFile getContent() {
+		return content;
+	}
+
+	public void setContent(ResourceFile content) {
+		this.content = content;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public List<UIClientReProgramItem> getReprograms() {
-		if(reprograms==null) {
-			reprograms=new ArrayList<UIClientReProgramItem>();
+		if (reprograms == null) {
+			reprograms = new ArrayList<UIClientReProgramItem>();
 		}
 		return reprograms;
 	}

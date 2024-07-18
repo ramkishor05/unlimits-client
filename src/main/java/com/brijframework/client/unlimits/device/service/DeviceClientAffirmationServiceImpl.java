@@ -14,8 +14,8 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.model.UIResource;
-import com.brijframework.client.forgin.repository.ResourceRepository;
+import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.repository.ResourceClient;
 import com.brijframework.client.mapper.ClientAffirmationGroupMapper;
 import com.brijframework.client.mapper.ClientAffirmationItemMapper;
 import com.brijframework.client.repository.ClientAffirmationGroupRepository;
@@ -43,7 +43,7 @@ public class DeviceClientAffirmationServiceImpl implements DeviceClientAffirmati
 	private ClientAffirmationItemMapper clientAffirmationItemMapper;
 	
 	@Autowired
-	private ResourceRepository resourceRepository;
+	private ResourceClient resourceRepository;
 	
 	@Override
 	public JpaRepository<EOClientAffirmationGroup, Long> getRepository() {
@@ -57,22 +57,32 @@ public class DeviceClientAffirmationServiceImpl implements DeviceClientAffirmati
 	
 	@Override
 	public void preAdd(UIClientAffirmationGroup data, Map<String, List<String>> headers) {
+		ResourceFile resource = data.getContent();
+		if(resource!=null) {
+			resource.setFolderName(AFFIRMATION);
+			resourceRepository.add(AFFIRMATION, resource.getFileName(), resource.getFileContent());
+		}
 		for(UIClientAffirmationItem AffirmationItem:   data.getAffirmations()) {
-			UIResource resource = AffirmationItem.getResource();
-			if(resource!=null) {
-				resource.setFolderName(AFFIRMATION);
-				resourceRepository.add(AFFIRMATION, resource.getFileName(), resource.getFileContent());
+			ResourceFile resourceFile = AffirmationItem.getContent();
+			if(resourceFile!=null) {
+				resourceFile.setFolderName(AFFIRMATION);
+				resourceRepository.add(AFFIRMATION, resourceFile.getFileName(), resourceFile.getFileContent());
 			}
 		}
 	}
 	
 	@Override
 	public void preUpdate(UIClientAffirmationGroup data, Map<String, List<String>> headers) {
+		ResourceFile resource = data.getContent();
+		if(resource!=null) {
+			resource.setFolderName(AFFIRMATION);
+			resourceRepository.add(AFFIRMATION, resource.getFileName(), resource.getFileContent());
+		}
 		for(UIClientAffirmationItem AffirmationItem:   data.getAffirmations()) {
-			UIResource resource = AffirmationItem.getResource();
-			if(resource!=null) {
-				resource.setFolderName(AFFIRMATION);
-				resourceRepository.add(AFFIRMATION, resource.getFileName(), resource.getFileContent());
+			ResourceFile resourceFile = AffirmationItem.getContent();
+			if(resourceFile!=null) {
+				resourceFile.setFolderName(AFFIRMATION);
+				resourceRepository.add(AFFIRMATION, resourceFile.getFileName(), resourceFile.getFileContent());
 			}
 		}
 	}

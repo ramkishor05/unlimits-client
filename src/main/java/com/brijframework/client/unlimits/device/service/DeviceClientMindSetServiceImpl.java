@@ -14,8 +14,8 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.model.UIResource;
-import com.brijframework.client.forgin.repository.ResourceRepository;
+import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.repository.ResourceClient;
 import com.brijframework.client.mapper.ClientMindSetGroupMapper;
 import com.brijframework.client.mapper.ClientMindSetItemMapper;
 import com.brijframework.client.repository.ClientMindSetGroupRepository;
@@ -43,7 +43,7 @@ public class DeviceClientMindSetServiceImpl implements DeviceClientMindSetServic
 	private ClientMindSetItemMapper clientMindSetItemMapper;
 	
 	@Autowired
-	private ResourceRepository resourceRepository;
+	private ResourceClient resourceRepository;
 	
 	@Override
 	public JpaRepository<EOClientMindSetGroup, Long> getRepository() {
@@ -57,22 +57,32 @@ public class DeviceClientMindSetServiceImpl implements DeviceClientMindSetServic
 	
 	@Override
 	public void preAdd(UIClientMindSetGroup data, Map<String, List<String>> headers) {
-		for(UIClientMindSetItem MindSetItem:   data.getMindSets()) {
-			UIResource resource = MindSetItem.getResource();
-			if(resource!=null) {
-				resource.setFolderName(MINDSET);
-				resourceRepository.add(MINDSET, resource.getFileName(), resource.getFileContent());
+		ResourceFile resource = data.getContent();
+		if(resource!=null) {
+			resource.setFolderName(MINDSET);
+			resourceRepository.add(MINDSET, resource.getFileName(), resource.getFileContent());
+		}
+		for(UIClientMindSetItem mindSetItem:   data.getMindSets()) {
+			ResourceFile resourceFile = mindSetItem.getContent();
+			if(resourceFile!=null) {
+				resourceFile.setFolderName(MINDSET);
+				resourceRepository.add(MINDSET, resourceFile.getFileName(), resourceFile.getFileContent());
 			}
 		}
 	}
 	
 	@Override
 	public void preUpdate(UIClientMindSetGroup data, Map<String, List<String>> headers) {
-		for(UIClientMindSetItem MindSetItem:   data.getMindSets()) {
-			UIResource resource = MindSetItem.getResource();
-			if(resource!=null) {
-				resource.setFolderName(MINDSET);
-				resourceRepository.add(MINDSET, resource.getFileName(), resource.getFileContent());
+		ResourceFile resource = data.getContent();
+		if(resource!=null) {
+			resource.setFolderName(MINDSET);
+			resourceRepository.add(MINDSET, resource.getFileName(), resource.getFileContent());
+		}
+		for(UIClientMindSetItem mindSetItem:   data.getMindSets()) {
+			ResourceFile resourceFile = mindSetItem.getContent();
+			if(resourceFile!=null) {
+				resourceFile.setFolderName(MINDSET);
+				resourceRepository.add(MINDSET, resourceFile.getFileName(), resourceFile.getFileContent());
 			}
 		}
 	}

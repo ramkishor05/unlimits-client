@@ -6,7 +6,7 @@ package com.brijframework.client.forgin.model;
 /**
  * @author omnie
  */
-public class UIResource {
+public class ResourceFile {
 
 	private String folderName;
 

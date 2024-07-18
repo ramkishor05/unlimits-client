@@ -29,6 +29,15 @@ public class EOClientAffirmationGroup extends EOEntityObject{
 	
 	@Column(name ="DESCRIPTION")
 	private String description;
+
+	@Column(name = "AFFIRMATION_ID")
+	private Long affirmationId;
+
+	@Column(name = "RESOURCE_ID")
+	private Long resourceId;
+
+	@Column(name ="URL")
+	private String url;
 	
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
 	private List<EOClientAffirmationItem> affirmations;
@@ -59,6 +68,30 @@ public class EOClientAffirmationGroup extends EOEntityObject{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Long getAffirmationId() {
+		return affirmationId;
+	}
+
+	public void setAffirmationId(Long affirmationId) {
+		this.affirmationId = affirmationId;
+	}
+
+	public Long getResourceId() {
+		return resourceId;
+	}
+
+	public void setResourceId(Long resourceId) {
+		this.resourceId = resourceId;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public List<EOClientAffirmationItem> getAffirmations() {

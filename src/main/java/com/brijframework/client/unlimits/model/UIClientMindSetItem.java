@@ -2,11 +2,11 @@ package com.brijframework.client.unlimits.model;
 
 import org.unlimits.rest.model.UIModel;
 
-import com.brijframework.client.forgin.model.UIResource;
+import com.brijframework.client.forgin.model.ResourceFile;
 
 public class UIClientMindSetItem extends UIModel{
 
-	private UIResource resource;
+	private ResourceFile content;
 	
 	private String url;
 	
@@ -14,12 +14,12 @@ public class UIClientMindSetItem extends UIModel{
 	
 	private String description;
 
-	public UIResource getResource() {
-		return resource;
+	public ResourceFile getContent() {
+		return content;
 	}
 
-	public void setResource(UIResource resource) {
-		this.resource = resource;
+	public void setContent(ResourceFile content) {
+		this.content = content;
 	}
 
 	public String getUrl() {
