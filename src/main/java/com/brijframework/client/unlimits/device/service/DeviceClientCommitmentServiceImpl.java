@@ -19,31 +19,41 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientCommitmentGroupMapper;
+import com.brijframework.client.mapper.ClientCommitmentItemMapper;
 import com.brijframework.client.repository.ClientCommitmentGroupRepository;
+import com.brijframework.client.repository.ClientCommitmentItemRepository;
 import com.brijframework.client.unlimits.entities.EOClientCommitmentGroup;
+import com.brijframework.client.unlimits.entities.EOClientCommitmentItem;
 import com.brijframework.client.unlimits.model.UIClientCommitmentGroup;
 
 /**
  * @author omnie
  */
 @Service
-public class DeviceClientCommitmentServiceImpl extends CrudServiceImpl<UIClientCommitmentGroup, EOClientCommitmentGroup, Long>
+public class DeviceClientCommitmentServiceImpl
+		extends CrudServiceImpl<UIClientCommitmentGroup, EOClientCommitmentGroup, Long>
 		implements DeviceClientCommitmentService {
 
 	@Autowired
-	private ClientCommitmentGroupRepository clientCommitmentRepository;
+	private ClientCommitmentGroupRepository clientCommitmentGroupRepository;
 
 	@Autowired
-	private ClientCommitmentGroupMapper clientCommitmentMapper;
+	private ClientCommitmentGroupMapper clientCommitmentGroupMapper;
+
+	@Autowired
+	private ClientCommitmentItemRepository clientCommitmentItemRepository;
+
+	@Autowired
+	private ClientCommitmentItemMapper clientCommitmentItemMapper;
 
 	@Override
 	public JpaRepository<EOClientCommitmentGroup, Long> getRepository() {
-		return clientCommitmentRepository;
+		return clientCommitmentGroupRepository;
 	}
 
 	@Override
 	public GenericMapper<EOClientCommitmentGroup, UIClientCommitmentGroup> getMapper() {
-		return clientCommitmentMapper;
+		return clientCommitmentGroupMapper;
 	}
 
 	@Override
@@ -53,7 +63,6 @@ public class DeviceClientCommitmentServiceImpl extends CrudServiceImpl<UIClientC
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getCommitments().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
 
@@ -64,36 +73,48 @@ public class DeviceClientCommitmentServiceImpl extends CrudServiceImpl<UIClientC
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getCommitments().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
 
-
 	@Override
-	public List<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
-		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
-		}
-		return clientCommitmentRepository.findAllByCustBusinessApp(eoCustBusinessApp, Sort.by("CommitmentDate").descending());
+	public void merge(UIClientCommitmentGroup dtoObject, EOClientCommitmentGroup entityObject,
+			UIClientCommitmentGroup updateDtoObject, EOClientCommitmentGroup updateEntityObject,
+			Map<String, List<String>> headers) {
+		List<EOClientCommitmentItem> commitmentItems = clientCommitmentItemMapper.mapToDAO(dtoObject.getCommitments());
+		commitmentItems.forEach(item -> item.setGroup(updateEntityObject));
+		List<EOClientCommitmentItem> commitmentItemsReturn = clientCommitmentItemRepository.saveAll(commitmentItems);
+		updateDtoObject.setCommitments(clientCommitmentItemMapper.mapToDTO(commitmentItemsReturn));
 	}
 
 	@Override
-	public Page<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
+	public List<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers,
+			Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientCommitmentRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+		return clientCommitmentGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp,
+				Sort.by("CommitmentDate").descending());
 	}
 
 	@Override
-	public List<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
+	public Page<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable,
+			Map<String, String> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientCommitmentRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
+		return clientCommitmentGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+	}
+
+	@Override
+	public List<EOClientCommitmentGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort,
+			Map<String, String> filters) {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if (eoCustBusinessApp == null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		return clientCommitmentGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
 	}
 
 }

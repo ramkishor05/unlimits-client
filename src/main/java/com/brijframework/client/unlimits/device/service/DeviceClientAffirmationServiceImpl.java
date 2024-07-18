@@ -17,8 +17,11 @@ import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.forgin.model.UIResource;
 import com.brijframework.client.forgin.repository.ResourceRepository;
 import com.brijframework.client.mapper.ClientAffirmationGroupMapper;
+import com.brijframework.client.mapper.ClientAffirmationItemMapper;
 import com.brijframework.client.repository.ClientAffirmationGroupRepository;
+import com.brijframework.client.repository.ClientAffirmationItemRepository;
 import com.brijframework.client.unlimits.entities.EOClientAffirmationGroup;
+import com.brijframework.client.unlimits.entities.EOClientAffirmationItem;
 import com.brijframework.client.unlimits.model.UIClientAffirmationGroup;
 import com.brijframework.client.unlimits.model.UIClientAffirmationItem;
 
@@ -29,9 +32,15 @@ public class DeviceClientAffirmationServiceImpl implements DeviceClientAffirmati
 
 	@Autowired
 	private ClientAffirmationGroupRepository clientAffirmationGroupRepository;
+	
+	@Autowired
+	private ClientAffirmationItemRepository clientAffirmationItemRepository;
 
 	@Autowired
 	private ClientAffirmationGroupMapper clientAffirmationGroupMapper;
+	
+	@Autowired
+	private ClientAffirmationItemMapper clientAffirmationItemMapper;
 	
 	@Autowired
 	private ResourceRepository resourceRepository;
@@ -75,10 +84,9 @@ public class DeviceClientAffirmationServiceImpl implements DeviceClientAffirmati
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getAffirmations().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
-
+	
 	@Override
 	public void preUpdate(UIClientAffirmationGroup data, EOClientAffirmationGroup entity,
 			Map<String, List<String>> headers) {
@@ -86,8 +94,18 @@ public class DeviceClientAffirmationServiceImpl implements DeviceClientAffirmati
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getAffirmations().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
+	}
+	
+	
+	@Override
+	public void merge(UIClientAffirmationGroup dtoObject, EOClientAffirmationGroup entityObject,
+			UIClientAffirmationGroup updateDtoObject, EOClientAffirmationGroup updateEntityObject,
+			Map<String, List<String>> headers) {
+		List<EOClientAffirmationItem> affirmationItems = clientAffirmationItemMapper.mapToDAO(dtoObject.getAffirmations());
+		affirmationItems.forEach(item->item.setGroup(updateEntityObject));
+		List<EOClientAffirmationItem> affirmationItemsReturn = clientAffirmationItemRepository.saveAll(affirmationItems);
+		updateDtoObject.setAffirmations(clientAffirmationItemMapper.mapToDTO(affirmationItemsReturn));
 	}
 
 

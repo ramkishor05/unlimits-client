@@ -2,6 +2,7 @@ package com.brijframework.client.unlimits.entities;
 
 import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
@@ -73,6 +74,9 @@ public class EOClientMindSetGroup extends EOEntityObject{
 	}
 
 	public List<EOClientMindSetItem> getMindSets() {
+		if(mindSets==null) {
+			mindSets=new ArrayList<EOClientMindSetItem>();
+		}
 		return mindSets;
 	}
 

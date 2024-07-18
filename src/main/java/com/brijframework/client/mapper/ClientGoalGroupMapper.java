@@ -7,6 +7,7 @@ import static com.brijframework.client.constants.ClientConstants.APP_CLIENT_PACK
 import static com.brijframework.client.constants.ClientConstants.SPRING;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
@@ -24,5 +25,6 @@ public interface ClientGoalGroupMapper extends GenericMapper<EOClientGoalGroup, 
     UIClientGoalGroup mapToDTO(EOClientGoalGroup e) ;
 	
 	@Override
+	@Mapping(target = "goals", ignore = true)
     EOClientGoalGroup mapToDAO(UIClientGoalGroup d);
 }

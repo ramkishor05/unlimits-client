@@ -21,8 +21,11 @@ import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.forgin.model.UIResource;
 import com.brijframework.client.forgin.repository.ResourceRepository;
 import com.brijframework.client.mapper.ClientReProgramGroupMapper;
+import com.brijframework.client.mapper.ClientReProgramItemMapper;
 import com.brijframework.client.repository.ClientReProgramGroupRepository;
+import com.brijframework.client.repository.ClientReProgramItemRepository;
 import com.brijframework.client.unlimits.entities.EOClientReProgramGroup;
+import com.brijframework.client.unlimits.entities.EOClientReProgramItem;
 import com.brijframework.client.unlimits.model.UIClientReProgramGroup;
 import com.brijframework.client.unlimits.model.UIClientReProgramItem;
 
@@ -40,6 +43,12 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 
 	@Autowired
 	private ClientReProgramGroupMapper clientReProgramGroupMapper;
+	
+	@Autowired
+	private ClientReProgramItemRepository clientReProgramItemRepository;
+
+	@Autowired
+	private ClientReProgramItemMapper clientReProgramItemMapper;
 
 	@Autowired
 	private ResourceRepository resourceRepository;
@@ -83,11 +92,9 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getReprograms().forEach(item->item.setGroup(entity));
-
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
-
+	
 	@Override
 	public void preUpdate(UIClientReProgramGroup data, EOClientReProgramGroup entity,
 			Map<String, List<String>> headers) {
@@ -95,9 +102,17 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getReprograms().forEach(item->item.setGroup(entity));
-
 		entity.setCustBusinessApp(eoCustBusinessApp);
+	}
+	
+	@Override
+	public void merge(UIClientReProgramGroup dtoObject, EOClientReProgramGroup entityObject,
+			UIClientReProgramGroup updateDtoObject, EOClientReProgramGroup updateEntityObject,
+			Map<String, List<String>> headers) {
+		List<EOClientReProgramItem> reProgramItems = clientReProgramItemMapper.mapToDAO(dtoObject.getReprograms());
+		reProgramItems.forEach(item->item.setGroup(updateEntityObject));
+		List<EOClientReProgramItem> reProgramItemsReturn = clientReProgramItemRepository.saveAll(reProgramItems);
+		updateDtoObject.setReprograms(clientReProgramItemMapper.mapToDTO(reProgramItemsReturn));
 	}
 
 

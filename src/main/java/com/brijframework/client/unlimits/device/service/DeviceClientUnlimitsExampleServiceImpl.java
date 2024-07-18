@@ -20,10 +20,13 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
+import com.brijframework.client.mapper.ClientUnlimitsExampleItemMapper;
 import com.brijframework.client.mapper.ClientUnlimitsExampleMapper;
+import com.brijframework.client.repository.ClientUnlimitsExampleItemRepository;
 import com.brijframework.client.repository.ClientUnlimitsExampleRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsExampleItem;
 import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
 
 /**
@@ -34,14 +37,19 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 		implements DeviceClientUnlimitsExampleService {
 
 	@Autowired
-	private ClientUnlimitsExampleRepository clientUnlimitsExampleRepository;
-
-	@Autowired
 	private CustBusinessAppRepository custBusinessAppRepository;
 
+	@Autowired
+	private ClientUnlimitsExampleRepository clientUnlimitsExampleRepository;
 	
 	@Autowired
 	private ClientUnlimitsExampleMapper clientUnlimitsExampleMapper;
+	
+	@Autowired
+	private ClientUnlimitsExampleItemRepository clientUnlimitsExampleItemRepository;
+	
+	@Autowired
+	private ClientUnlimitsExampleItemMapper clientUnlimitsExampleItemMapper;
 
 	@Override
 	public JpaRepository<EOClientUnlimitsExample, Long> getRepository() {
@@ -99,6 +107,16 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 		}
 		eoCustBusinessApp.setClientUnlimitsExample(entity);
 		custBusinessAppRepository.save(eoCustBusinessApp);
+	}
+	
+	@Override
+	public void merge(UIClientUnlimitsExample dtoObject, EOClientUnlimitsExample entityObject,
+			UIClientUnlimitsExample updateDtoObject, EOClientUnlimitsExample updateEntityObject,
+			Map<String, List<String>> headers) {
+		List<EOClientUnlimitsExampleItem> exampleItems = clientUnlimitsExampleItemMapper.mapToDAO(dtoObject.getExampleItems());
+		exampleItems.forEach(item->item.setUnlimitsExample(updateEntityObject));
+		List<EOClientUnlimitsExampleItem> exampleItemsReturn = clientUnlimitsExampleItemRepository.saveAll(exampleItems);
+		updateDtoObject.setExampleItems(clientUnlimitsExampleItemMapper.mapToDTO(exampleItemsReturn));
 	}
 	
 	@Override

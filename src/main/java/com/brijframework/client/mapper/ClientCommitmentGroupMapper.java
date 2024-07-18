@@ -7,6 +7,7 @@ import static com.brijframework.client.constants.ClientConstants.APP_CLIENT_PACK
 import static com.brijframework.client.constants.ClientConstants.SPRING;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
@@ -21,8 +22,6 @@ import com.brijframework.client.unlimits.model.UIClientCommitmentGroup;
 public interface ClientCommitmentGroupMapper extends GenericMapper<EOClientCommitmentGroup, UIClientCommitmentGroup>{
 
 	@Override
-    UIClientCommitmentGroup mapToDTO(EOClientCommitmentGroup e) ;
-	
-	@Override
+	@Mapping(target = "commitments", ignore = true)
     EOClientCommitmentGroup mapToDAO(UIClientCommitmentGroup d);
 }

@@ -19,8 +19,8 @@ import jakarta.persistence.TemporalType;
  * @author omnie
  */
 @Entity
-@Table(name = "EOCLIENT_GOAL_OPTION")
-public class EOClientGoalOption extends EOCustObject {
+@Table(name = "EOCLIENT_GOAL_ITEM")
+public class EOClientGoalItem extends EOCustObject {
 
 	/**
 	 * 

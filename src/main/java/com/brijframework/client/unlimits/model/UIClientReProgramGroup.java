@@ -1,5 +1,6 @@
 package com.brijframework.client.unlimits.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.unlimits.rest.model.UIModel;
@@ -29,6 +30,9 @@ public class UIClientReProgramGroup extends UIModel {
 	}
 
 	public List<UIClientReProgramItem> getReprograms() {
+		if(reprograms==null) {
+			reprograms=new ArrayList<UIClientReProgramItem>();
+		}
 		return reprograms;
 	}
 

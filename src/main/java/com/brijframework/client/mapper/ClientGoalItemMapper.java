@@ -10,19 +10,19 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
-import com.brijframework.client.unlimits.entities.EOClientGoalGroup;
-import com.brijframework.client.unlimits.model.UIClientGoalGroup;
+import com.brijframework.client.unlimits.entities.EOClientGoalItem;
+import com.brijframework.client.unlimits.model.UIClientGoalItem;
 
 /**
  *  @author omnie
  */
 
 @Mapper(componentModel = SPRING, implementationPackage = APP_CLIENT_PACKAGE_IMPL, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClientGoalItemMapper extends GenericMapper<EOClientGoalGroup, UIClientGoalGroup>{
+public interface ClientGoalItemMapper extends GenericMapper<EOClientGoalItem, UIClientGoalItem>{
 
 	@Override
-    UIClientGoalGroup mapToDTO(EOClientGoalGroup e) ;
+    UIClientGoalItem mapToDTO(EOClientGoalItem e) ;
 	
 	@Override
-    EOClientGoalGroup mapToDAO(UIClientGoalGroup d);
+    EOClientGoalItem mapToDAO(UIClientGoalItem d);
 }

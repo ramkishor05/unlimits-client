@@ -10,19 +10,19 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
-import com.brijframework.client.unlimits.entities.EOClientCommitmentGroup;
-import com.brijframework.client.unlimits.model.UIClientCommitmentGroup;
+import com.brijframework.client.unlimits.entities.EOClientCommitmentItem;
+import com.brijframework.client.unlimits.model.UIClientCommitmentItem;
 
 /**
  *  @author omnie
  */
 
 @Mapper(componentModel = SPRING, implementationPackage = APP_CLIENT_PACKAGE_IMPL, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClientCommitmentItemMapper extends GenericMapper<EOClientCommitmentGroup, UIClientCommitmentGroup>{
+public interface ClientCommitmentItemMapper extends GenericMapper<EOClientCommitmentItem, UIClientCommitmentItem>{
 
 	@Override
-    UIClientCommitmentGroup mapToDTO(EOClientCommitmentGroup e) ;
+    UIClientCommitmentItem mapToDTO(EOClientCommitmentItem e) ;
 	
 	@Override
-    EOClientCommitmentGroup mapToDAO(UIClientCommitmentGroup d);
+    EOClientCommitmentItem mapToDAO(UIClientCommitmentItem d);
 }

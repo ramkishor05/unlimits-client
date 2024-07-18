@@ -20,10 +20,13 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
+import com.brijframework.client.mapper.ClientUnlimitsImageItemMapper;
 import com.brijframework.client.mapper.ClientUnlimitsImageMapper;
+import com.brijframework.client.repository.ClientUnlimitsImageItemRepository;
 import com.brijframework.client.repository.ClientUnlimitsImageRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsImageItem;
 import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
 
 /**
@@ -34,13 +37,22 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 		implements DeviceClientUnlimitsImageService {
 
 	@Autowired
+	private CustBusinessAppRepository custBusinessAppRepository;
+
+
+	@Autowired
 	private ClientUnlimitsImageRepository clientUnlimitsImageRepository;
 	
 	@Autowired
-	private CustBusinessAppRepository custBusinessAppRepository;
+	private ClientUnlimitsImageMapper clientUnlimitsImageMapper;
+	
 
 	@Autowired
-	private ClientUnlimitsImageMapper clientUnlimitsImageMapper;
+	private ClientUnlimitsImageItemRepository clientUnlimitsImageItemRepository;
+	
+
+	@Autowired
+	private ClientUnlimitsImageItemMapper clientUnlimitsImageItemMapper;
 
 	@Override
 	public JpaRepository<EOClientUnlimitsImage, Long> getRepository() {
@@ -64,7 +76,6 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
-		entity.getImageItems().forEach(tagItem->tagItem.setUnlimitsImage(entity));
 	}
 	
 	@Override
@@ -89,7 +100,6 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
-		entity.getImageItems().forEach(tagItem->tagItem.setUnlimitsImage(entity));
 	}
 	
 	@Override
@@ -100,6 +110,16 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 		}
 		eoCustBusinessApp.setClientUnlimitsImage(entity);
 		custBusinessAppRepository.save(eoCustBusinessApp);
+	}
+	
+	@Override
+	public void merge(UIClientUnlimitsImage dtoObject, EOClientUnlimitsImage entityObject,
+			UIClientUnlimitsImage updateDtoObject, EOClientUnlimitsImage updateEntityObject,
+			Map<String, List<String>> headers) {
+		List<EOClientUnlimitsImageItem> imageItems = clientUnlimitsImageItemMapper.mapToDAO(dtoObject.getImageItems());
+		imageItems.forEach(item->item.setUnlimitsImage(updateEntityObject));
+		List<EOClientUnlimitsImageItem> imageItemsReturn = clientUnlimitsImageItemRepository.saveAll(imageItems);
+		updateDtoObject.setImageItems(clientUnlimitsImageItemMapper.mapToDTO(imageItemsReturn));
 	}
 	
 	@Override

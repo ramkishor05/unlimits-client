@@ -19,8 +19,11 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientGoalGroupMapper;
+import com.brijframework.client.mapper.ClientGoalItemMapper;
 import com.brijframework.client.repository.ClientGoalGroupRepository;
+import com.brijframework.client.repository.ClientGoalItemRepository;
 import com.brijframework.client.unlimits.entities.EOClientGoalGroup;
+import com.brijframework.client.unlimits.entities.EOClientGoalItem;
 import com.brijframework.client.unlimits.model.UIClientGoalGroup;
 
 /**
@@ -35,6 +38,12 @@ public class DeviceClientGoalGroupServiceImpl extends CrudServiceImpl<UIClientGo
 
 	@Autowired
 	private ClientGoalGroupMapper clientGoalGroupMapper;
+	
+	@Autowired
+	private ClientGoalItemRepository clientGoalItemRepository;
+
+	@Autowired
+	private ClientGoalItemMapper clientGoalItemMapper;
 
 	@Override
 	public JpaRepository<EOClientGoalGroup, Long> getRepository() {
@@ -53,7 +62,6 @@ public class DeviceClientGoalGroupServiceImpl extends CrudServiceImpl<UIClientGo
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getGoals().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
 
@@ -64,10 +72,17 @@ public class DeviceClientGoalGroupServiceImpl extends CrudServiceImpl<UIClientGo
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getGoals().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
 
+	@Override
+	public void merge(UIClientGoalGroup dtoObject, EOClientGoalGroup entityObject, UIClientGoalGroup updateDtoObject,
+			EOClientGoalGroup updateEntityObject, Map<String, List<String>> headers) {
+		List<EOClientGoalItem> goalItems = clientGoalItemMapper.mapToDAO(dtoObject.getGoals());
+		goalItems.forEach(item->item.setGroup(updateEntityObject));
+		List<EOClientGoalItem> goalItemsReturn = clientGoalItemRepository.saveAll(goalItems);
+		updateDtoObject.setGoals(clientGoalItemMapper.mapToDTO(goalItemsReturn));
+	}
 
 	@Override
 	public List<EOClientGoalGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {

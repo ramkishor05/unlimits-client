@@ -17,8 +17,11 @@ import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.forgin.model.UIResource;
 import com.brijframework.client.forgin.repository.ResourceRepository;
 import com.brijframework.client.mapper.ClientMindSetGroupMapper;
+import com.brijframework.client.mapper.ClientMindSetItemMapper;
 import com.brijframework.client.repository.ClientMindSetGroupRepository;
+import com.brijframework.client.repository.ClientMindSetItemRepository;
 import com.brijframework.client.unlimits.entities.EOClientMindSetGroup;
+import com.brijframework.client.unlimits.entities.EOClientMindSetItem;
 import com.brijframework.client.unlimits.model.UIClientMindSetGroup;
 import com.brijframework.client.unlimits.model.UIClientMindSetItem;
 
@@ -32,6 +35,12 @@ public class DeviceClientMindSetServiceImpl implements DeviceClientMindSetServic
 
 	@Autowired
 	private ClientMindSetGroupMapper clientMindSetGroupMapper;
+	
+	@Autowired
+	private ClientMindSetItemRepository clientMindSetItemRepository;
+
+	@Autowired
+	private ClientMindSetItemMapper clientMindSetItemMapper;
 	
 	@Autowired
 	private ResourceRepository resourceRepository;
@@ -67,7 +76,7 @@ public class DeviceClientMindSetServiceImpl implements DeviceClientMindSetServic
 			}
 		}
 	}
-
+	
 	@Override
 	public void preAdd(UIClientMindSetGroup data, EOClientMindSetGroup entity,
 			Map<String, List<String>> headers) {
@@ -75,9 +84,9 @@ public class DeviceClientMindSetServiceImpl implements DeviceClientMindSetServic
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getMindSets().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
+	
 
 	@Override
 	public void preUpdate(UIClientMindSetGroup data, EOClientMindSetGroup entity,
@@ -86,10 +95,18 @@ public class DeviceClientMindSetServiceImpl implements DeviceClientMindSetServic
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		entity.getMindSets().forEach(item->item.setGroup(entity));
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
 
+	@Override
+	public void merge(UIClientMindSetGroup dtoObject, EOClientMindSetGroup entityObject,
+			UIClientMindSetGroup updateDtoObject, EOClientMindSetGroup updateEntityObject,
+			Map<String, List<String>> headers) {
+		List<EOClientMindSetItem> mindSetItems = clientMindSetItemMapper.mapToDAO(dtoObject.getMindSets());
+		mindSetItems.forEach(item->item.setGroup(updateEntityObject));
+		List<EOClientMindSetItem> mindSetItemsReturn = clientMindSetItemRepository.saveAll(mindSetItems);
+		updateDtoObject.setMindSets(clientMindSetItemMapper.mapToDTO(mindSetItemsReturn));
+	}
 
 	@Override
 	public List<EOClientMindSetGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {

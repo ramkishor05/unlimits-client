@@ -7,10 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
-import com.brijframework.client.unlimits.entities.EOClientAffirmationGroup;
-import com.brijframework.client.unlimits.model.UIClientAffirmationGroup;
+import com.brijframework.client.unlimits.entities.EOClientAffirmationItem;
+import com.brijframework.client.unlimits.model.UIClientAffirmationItem;
 
 @Mapper(componentModel = SPRING, implementationPackage = APP_CLIENT_PACKAGE_IMPL, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClientAffirmationItemMapper extends GenericMapper<EOClientAffirmationGroup, UIClientAffirmationGroup>{
+public interface ClientAffirmationItemMapper extends GenericMapper<EOClientAffirmationItem, UIClientAffirmationItem>{
 
 }

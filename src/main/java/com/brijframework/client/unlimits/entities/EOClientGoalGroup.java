@@ -5,6 +5,7 @@ package com.brijframework.client.unlimits.entities;
 
 import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class EOClientGoalGroup extends EOCustObject {
 	private String goalName;
 	
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-	private List<EOClientGoalOption> goals;
+	private List<EOClientGoalItem> goals;
 	
 	@JoinColumn(name = CUST_BUSINESS_APP_ID, nullable = false)
 	@ManyToOne
@@ -71,11 +72,14 @@ public class EOClientGoalGroup extends EOCustObject {
 		this.goalName = goalName;
 	}
 
-	public List<EOClientGoalOption> getGoals() {
+	public List<EOClientGoalItem> getGoals() {
+		if(goals==null) {
+			goals=new ArrayList<EOClientGoalItem>();
+		}
 		return goals;
 	}
 
-	public void setGoals(List<EOClientGoalOption> goals) {
+	public void setGoals(List<EOClientGoalItem> goals) {
 		this.goals = goals;
 	}
 

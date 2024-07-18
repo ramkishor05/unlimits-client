@@ -23,10 +23,13 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
+import com.brijframework.client.mapper.ClientUnlimitsTagItemMapper;
 import com.brijframework.client.mapper.ClientUnlimitsTagMapper;
+import com.brijframework.client.repository.ClientUnlimitsTagItemRepository;
 import com.brijframework.client.repository.ClientUnlimitsTagRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsTagItem;
 import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 
 /**
@@ -36,14 +39,21 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>
 		implements DeviceClientUnlimitsTagService {
 
+	
+	@Autowired
+	private CustBusinessAppRepository custBusinessAppRepository;
+	
 	@Autowired
 	private ClientUnlimitsTagRepository clientUnlimitsTagRepository;
 	
 	@Autowired
-	private CustBusinessAppRepository custBusinessAppRepository;
-
-	@Autowired
 	private ClientUnlimitsTagMapper clientUnlimitsTagMapper;
+	
+	@Autowired
+	private ClientUnlimitsTagItemRepository clientUnlimitsTagItemRepository;
+	
+	@Autowired
+	private ClientUnlimitsTagItemMapper clientUnlimitsTagItemMapper;
 
 	@Override
 	public JpaRepository<EOClientUnlimitsTag, Long> getRepository() {
@@ -67,7 +77,6 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
-		entity.getTagItems().forEach(tagItem->tagItem.setUnlimitsTag(entity));
 	}
 	
 	@Override
@@ -92,7 +101,6 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
-		entity.getTagItems().forEach(tagItem->tagItem.setUnlimitsTag(entity));
 	}
 	
 	@Override
@@ -103,6 +111,16 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 		}
 		eoCustBusinessApp.setClientUnlimitsTag(entity);
 		custBusinessAppRepository.save(eoCustBusinessApp);
+	}
+	
+	@Override
+	public void merge(UIClientUnlimitsTag dtoObject, EOClientUnlimitsTag entityObject,
+			UIClientUnlimitsTag updateDtoObject, EOClientUnlimitsTag updateEntityObject,
+			Map<String, List<String>> headers) {
+		List<EOClientUnlimitsTagItem> mindSetItems = clientUnlimitsTagItemMapper.mapToDAO(dtoObject.getTagItems());
+		mindSetItems.forEach(item->item.setUnlimitsTag(updateEntityObject));
+		List<EOClientUnlimitsTagItem> tagItemsReturn = clientUnlimitsTagItemRepository.saveAll(mindSetItems);
+		updateDtoObject.setTagItems(clientUnlimitsTagItemMapper.mapToDTO(tagItemsReturn));
 	}
 	
 	@Override
