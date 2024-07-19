@@ -3,7 +3,6 @@
  */
 package com.brijframework.client.unlimits.device.service;
 
-import static com.brijframework.client.constants.ClientConstants.CUST_APP_ID;
 import static com.brijframework.client.constants.ClientConstants.MY_UNLIMITS;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
@@ -133,30 +131,32 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
-		List<String> list = headers.get(CUST_APP_ID);
-		if(CollectionUtils.isEmpty(list)) {
-			throw new UserNotFoundException("Invalid client");
-		}
-		EOCustBusinessApp eoCustBusinessApp = custBusinessAppRepository.getReferenceById(Long.valueOf(list.get(0)));
-		return clientUnlimitsTagRepository.findAllByCustBusinessApp(eoCustBusinessApp);
-	}
-	
-	@Override
-	public Page<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
+	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if(eoCustBusinessApp==null) {
+		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientUnlimitsTagRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, filters);
 	}
-	
+
 	@Override
-	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
+	public Page<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if(eoCustBusinessApp==null) {
+		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientUnlimitsTagRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers,pageable, filters);
+	}
+
+	@Override
+	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if (eoCustBusinessApp == null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, sort, filters);
 	}
 }

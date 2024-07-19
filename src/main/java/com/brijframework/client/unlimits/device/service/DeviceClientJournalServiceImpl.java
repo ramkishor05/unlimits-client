@@ -75,32 +75,34 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
 
-
 	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
+	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp, Sort.by("journalDate").descending());
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, filters);
 	}
 
 	@Override
-	public Page<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
+	public Page<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers,pageable, filters);
 	}
 
 	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
+	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, sort, filters);
 	}
 
 }

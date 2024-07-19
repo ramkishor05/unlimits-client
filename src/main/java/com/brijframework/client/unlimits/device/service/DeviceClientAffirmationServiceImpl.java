@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.crud.mapper.GenericMapper;
+import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
@@ -26,7 +27,7 @@ import com.brijframework.client.unlimits.model.UIClientAffirmationGroup;
 import com.brijframework.client.unlimits.model.UIClientAffirmationItem;
 
 @Service
-public class DeviceClientAffirmationServiceImpl implements DeviceClientAffirmationService {
+public class DeviceClientAffirmationServiceImpl extends CrudServiceImpl<UIClientAffirmationGroup, EOClientAffirmationGroup, Long>  implements DeviceClientAffirmationService {
 
 	private static final String AFFIRMATION = "affirmation";
 
@@ -120,30 +121,33 @@ public class DeviceClientAffirmationServiceImpl implements DeviceClientAffirmati
 
 
 	@Override
-	public List<EOClientAffirmationGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
+	public List<EOClientAffirmationGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientAffirmationGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp, Sort.by("name").descending());
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, filters);
 	}
 
 	@Override
-	public Page<EOClientAffirmationGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
+	public Page<EOClientAffirmationGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientAffirmationGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers,pageable, filters);
 	}
 
 	@Override
-	public List<EOClientAffirmationGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
+	public List<EOClientAffirmationGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientAffirmationGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, sort, filters);
 	}
 
 }

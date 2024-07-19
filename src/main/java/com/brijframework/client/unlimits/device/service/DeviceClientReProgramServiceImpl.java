@@ -127,30 +127,32 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 
 
 	@Override
-	public List<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
+	public List<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientReProgramGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp, Sort.by("name").descending());
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, filters);
 	}
 
 	@Override
-	public Page<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
+	public Page<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientReProgramGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers,pageable, filters);
 	}
 
 	@Override
-	public List<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
+	public List<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientReProgramGroupRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, sort, filters);
 	}
-
 }

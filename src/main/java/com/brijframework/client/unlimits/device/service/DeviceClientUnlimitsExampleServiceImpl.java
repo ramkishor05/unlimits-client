@@ -129,29 +129,32 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
+	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if(eoCustBusinessApp==null) {
+		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientUnlimitsExampleRepository.findAllByCustBusinessApp(eoCustBusinessApp);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, filters);
 	}
-	
+
 	@Override
-	public Page<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
+	public Page<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if(eoCustBusinessApp==null) {
+		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientUnlimitsExampleRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers,pageable, filters);
 	}
-	
+
 	@Override
-	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
+	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if(eoCustBusinessApp==null) {
+		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		return clientUnlimitsExampleRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
+		filters.put("custBusinessApp", eoCustBusinessApp);
+		return super.repositoryFindAll(headers, sort, filters);
 	}
 }

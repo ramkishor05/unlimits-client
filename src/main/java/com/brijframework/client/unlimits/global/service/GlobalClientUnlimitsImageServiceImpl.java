@@ -9,9 +9,6 @@ import java.util.Map;
 
 import org.brijframework.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.unlimits.rest.context.ApiSecurityContext;
@@ -111,30 +108,4 @@ public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 		return clientUnlimitsImageMapper.mapToDTO(eoCustBusinessApp.getClientUnlimitsImage());
 	}
 	
-	@Override
-	public List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
-		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if(eoCustBusinessApp==null) {
-			return clientUnlimitsImageRepository.findAll();
-		}
-		return clientUnlimitsImageRepository.findAllByCustBusinessApp(eoCustBusinessApp);
-	}
-	
-	@Override
-	public Page<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
-		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if(eoCustBusinessApp==null) {
-			return clientUnlimitsImageRepository.findAll(pageable);
-		}
-		return clientUnlimitsImageRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
-	}
-	
-	@Override
-	public List<EOClientUnlimitsImage> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
-		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if(eoCustBusinessApp==null) {
-			return clientUnlimitsImageRepository.findAll(sort);
-		}
-		return clientUnlimitsImageRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
-	}
 }

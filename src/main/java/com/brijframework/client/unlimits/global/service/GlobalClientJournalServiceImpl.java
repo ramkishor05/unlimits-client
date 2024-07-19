@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.unlimits.rest.context.ApiSecurityContext;
@@ -64,34 +61,6 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 			throw new UserNotFoundException("Invalid client");
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
-	}
-
-
-	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Map<String, String> filters) {
-		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
-		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp);
-	}
-
-	@Override
-	public Page<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, String> filters) {
-		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
-		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp, pageable);
-	}
-
-	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, String> filters) {
-		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
-		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
-		}
-		return clientJournalRepository.findAllByCustBusinessApp(eoCustBusinessApp, sort);
 	}
 
 }
