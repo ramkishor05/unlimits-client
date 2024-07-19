@@ -1,5 +1,12 @@
 package com.brijframework.client.unlimits.device.service;
+import static com.brijframework.client.constants.ClientConstants.CUST_BUSINESS_APP;
+import static com.brijframework.client.constants.ClientConstants.INVALID_CLIENT;
+import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
+import org.unlimits.rest.repository.CustomPredicate;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
@@ -26,8 +34,13 @@ import com.brijframework.client.unlimits.entities.EOClientMindSetItem;
 import com.brijframework.client.unlimits.model.UIClientMindSetGroup;
 import com.brijframework.client.unlimits.model.UIClientMindSetItem;
 
+import jakarta.persistence.criteria.CriteriaBuilder.In;
+import jakarta.persistence.criteria.Path;
+
 @Service
 public class DeviceClientMindSetServiceImpl extends CrudServiceImpl<UIClientMindSetGroup, EOClientMindSetGroup, Long> implements DeviceClientMindSetService {
+
+	private static final String MINDSET_DATE = "mindsetDate";
 
 	private static final String MINDSET = "mindset";
 
@@ -54,6 +67,32 @@ public class DeviceClientMindSetServiceImpl extends CrudServiceImpl<UIClientMind
 	@Override
 	public GenericMapper<EOClientMindSetGroup, UIClientMindSetGroup> getMapper() {
 		return clientMindSetGroupMapper;
+	}
+	
+	{
+		CustomPredicate<EOClientMindSetGroup> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
+			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
+			custBusinessAppIn.value(filter.getColumnValue());
+			return custBusinessAppIn;
+		};
+		
+		CustomPredicate<EOClientMindSetGroup> mindsetDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+			Path<Date> mindsetDatePath = root.get(MINDSET_DATE);
+			In<Object> mindsetDateIn = criteriaBuilder.in(mindsetDatePath);
+			DateFormat timeFormat = new SimpleDateFormat(UI_DATE_FORMAT_MMMM_DD_YYYY);
+			Date date = null;
+			try {
+				date = timeFormat.parse(filter.getColumnValue().toString());
+			} catch (ParseException e) {
+				System.err.println("WARN: unexpected object in Object.dateValue(): " + filter.getColumnValue());
+			}
+			mindsetDateIn.value(new java.sql.Date(date.getTime()) );
+			return mindsetDateIn;
+		};
+ 
+		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
+		addCustomPredicate(MINDSET_DATE, mindsetDate);
 	}
 	
 	@Override
@@ -93,7 +132,7 @@ public class DeviceClientMindSetServiceImpl extends CrudServiceImpl<UIClientMind
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
@@ -104,7 +143,7 @@ public class DeviceClientMindSetServiceImpl extends CrudServiceImpl<UIClientMind
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
@@ -123,9 +162,9 @@ public class DeviceClientMindSetServiceImpl extends CrudServiceImpl<UIClientMind
 	public List<EOClientMindSetGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers, filters);
 	}
 
@@ -133,9 +172,9 @@ public class DeviceClientMindSetServiceImpl extends CrudServiceImpl<UIClientMind
 	public Page<EOClientMindSetGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers,pageable, filters);
 	}
 
@@ -143,9 +182,9 @@ public class DeviceClientMindSetServiceImpl extends CrudServiceImpl<UIClientMind
 	public List<EOClientMindSetGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers, sort, filters);
 	}
 

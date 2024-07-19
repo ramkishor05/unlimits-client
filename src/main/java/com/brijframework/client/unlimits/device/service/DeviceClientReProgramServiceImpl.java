@@ -2,7 +2,14 @@
  * 
  */
 package com.brijframework.client.unlimits.device.service;
+import static com.brijframework.client.constants.ClientConstants.CUST_BUSINESS_APP;
+import static com.brijframework.client.constants.ClientConstants.INVALID_CLIENT;
+import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
+import org.unlimits.rest.repository.CustomPredicate;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
@@ -29,12 +37,17 @@ import com.brijframework.client.unlimits.entities.EOClientReProgramItem;
 import com.brijframework.client.unlimits.model.UIClientReProgramGroup;
 import com.brijframework.client.unlimits.model.UIClientReProgramItem;
 
+import jakarta.persistence.criteria.CriteriaBuilder.In;
+import jakarta.persistence.criteria.Path;
+
 /**
  * @author omnie
  */
 @Service
 public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientReProgramGroup, EOClientReProgramGroup, Long>
 		implements DeviceClientReProgramService {
+
+	private static final String REPROGRAM_DATE = "reprogramDate";
 
 	private static final String REPROGRAM = "reprogram";
 
@@ -61,6 +74,32 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 	@Override
 	public GenericMapper<EOClientReProgramGroup, UIClientReProgramGroup> getMapper() {
 		return clientReProgramGroupMapper;
+	}
+	
+	{
+		CustomPredicate<EOClientReProgramGroup> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
+			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
+			custBusinessAppIn.value(filter.getColumnValue());
+			return custBusinessAppIn;
+		};
+		
+		CustomPredicate<EOClientReProgramGroup> reprogramDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+			Path<Date> reprogramPath = root.get(REPROGRAM_DATE);
+			In<Object> reprogramIn = criteriaBuilder.in(reprogramPath);
+			DateFormat timeFormat = new SimpleDateFormat(UI_DATE_FORMAT_MMMM_DD_YYYY);
+			Date date = null;
+			try {
+				date = timeFormat.parse(filter.getColumnValue().toString());
+			} catch (ParseException e) {
+				System.err.println("WARN: unexpected object in Object.dateValue(): " + filter.getColumnValue());
+			}
+			reprogramIn.value(new java.sql.Date(date.getTime()) );
+			return reprogramIn;
+		};
+ 
+		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
+		addCustomPredicate(REPROGRAM_DATE, reprogramDate);
 	}
 	
 	@Override
@@ -100,7 +139,7 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
@@ -110,7 +149,7 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
 		entity.setCustBusinessApp(eoCustBusinessApp);
 	}
@@ -130,9 +169,9 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 	public List<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers, filters);
 	}
 
@@ -140,9 +179,9 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 	public Page<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers,pageable, filters);
 	}
 
@@ -150,9 +189,9 @@ public class DeviceClientReProgramServiceImpl extends CrudServiceImpl<UIClientRe
 	public List<EOClientReProgramGroup> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
-			throw new UserNotFoundException("Invalid client");
+			throw new UserNotFoundException(INVALID_CLIENT);
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers, sort, filters);
 	}
 }

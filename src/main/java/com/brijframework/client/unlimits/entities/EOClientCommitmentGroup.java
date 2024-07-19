@@ -40,7 +40,7 @@ public class EOClientCommitmentGroup extends EOCustObject {
 	private Date commitmentDate;
 
 	@Column(name = "COMMITMENT_NAME")
-	private String CommitmentName;
+	private String commitmentName;
 
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
 	private List<EOClientCommitmentItem> commitments;
@@ -66,11 +66,11 @@ public class EOClientCommitmentGroup extends EOCustObject {
 	}
 
 	public String getCommitmentName() {
-		return CommitmentName;
+		return commitmentName;
 	}
 
 	public void setCommitmentName(String commitmentName) {
-		CommitmentName = commitmentName;
+		this.commitmentName = commitmentName;
 	}
 
 	public List<EOClientCommitmentItem> getCommitments() {

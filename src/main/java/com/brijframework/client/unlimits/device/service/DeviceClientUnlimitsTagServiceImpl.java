@@ -3,7 +3,7 @@
  */
 package com.brijframework.client.unlimits.device.service;
 
-import static com.brijframework.client.constants.ClientConstants.MY_UNLIMITS;
+import static com.brijframework.client.constants.ClientConstants.*;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
+import org.unlimits.rest.repository.CustomPredicate;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
@@ -29,6 +30,9 @@ import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsTagItem;
 import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
+
+import jakarta.persistence.criteria.CriteriaBuilder.In;
+import jakarta.persistence.criteria.Path;
 
 /**
  * @author omnie
@@ -61,6 +65,17 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	@Override
 	public GenericMapper<EOClientUnlimitsTag, UIClientUnlimitsTag> getMapper() {
 		return clientUnlimitsTagMapper;
+	}
+	
+	{
+		CustomPredicate<EOClientUnlimitsTag> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
+			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
+			custBusinessAppIn.value(filter.getColumnValue());
+			return custBusinessAppIn;
+		};
+		
+		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 	}
 
 	@Override
@@ -136,7 +151,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers, filters);
 	}
 
@@ -146,7 +161,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers,pageable, filters);
 	}
 
@@ -156,7 +171,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
 		}
-		filters.put("custBusinessApp", eoCustBusinessApp);
+		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers, sort, filters);
 	}
 }

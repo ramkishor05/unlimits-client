@@ -11,6 +11,8 @@ public class UIClientAffirmationGroup extends UIModel {
 	private String name;
 
 	private String description;
+	
+	private String affirmationDate;
 
 	private Long affirmationId;
 
@@ -42,6 +44,14 @@ public class UIClientAffirmationGroup extends UIModel {
 
 	public void setAffirmationId(Long affirmationId) {
 		this.affirmationId = affirmationId;
+	}
+
+	public String getAffirmationDate() {
+		return affirmationDate;
+	}
+
+	public void setAffirmationDate(String affirmationDate) {
+		this.affirmationDate = affirmationDate;
 	}
 
 	public ResourceFile getContent() {

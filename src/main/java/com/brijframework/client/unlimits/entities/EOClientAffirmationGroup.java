@@ -2,7 +2,10 @@ package com.brijframework.client.unlimits.entities;
 
 import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
 
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.entities.EOEntityObject;
@@ -14,9 +17,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "EOCLIENT_AFFIRMATION_ITEM")
+@Table(name = "EOCLIENT_AFFIRMATION_GROUP")
 public class EOClientAffirmationGroup extends EOEntityObject{
 
 	/**
@@ -29,6 +34,11 @@ public class EOClientAffirmationGroup extends EOEntityObject{
 	
 	@Column(name ="DESCRIPTION")
 	private String description;
+	
+	@Column(name ="AFFIRMATION_DATE")
+	@Temporal(TemporalType.DATE)
+	@CreationTimestamp
+	private Date affirmationDate;
 
 	@Column(name = "AFFIRMATION_ID")
 	private Long affirmationId;

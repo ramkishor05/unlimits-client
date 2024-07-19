@@ -3,6 +3,7 @@ package com.brijframework.client.unlimits.entities;
 import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
@@ -33,6 +34,9 @@ public class EOClientMindSetGroup extends EOEntityObject{
 	
 	@Column(name ="DESCRIPTION")
 	private String description;
+	
+	@Column(name = "MINDSET_DATE")
+	private Date mindsetDate;
 
 	@Column(name = "MINDSET_ID")
 	private Long mindsetId;
@@ -88,6 +92,14 @@ public class EOClientMindSetGroup extends EOEntityObject{
 
 	public void setMindsetId(Long mindsetId) {
 		this.mindsetId = mindsetId;
+	}
+
+	public Date getMindsetDate() {
+		return mindsetDate;
+	}
+
+	public void setMindsetDate(Date mindsetDate) {
+		this.mindsetDate = mindsetDate;
 	}
 
 	public Long getResourceId() {

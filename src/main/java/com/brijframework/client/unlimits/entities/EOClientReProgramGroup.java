@@ -2,6 +2,7 @@ package com.brijframework.client.unlimits.entities;
 
 import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
 
+import java.util.Date;
 import java.util.List;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
@@ -29,6 +30,9 @@ public class EOClientReProgramGroup extends EOCustObject {
 
 	@Column(name = "DESCRIPTION")
 	private String description;
+	
+	@Column(name = "REPROGRAM_DATE")
+	private Date reprogramDate;
 	
 	@Column(name = "REPROGRAM_ID")
 	private Long reprogramId;
@@ -76,6 +80,14 @@ public class EOClientReProgramGroup extends EOCustObject {
 
 	public void setReprogramId(Long reprogramId) {
 		this.reprogramId = reprogramId;
+	}
+
+	public Date getReprogramDate() {
+		return reprogramDate;
+	}
+
+	public void setReprogramDate(Date reprogramDate) {
+		this.reprogramDate = reprogramDate;
 	}
 
 	public Long getResourceId() {
