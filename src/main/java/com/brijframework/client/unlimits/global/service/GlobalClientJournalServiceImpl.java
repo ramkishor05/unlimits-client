@@ -17,15 +17,15 @@ import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientJournalMapper;
 import com.brijframework.client.repository.ClientJournalRepository;
-import com.brijframework.client.unlimits.entities.EOClientJournal;
-import com.brijframework.client.unlimits.model.UIClientJournalItem;
+import com.brijframework.client.unlimits.entities.EOCustJournal;
+import com.brijframework.client.unlimits.model.UICustJournalItem;
 
 /**
  * @author omnie
  */
 @Service
-public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJournalItem, EOClientJournal, Long>
-		implements GlobalClientJournalService {
+public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UICustJournalItem, EOCustJournal, Long>
+		implements GlobalCustJournalService {
 
 	@Autowired
 	private ClientJournalRepository clientJournalRepository;
@@ -34,17 +34,17 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	private ClientJournalMapper clientJournalMapper;
 
 	@Override
-	public JpaRepository<EOClientJournal, Long> getRepository() {
+	public JpaRepository<EOCustJournal, Long> getRepository() {
 		return clientJournalRepository;
 	}
 
 	@Override
-	public GenericMapper<EOClientJournal, UIClientJournalItem> getMapper() {
+	public GenericMapper<EOCustJournal, UICustJournalItem> getMapper() {
 		return clientJournalMapper;
 	}
 
 	@Override
-	public void preAdd(UIClientJournalItem data, EOClientJournal entity,
+	public void preAdd(UICustJournalItem data, EOCustJournal entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
@@ -54,7 +54,7 @@ public class GlobalClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public void preUpdate(UIClientJournalItem data, EOClientJournal entity,
+	public void preUpdate(UICustJournalItem data, EOCustJournal entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {

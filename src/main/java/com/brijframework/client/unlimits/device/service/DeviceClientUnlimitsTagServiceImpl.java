@@ -23,13 +23,13 @@ import org.unlimits.rest.repository.CustomPredicate;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientUnlimitsTagItemMapper;
-import com.brijframework.client.mapper.ClientUnlimitsTagMapper;
+import com.brijframework.client.mapper.CustUnlimitsTagMapper;
 import com.brijframework.client.repository.ClientUnlimitsTagItemRepository;
-import com.brijframework.client.repository.ClientUnlimitsTagRepository;
+import com.brijframework.client.repository.CustUnlimitsTagRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsTagItem;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
+import com.brijframework.client.unlimits.model.UICustUnlimitsTag;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 import jakarta.persistence.criteria.Path;
@@ -38,7 +38,7 @@ import jakarta.persistence.criteria.Path;
  * @author omnie
  */
 @Service
-public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>
+public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UICustUnlimitsTag, EOCustUnlimitsTag, Long>
 		implements DeviceClientUnlimitsTagService {
 
 	
@@ -46,10 +46,10 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	private CustBusinessAppRepository custBusinessAppRepository;
 	
 	@Autowired
-	private ClientUnlimitsTagRepository clientUnlimitsTagRepository;
+	private CustUnlimitsTagRepository clientUnlimitsTagRepository;
 	
 	@Autowired
-	private ClientUnlimitsTagMapper clientUnlimitsTagMapper;
+	private CustUnlimitsTagMapper clientUnlimitsTagMapper;
 	
 	@Autowired
 	private ClientUnlimitsTagItemRepository clientUnlimitsTagItemRepository;
@@ -58,17 +58,17 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	private ClientUnlimitsTagItemMapper clientUnlimitsTagItemMapper;
 
 	@Override
-	public JpaRepository<EOClientUnlimitsTag, Long> getRepository() {
+	public JpaRepository<EOCustUnlimitsTag, Long> getRepository() {
 		return clientUnlimitsTagRepository;
 	}
 
 	@Override
-	public GenericMapper<EOClientUnlimitsTag, UIClientUnlimitsTag> getMapper() {
+	public GenericMapper<EOCustUnlimitsTag, UICustUnlimitsTag> getMapper() {
 		return clientUnlimitsTagMapper;
 	}
 	
 	{
-		CustomPredicate<EOClientUnlimitsTag> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+		CustomPredicate<EOCustUnlimitsTag> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
 			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
 			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
 			custBusinessAppIn.value(filter.getColumnValue());
@@ -79,7 +79,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 
 	@Override
-	public void preAdd(UIClientUnlimitsTag data, EOClientUnlimitsTag entity, Map<String, List<String>> headers) {
+	public void preAdd(UICustUnlimitsTag data, EOCustUnlimitsTag entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -93,7 +93,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public void postAdd(UIClientUnlimitsTag data, EOClientUnlimitsTag entity) {
+	public void postAdd(UICustUnlimitsTag data, EOCustUnlimitsTag entity) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -103,7 +103,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public void preUpdate(UIClientUnlimitsTag data, EOClientUnlimitsTag entity, Map<String, List<String>> headers) {
+	public void preUpdate(UICustUnlimitsTag data, EOCustUnlimitsTag entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -117,7 +117,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public void postUpdate(UIClientUnlimitsTag data, EOClientUnlimitsTag entity, Map<String, List<String>> headers) {
+	public void postUpdate(UICustUnlimitsTag data, EOCustUnlimitsTag entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -127,8 +127,8 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public void merge(UIClientUnlimitsTag dtoObject, EOClientUnlimitsTag entityObject,
-			UIClientUnlimitsTag updateDtoObject, EOClientUnlimitsTag updateEntityObject,
+	public void merge(UICustUnlimitsTag dtoObject, EOCustUnlimitsTag entityObject,
+			UICustUnlimitsTag updateDtoObject, EOCustUnlimitsTag updateEntityObject,
 			Map<String, List<String>> headers) {
 		List<EOClientUnlimitsTagItem> mindSetItems = clientUnlimitsTagItemMapper.mapToDAO(dtoObject.getTagItems());
 		mindSetItems.forEach(item->item.setUnlimitsTag(updateEntityObject));
@@ -137,7 +137,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public UIClientUnlimitsTag getCurrent( Map<String, List<String>> headers) {
+	public UICustUnlimitsTag getCurrent( Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -146,7 +146,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
+	public List<EOCustUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
@@ -156,7 +156,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 
 	@Override
-	public Page<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
+	public Page<EOCustUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");
@@ -166,7 +166,7 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 
 	@Override
-	public List<EOClientUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
+	public List<EOCustUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException("Invalid client");

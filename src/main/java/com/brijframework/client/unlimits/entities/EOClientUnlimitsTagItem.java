@@ -35,7 +35,7 @@ public class EOClientUnlimitsTagItem extends EOCustObject {
 	
 	@JoinColumn(name = "UNLIMITS_TAG_ID", referencedColumnName = "ID")
 	@ManyToOne
-	private EOClientUnlimitsTag unlimitsTag;
+	private EOCustUnlimitsTag unlimitsTag;
 
 	public String getTagId() {
 		return tagId;
@@ -61,11 +61,11 @@ public class EOClientUnlimitsTagItem extends EOCustObject {
 		this.year = year;
 	}
 
-	public EOClientUnlimitsTag getUnlimitsTag() {
+	public EOCustUnlimitsTag getUnlimitsTag() {
 		return unlimitsTag;
 	}
 
-	public void setUnlimitsTag(EOClientUnlimitsTag UnlimitsTag) {
+	public void setUnlimitsTag(EOCustUnlimitsTag UnlimitsTag) {
 		this.unlimitsTag = UnlimitsTag;
 	}
 	

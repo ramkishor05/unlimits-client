@@ -18,46 +18,46 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.mapper.ClientUnlimitsTagMapper;
-import com.brijframework.client.repository.ClientUnlimitsTagRepository;
+import com.brijframework.client.mapper.CustUnlimitsTagMapper;
+import com.brijframework.client.repository.CustUnlimitsTagRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
+import com.brijframework.client.unlimits.model.UICustUnlimitsTag;
 
 /**
  * @author omnie
  */
 @Service
-public class GlobalClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>
-		implements GlobalClientUnlimitsTagService {
+public class GlobalUnlimitsTagServiceImpl extends CrudServiceImpl<UICustUnlimitsTag, EOCustUnlimitsTag, Long>
+		implements GlobalCustUnlimitsTagService {
 
 	@Autowired
-	private ClientUnlimitsTagRepository clientUnlimitsTagRepository;
+	private CustUnlimitsTagRepository custUnlimitsTagRepository;
 	
 	@Autowired
 	private CustBusinessAppRepository custBusinessAppRepository;
 
 	@Autowired
-	private ClientUnlimitsTagMapper clientUnlimitsTagMapper;
+	private CustUnlimitsTagMapper clientUnlimitsTagMapper;
 
 	@Override
-	public JpaRepository<EOClientUnlimitsTag, Long> getRepository() {
-		return clientUnlimitsTagRepository;
+	public JpaRepository<EOCustUnlimitsTag, Long> getRepository() {
+		return custUnlimitsTagRepository;
 	}
 
 	@Override
-	public GenericMapper<EOClientUnlimitsTag, UIClientUnlimitsTag> getMapper() {
+	public GenericMapper<EOCustUnlimitsTag, UICustUnlimitsTag> getMapper() {
 		return clientUnlimitsTagMapper;
 	}
 
 	@Override
-	public void preAdd(UIClientUnlimitsTag data, EOClientUnlimitsTag entity, Map<String, List<String>> headers) {
+	public void preAdd(UICustUnlimitsTag data, EOCustUnlimitsTag entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
 		}
 		if(StringUtil.isEmpty(data.getName())) {
-			int maxTransactionId = clientUnlimitsTagRepository.getMaxTransactionId(eoCustBusinessApp.getId());
+			int maxTransactionId = custUnlimitsTagRepository.getMaxTransactionId(eoCustBusinessApp.getId());
 			data.setName(MY_UNLIMITS+maxTransactionId);
 			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
@@ -66,7 +66,7 @@ public class GlobalClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public void postAdd(UIClientUnlimitsTag data, EOClientUnlimitsTag entity) {
+	public void postAdd(UICustUnlimitsTag data, EOCustUnlimitsTag entity) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -76,13 +76,13 @@ public class GlobalClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public void preUpdate(UIClientUnlimitsTag data, EOClientUnlimitsTag entity, Map<String, List<String>> headers) {
+	public void preUpdate(UICustUnlimitsTag data, EOCustUnlimitsTag entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
 		}
 		if(StringUtil.isEmpty(data.getName())) {
-			int maxTransactionId = clientUnlimitsTagRepository.getMaxTransactionId(eoCustBusinessApp.getId());
+			int maxTransactionId = custUnlimitsTagRepository.getMaxTransactionId(eoCustBusinessApp.getId());
 			data.setName(MY_UNLIMITS+maxTransactionId);
 			entity.setName(MY_UNLIMITS+maxTransactionId);
 		}
@@ -91,7 +91,7 @@ public class GlobalClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public void postUpdate(UIClientUnlimitsTag data, EOClientUnlimitsTag entity, Map<String, List<String>> headers) {
+	public void postUpdate(UICustUnlimitsTag data, EOCustUnlimitsTag entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -101,7 +101,7 @@ public class GlobalClientUnlimitsTagServiceImpl extends CrudServiceImpl<UIClient
 	}
 	
 	@Override
-	public UIClientUnlimitsTag getCurrent( Map<String, List<String>> headers) {
+	public UICustUnlimitsTag getCurrent( Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");

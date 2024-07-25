@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.unlimits.device.service;
+package com.brijframework.client.unlimits.global.service;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import com.brijframework.client.unlimits.model.UICustUnlimitsImage;
 /**
  *  @author omnie
  */
-public interface DeviceClientUnlimitsImageService extends CrudService<UICustUnlimitsImage, EOCustUnlimitsImage, Long>{
+public interface GlobalCustUnlimitsImageService extends CrudService<UICustUnlimitsImage, EOCustUnlimitsImage, Long>{
 
 	UICustUnlimitsImage getCurrent(Map<String, List<String>> headers);
 

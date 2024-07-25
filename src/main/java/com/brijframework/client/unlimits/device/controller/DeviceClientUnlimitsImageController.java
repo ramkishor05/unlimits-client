@@ -15,8 +15,8 @@ import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
 import com.brijframework.client.unlimits.device.service.DeviceClientUnlimitsImageService;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsImage;
+import com.brijframework.client.unlimits.model.UICustUnlimitsImage;
 
 /**
  *  @author omnie
@@ -24,13 +24,13 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
 @RestController
 @RequestMapping({ "/api/device/client/unlimits/image", "/api/client/unlimits/image"})
 @CrossOrigin("*")
-public class DeviceClientUnlimitsImageController implements CrudController<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>{
+public class DeviceClientUnlimitsImageController implements CrudController<UICustUnlimitsImage, EOCustUnlimitsImage, Long>{
 	
 	@Autowired
 	private DeviceClientUnlimitsImageService clientUnlimitsImageService;
 
 	@Override
-	public CrudService<UIClientUnlimitsImage, EOClientUnlimitsImage, Long> getService() {
+	public CrudService<UICustUnlimitsImage, EOCustUnlimitsImage, Long> getService() {
 		return clientUnlimitsImageService;
 	}
 	

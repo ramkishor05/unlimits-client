@@ -20,15 +20,15 @@ import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientUnlimitsExampleMapper;
 import com.brijframework.client.repository.ClientUnlimitsExampleRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
+import com.brijframework.client.unlimits.model.UICustUnlimitsExample;
 
 /**
  * @author omnie
  */
 @Service
-public class GlobalClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>
-		implements GlobalClientUnlimitsExampleService {
+public class GlobalClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICustUnlimitsExample, EOCustUnlimitsExample, Long>
+		implements GlobalCustUnlimitsExampleService {
 
 	@Autowired
 	private ClientUnlimitsExampleRepository clientUnlimitsExampleRepository;
@@ -41,17 +41,17 @@ public class GlobalClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	private ClientUnlimitsExampleMapper clientUnlimitsExampleMapper;
 
 	@Override
-	public JpaRepository<EOClientUnlimitsExample, Long> getRepository() {
+	public JpaRepository<EOCustUnlimitsExample, Long> getRepository() {
 		return clientUnlimitsExampleRepository;
 	}
 
 	@Override
-	public GenericMapper<EOClientUnlimitsExample, UIClientUnlimitsExample> getMapper() {
+	public GenericMapper<EOCustUnlimitsExample, UICustUnlimitsExample> getMapper() {
 		return clientUnlimitsExampleMapper;
 	}
 
 	@Override
-	public void preAdd(UIClientUnlimitsExample data, EOClientUnlimitsExample entity, Map<String, List<String>> headers) {
+	public void preAdd(UICustUnlimitsExample data, EOCustUnlimitsExample entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -65,7 +65,7 @@ public class GlobalClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public void postAdd(UIClientUnlimitsExample data, EOClientUnlimitsExample entity) {
+	public void postAdd(UICustUnlimitsExample data, EOCustUnlimitsExample entity) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -75,7 +75,7 @@ public class GlobalClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public void preUpdate(UIClientUnlimitsExample data, EOClientUnlimitsExample entity, Map<String, List<String>> headers) {
+	public void preUpdate(UICustUnlimitsExample data, EOCustUnlimitsExample entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -89,7 +89,7 @@ public class GlobalClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public void postUpdate(UIClientUnlimitsExample data, EOClientUnlimitsExample entity, Map<String, List<String>> headers) {
+	public void postUpdate(UICustUnlimitsExample data, EOCustUnlimitsExample entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -99,7 +99,7 @@ public class GlobalClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public UIClientUnlimitsExample getCurrent( Map<String, List<String>> headers) {
+	public UICustUnlimitsExample getCurrent( Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");

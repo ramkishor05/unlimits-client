@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
-import com.brijframework.client.unlimits.entities.EOClientJournal;
-import com.brijframework.client.unlimits.global.service.GlobalClientJournalService;
-import com.brijframework.client.unlimits.model.UIClientJournalItem;
+import com.brijframework.client.unlimits.entities.EOCustJournal;
+import com.brijframework.client.unlimits.global.service.GlobalCustJournalService;
+import com.brijframework.client.unlimits.model.UICustJournalItem;
 
 import io.swagger.v3.oas.annotations.Hidden;
 
@@ -20,16 +20,16 @@ import io.swagger.v3.oas.annotations.Hidden;
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/global/client/journals")
+@RequestMapping(value = "/api/global/journals")
 @CrossOrigin("*")
 @Hidden
-public class GlobalClientJournalController implements CrudController<UIClientJournalItem, EOClientJournal, Long>{
+public class GlobalCustJournalController implements CrudController<UICustJournalItem, EOCustJournal, Long>{
 	
 	@Autowired
-	private GlobalClientJournalService clientJournalService;
+	private GlobalCustJournalService globalCustJournalService;
 
 	@Override
-	public CrudService<UIClientJournalItem, EOClientJournal, Long> getService() {
-		return clientJournalService;
+	public CrudService<UICustJournalItem, EOCustJournal, Long> getService() {
+		return globalCustJournalService;
 	}
 }

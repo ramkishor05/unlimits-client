@@ -31,7 +31,7 @@ public class EOClientUnlimitsExampleItem extends EOCustObject {
 
 	@JoinColumn(name = "UNLIMITS_EXAMPLE_ID", referencedColumnName = "ID")
 	@ManyToOne
-	private EOClientUnlimitsExample unlimitsExample;
+	private EOCustUnlimitsExample unlimitsExample;
 
 	public String getImageId() {
 		return imageId;
@@ -49,11 +49,11 @@ public class EOClientUnlimitsExampleItem extends EOCustObject {
 		this.imageUrl = imageUrl;
 	}
 
-	public EOClientUnlimitsExample getUnlimitsExample() {
+	public EOCustUnlimitsExample getUnlimitsExample() {
 		return unlimitsExample;
 	}
 
-	public void setUnlimitsExample(EOClientUnlimitsExample unlimitsExample) {
+	public void setUnlimitsExample(EOCustUnlimitsExample unlimitsExample) {
 		this.unlimitsExample = unlimitsExample;
 	}
 

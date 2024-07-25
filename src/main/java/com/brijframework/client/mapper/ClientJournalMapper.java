@@ -11,8 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
-import com.brijframework.client.unlimits.entities.EOClientJournal;
-import com.brijframework.client.unlimits.model.UIClientJournalItem;
+import com.brijframework.client.unlimits.entities.EOCustJournal;
+import com.brijframework.client.unlimits.model.UICustJournalItem;
 import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY;
 
 /**
@@ -20,13 +20,13 @@ import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_
  */
 
 @Mapper(componentModel = SPRING, implementationPackage = APP_CLIENT_PACKAGE_IMPL, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClientJournalMapper extends GenericMapper<EOClientJournal, UIClientJournalItem>{
+public interface ClientJournalMapper extends GenericMapper<EOCustJournal, UICustJournalItem>{
 
 	@Override
 	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = UI_DATE_FORMAT_MMMM_DD_YYYY)
-    UIClientJournalItem mapToDTO(EOClientJournal e) ;
+    UICustJournalItem mapToDTO(EOCustJournal e) ;
 	
 	@Override
 	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = UI_DATE_FORMAT_MMMM_DD_YYYY)
-    EOClientJournal mapToDAO(UIClientJournalItem d);
+    EOCustJournal mapToDAO(UICustJournalItem d);
 }

@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "EOCLIENT_UNLIMITS_IMAGE")
-public class EOClientUnlimitsImage extends EOClientUnlimits {
+public class EOCustUnlimitsImage extends EOClientUnlimits {
 
 	/**
 	 * 

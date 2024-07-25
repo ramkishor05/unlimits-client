@@ -10,15 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.unlimits.rest.repository.CustomRepository;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
-import com.brijframework.client.unlimits.entities.EOClientJournal;
+import com.brijframework.client.unlimits.entities.EOCustJournal;
 
 /**
  *  @author omnie
  */
 @Repository
 @Transactional
-public interface ClientJournalRepository extends CustomRepository<EOClientJournal, Long>{
+public interface ClientJournalRepository extends CustomRepository<EOCustJournal, Long>{
 
-	List<EOClientJournal> findAllByCustBusinessAppAndJournalId(EOCustBusinessApp eoCustBusinessApp, Long journalId);
+	List<EOCustJournal> findAllByCustBusinessAppAndJournalId(EOCustBusinessApp eoCustBusinessApp, Long journalId);
 	
 }

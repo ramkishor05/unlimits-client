@@ -20,15 +20,15 @@ import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientUnlimitsImageMapper;
 import com.brijframework.client.repository.ClientUnlimitsImageRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsImage;
+import com.brijframework.client.unlimits.model.UICustUnlimitsImage;
 
 /**
  * @author omnie
  */
 @Service
-public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>
-		implements GlobalClientUnlimitsImageService {
+public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UICustUnlimitsImage, EOCustUnlimitsImage, Long>
+		implements GlobalCustUnlimitsImageService {
 
 	@Autowired
 	private ClientUnlimitsImageRepository clientUnlimitsImageRepository;
@@ -40,17 +40,17 @@ public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	private ClientUnlimitsImageMapper clientUnlimitsImageMapper;
 
 	@Override
-	public JpaRepository<EOClientUnlimitsImage, Long> getRepository() {
+	public JpaRepository<EOCustUnlimitsImage, Long> getRepository() {
 		return clientUnlimitsImageRepository;
 	}
 
 	@Override
-	public GenericMapper<EOClientUnlimitsImage, UIClientUnlimitsImage> getMapper() {
+	public GenericMapper<EOCustUnlimitsImage, UICustUnlimitsImage> getMapper() {
 		return clientUnlimitsImageMapper;
 	}
 
 	@Override
-	public void preAdd(UIClientUnlimitsImage data, EOClientUnlimitsImage entity, Map<String, List<String>> headers) {
+	public void preAdd(UICustUnlimitsImage data, EOCustUnlimitsImage entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -65,7 +65,7 @@ public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	public void postAdd(UIClientUnlimitsImage data, EOClientUnlimitsImage entity) {
+	public void postAdd(UICustUnlimitsImage data, EOCustUnlimitsImage entity) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -75,7 +75,7 @@ public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	public void preUpdate(UIClientUnlimitsImage data, EOClientUnlimitsImage entity, Map<String, List<String>> headers) {
+	public void preUpdate(UICustUnlimitsImage data, EOCustUnlimitsImage entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -90,7 +90,7 @@ public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	public void postUpdate(UIClientUnlimitsImage data, EOClientUnlimitsImage entity, Map<String, List<String>> headers) {
+	public void postUpdate(UICustUnlimitsImage data, EOCustUnlimitsImage entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");
@@ -100,7 +100,7 @@ public class GlobalClientUnlimitsImageServiceImpl extends CrudServiceImpl<UIClie
 	}
 	
 	@Override
-	public UIClientUnlimitsImage getCurrent( Map<String, List<String>> headers) {
+	public UICustUnlimitsImage getCurrent( Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException("Invalid client");

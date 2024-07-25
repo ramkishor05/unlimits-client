@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "EOCLIENT_UNLIMITS_EXAMPLE")
-public class EOClientUnlimitsExample extends EOClientUnlimits {
+public class EOCustUnlimitsExample extends EOClientUnlimits {
 
 	/**
 	 * 

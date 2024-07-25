@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(value = Include.NON_NULL)
-public class UIClientUnlimitsImage extends UIClientUnlimits {
+public class UICustUnlimitsImage extends UIClientUnlimits {
 
 	private List<UIClientUnlimitsImageItem> imageItems;
 

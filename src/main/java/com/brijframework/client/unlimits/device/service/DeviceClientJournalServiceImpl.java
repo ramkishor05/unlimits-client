@@ -29,8 +29,8 @@ import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientJournalMapper;
 import com.brijframework.client.repository.ClientJournalRepository;
-import com.brijframework.client.unlimits.entities.EOClientJournal;
-import com.brijframework.client.unlimits.model.UIClientJournalItem;
+import com.brijframework.client.unlimits.entities.EOCustJournal;
+import com.brijframework.client.unlimits.model.UICustJournalItem;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 import jakarta.persistence.criteria.Path;
@@ -39,7 +39,7 @@ import jakarta.persistence.criteria.Path;
  * @author omnie
  */
 @Service
-public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJournalItem, EOClientJournal, Long>
+public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UICustJournalItem, EOCustJournal, Long>
 		implements DeviceClientJournalService {
 
 	private static final String JOURNAL_DATE = "journalDate";
@@ -51,24 +51,24 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	private ClientJournalMapper clientJournalMapper;
 
 	@Override
-	public JpaRepository<EOClientJournal, Long> getRepository() {
+	public JpaRepository<EOCustJournal, Long> getRepository() {
 		return clientJournalRepository;
 	}
 
 	@Override
-	public GenericMapper<EOClientJournal, UIClientJournalItem> getMapper() {
+	public GenericMapper<EOCustJournal, UICustJournalItem> getMapper() {
 		return clientJournalMapper;
 	}
 	
 	{
-		CustomPredicate<EOClientJournal> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+		CustomPredicate<EOCustJournal> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
 			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
 			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
 			custBusinessAppIn.value(filter.getColumnValue());
 			return custBusinessAppIn;
 		};
 		
-		CustomPredicate<EOClientJournal> journalDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+		CustomPredicate<EOCustJournal> journalDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
 			Path<Date> journalDatePath = root.get(JOURNAL_DATE);
 			In<Object> journalDatepIn = criteriaBuilder.in(journalDatePath);
 			DateFormat timeFormat = new SimpleDateFormat(UI_DATE_FORMAT_MMMM_DD_YYYY);
@@ -87,13 +87,13 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public void preAdd(UIClientJournalItem data, EOClientJournal entity,
+	public void preAdd(UICustJournalItem data, EOCustJournal entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
 		}
-		List<EOClientJournal> findClientJournalList = clientJournalRepository.findAllByCustBusinessAppAndJournalId(eoCustBusinessApp, entity.getJournalId());
+		List<EOCustJournal> findClientJournalList = clientJournalRepository.findAllByCustBusinessAppAndJournalId(eoCustBusinessApp, entity.getJournalId());
 		if(!CollectionUtils.isEmpty(findClientJournalList)) {
 			entity.setId(findClientJournalList.get(0).getId());
 		}
@@ -101,13 +101,13 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public void preUpdate(UIClientJournalItem data, EOClientJournal entity,
+	public void preUpdate(UICustJournalItem data, EOCustJournal entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
 		}
-		List<EOClientJournal> findClientJournalList = clientJournalRepository.findAllByCustBusinessAppAndJournalId(eoCustBusinessApp, entity.getJournalId());
+		List<EOCustJournal> findClientJournalList = clientJournalRepository.findAllByCustBusinessAppAndJournalId(eoCustBusinessApp, entity.getJournalId());
 		if(!CollectionUtils.isEmpty(findClientJournalList)) {
 			entity.setId(findClientJournalList.get(0).getId());
 		}
@@ -115,7 +115,7 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
+	public List<EOCustJournal> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -125,7 +125,7 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public Page<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
+	public Page<EOCustJournal> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -135,7 +135,7 @@ public class DeviceClientJournalServiceImpl extends CrudServiceImpl<UIClientJour
 	}
 
 	@Override
-	public List<EOClientJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
+	public List<EOCustJournal> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException(INVALID_CLIENT);

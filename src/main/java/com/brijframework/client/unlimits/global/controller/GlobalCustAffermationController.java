@@ -14,9 +14,9 @@ import org.unlimits.rest.crud.beans.Response;
 import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
-import com.brijframework.client.unlimits.global.service.GlobalClientUnlimitsImageService;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsImage;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
+import com.brijframework.client.unlimits.global.service.GlobalCustUnlimitsTagService;
+import com.brijframework.client.unlimits.model.UICustUnlimitsTag;
 
 import io.swagger.v3.oas.annotations.Hidden;
 
@@ -24,24 +24,24 @@ import io.swagger.v3.oas.annotations.Hidden;
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/global/client/unlimits/image")
+@RequestMapping(value = "/api/global/affermation")
 @CrossOrigin("*")
 @Hidden
-public class GlobalClientUnlimitsImageController implements CrudController<UIClientUnlimitsImage, EOClientUnlimitsImage, Long>{
+public class GlobalCustAffermationController implements CrudController<UICustUnlimitsTag, EOCustUnlimitsTag, Long>{
 	
 	@Autowired
-	private GlobalClientUnlimitsImageService clientUnlimitsImageService;
+	private GlobalCustUnlimitsTagService unlimitsTagService;
 
 	@Override
-	public CrudService<UIClientUnlimitsImage, EOClientUnlimitsImage, Long> getService() {
-		return clientUnlimitsImageService;
+	public CrudService<UICustUnlimitsTag, EOCustUnlimitsTag, Long> getService() {
+		return unlimitsTagService;
 	}
 	
     @GetMapping("/current")
 	public Response getCuurent(@RequestHeader(required =false)  MultiValueMap<String,String> headers){
     	Response response=new Response();
 		try {
-			response.setData(clientUnlimitsImageService.getCurrent(headers));
+			response.setData(unlimitsTagService.getCurrent(headers));
 			response.setSuccess(SUCCESS);
 			response.setMessage(SUCCESSFULLY_PROCCEED);
 			return response;

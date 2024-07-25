@@ -33,9 +33,9 @@ import com.brijframework.client.mapper.ClientUnlimitsExampleMapper;
 import com.brijframework.client.repository.ClientUnlimitsExampleItemRepository;
 import com.brijframework.client.repository.ClientUnlimitsExampleRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsExampleItem;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
+import com.brijframework.client.unlimits.model.UICustUnlimitsExample;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 import jakarta.persistence.criteria.Path;
@@ -44,7 +44,7 @@ import jakarta.persistence.criteria.Path;
  * @author omnie
  */
 @Service
-public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>
+public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICustUnlimitsExample, EOCustUnlimitsExample, Long>
 		implements DeviceClientUnlimitsExampleService {
 
 	private static final String EXAMPLE_DATE = "exampleDate";
@@ -65,24 +65,24 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	private ClientUnlimitsExampleItemMapper clientUnlimitsExampleItemMapper;
 
 	@Override
-	public JpaRepository<EOClientUnlimitsExample, Long> getRepository() {
+	public JpaRepository<EOCustUnlimitsExample, Long> getRepository() {
 		return clientUnlimitsExampleRepository;
 	}
 
 	@Override
-	public GenericMapper<EOClientUnlimitsExample, UIClientUnlimitsExample> getMapper() {
+	public GenericMapper<EOCustUnlimitsExample, UICustUnlimitsExample> getMapper() {
 		return clientUnlimitsExampleMapper;
 	}
 	
 	{
-		CustomPredicate<EOClientUnlimitsExample> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+		CustomPredicate<EOCustUnlimitsExample> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
 			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
 			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
 			custBusinessAppIn.value(filter.getColumnValue());
 			return custBusinessAppIn;
 		};
 		
-		CustomPredicate<EOClientUnlimitsExample> exampleDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+		CustomPredicate<EOCustUnlimitsExample> exampleDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
 			Path<Date> exampleDatePath = root.get(EXAMPLE_DATE);
 			In<Object> exampleDateIn = criteriaBuilder.in(exampleDatePath);
 			DateFormat timeFormat = new SimpleDateFormat(UI_DATE_FORMAT_MMMM_DD_YYYY);
@@ -101,7 +101,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 
 	@Override
-	public void preAdd(UIClientUnlimitsExample data, EOClientUnlimitsExample entity, Map<String, List<String>> headers) {
+	public void preAdd(UICustUnlimitsExample data, EOCustUnlimitsExample entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -115,7 +115,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public void postAdd(UIClientUnlimitsExample data, EOClientUnlimitsExample entity) {
+	public void postAdd(UICustUnlimitsExample data, EOCustUnlimitsExample entity) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -125,7 +125,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public void preUpdate(UIClientUnlimitsExample data, EOClientUnlimitsExample entity, Map<String, List<String>> headers) {
+	public void preUpdate(UICustUnlimitsExample data, EOCustUnlimitsExample entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -139,7 +139,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public void postUpdate(UIClientUnlimitsExample data, EOClientUnlimitsExample entity, Map<String, List<String>> headers) {
+	public void postUpdate(UICustUnlimitsExample data, EOCustUnlimitsExample entity, Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -149,8 +149,8 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public void merge(UIClientUnlimitsExample dtoObject, EOClientUnlimitsExample entityObject,
-			UIClientUnlimitsExample updateDtoObject, EOClientUnlimitsExample updateEntityObject,
+	public void merge(UICustUnlimitsExample dtoObject, EOCustUnlimitsExample entityObject,
+			UICustUnlimitsExample updateDtoObject, EOCustUnlimitsExample updateEntityObject,
 			Map<String, List<String>> headers) {
 		List<EOClientUnlimitsExampleItem> exampleItems = clientUnlimitsExampleItemMapper.mapToDAO(dtoObject.getExampleItems());
 		exampleItems.forEach(item->item.setUnlimitsExample(updateEntityObject));
@@ -159,7 +159,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public UIClientUnlimitsExample getCurrent( Map<String, List<String>> headers) {
+	public UICustUnlimitsExample getCurrent( Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if(eoCustBusinessApp==null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -168,7 +168,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 	
 	@Override
-	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
+	public List<EOCustUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -178,7 +178,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 
 	@Override
-	public Page<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
+	public Page<EOCustUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Pageable pageable, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException(INVALID_CLIENT);
@@ -188,7 +188,7 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICl
 	}
 
 	@Override
-	public List<EOClientUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
+	public List<EOCustUnlimitsExample> repositoryFindAll(Map<String, List<String>> headers, Sort sort, Map<String, Object> filters) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
 		if (eoCustBusinessApp == null) {
 			throw new UserNotFoundException(INVALID_CLIENT);

@@ -23,7 +23,7 @@ import jakarta.persistence.TemporalType;
  */
 @Entity
 @Table(name = "EOCLIENT_JOURNAL")
-public class EOClientJournal extends EOCustObject {
+public class EOCustJournal extends EOCustObject {
 
 	/**
 	 * 

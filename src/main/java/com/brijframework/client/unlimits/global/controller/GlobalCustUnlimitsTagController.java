@@ -14,9 +14,9 @@ import org.unlimits.rest.crud.beans.Response;
 import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
-import com.brijframework.client.unlimits.global.service.GlobalClientUnlimitsExampleService;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
+import com.brijframework.client.unlimits.global.service.GlobalCustUnlimitsTagService;
+import com.brijframework.client.unlimits.model.UICustUnlimitsTag;
 
 import io.swagger.v3.oas.annotations.Hidden;
 
@@ -24,24 +24,24 @@ import io.swagger.v3.oas.annotations.Hidden;
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/global/client/unlimits/example")
+@RequestMapping(value = "/api/global/unlimits/tag")
 @CrossOrigin("*")
 @Hidden
-public class GlobalClientUnlimitsExampleController implements CrudController<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>{
+public class GlobalCustUnlimitsTagController implements CrudController<UICustUnlimitsTag, EOCustUnlimitsTag, Long>{
 	
 	@Autowired
-	private GlobalClientUnlimitsExampleService clientUnlimitsExampleService;
+	private GlobalCustUnlimitsTagService globalCustUnlimitsTagService;
 
 	@Override
-	public CrudService<UIClientUnlimitsExample, EOClientUnlimitsExample, Long> getService() {
-		return clientUnlimitsExampleService;
+	public CrudService<UICustUnlimitsTag, EOCustUnlimitsTag, Long> getService() {
+		return globalCustUnlimitsTagService;
 	}
 	
     @GetMapping("/current")
 	public Response getCuurent(@RequestHeader(required =false)  MultiValueMap<String,String> headers){
     	Response response=new Response();
 		try {
-			response.setData(clientUnlimitsExampleService.getCurrent(headers));
+			response.setData(globalCustUnlimitsTagService.getCurrent(headers));
 			response.setSuccess(SUCCESS);
 			response.setMessage(SUCCESSFULLY_PROCCEED);
 			return response;

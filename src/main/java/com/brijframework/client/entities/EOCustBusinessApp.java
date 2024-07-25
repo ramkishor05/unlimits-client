@@ -6,9 +6,9 @@ import static com.brijframework.client.constants.TableConstants.EOCUST_BUSINESS_
 
 import org.unlimits.rest.crud.beans.IUserAccount;
 
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsImage;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsImage;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,15 +37,15 @@ public class EOCustBusinessApp extends EOCustObject implements IUserAccount{
 	
 	@JoinColumn(name = "CURRENT_UNLIMITS_TAG_ID")
 	@OneToOne
-	private EOClientUnlimitsTag clientUnlimitsTag;
+	private EOCustUnlimitsTag clientUnlimitsTag;
 	
 	@JoinColumn(name = "CURRENT_UNLIMITS_IMAGE_ID")
 	@OneToOne
-	private EOClientUnlimitsImage clientUnlimitsImage;
+	private EOCustUnlimitsImage clientUnlimitsImage;
 	
 	@JoinColumn(name = "CURRENT_UNLIMITS_EXAMPLE_ID")
 	@OneToOne
-	private EOClientUnlimitsExample clientUnlimitsExample;
+	private EOCustUnlimitsExample clientUnlimitsExample;
 	
 	public EOCustBusinessApp() {
 	}
@@ -81,27 +81,27 @@ public class EOCustBusinessApp extends EOCustObject implements IUserAccount{
 		this.businessId = businessId;
 	}
 
-	public EOClientUnlimitsTag getClientUnlimitsTag() {
+	public EOCustUnlimitsTag getClientUnlimitsTag() {
 		return clientUnlimitsTag;
 	}
 
-	public void setClientUnlimitsTag(EOClientUnlimitsTag clientUnlimitsTag) {
+	public void setClientUnlimitsTag(EOCustUnlimitsTag clientUnlimitsTag) {
 		this.clientUnlimitsTag = clientUnlimitsTag;
 	}
 
-	public EOClientUnlimitsImage getClientUnlimitsImage() {
+	public EOCustUnlimitsImage getClientUnlimitsImage() {
 		return clientUnlimitsImage;
 	}
 
-	public void setClientUnlimitsImage(EOClientUnlimitsImage clientUnlimitsImage) {
+	public void setClientUnlimitsImage(EOCustUnlimitsImage clientUnlimitsImage) {
 		this.clientUnlimitsImage = clientUnlimitsImage;
 	}
 
-	public EOClientUnlimitsExample getClientUnlimitsExample() {
+	public EOCustUnlimitsExample getClientUnlimitsExample() {
 		return clientUnlimitsExample;
 	}
 
-	public void setClientUnlimitsExample(EOClientUnlimitsExample clientUnlimitsExample) {
+	public void setClientUnlimitsExample(EOCustUnlimitsExample clientUnlimitsExample) {
 		this.clientUnlimitsExample = clientUnlimitsExample;
 	}
 	

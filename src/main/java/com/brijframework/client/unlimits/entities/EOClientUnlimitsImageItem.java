@@ -35,7 +35,7 @@ public class EOClientUnlimitsImageItem extends EOCustObject {
 
 	@JoinColumn(name = "UNLIMITS_IMAGE_ID", referencedColumnName = "ID")
 	@ManyToOne
-	private EOClientUnlimitsImage unlimitsImage;
+	private EOCustUnlimitsImage unlimitsImage;
 
 	public String getImageId() {
 		return imageId;
@@ -53,11 +53,11 @@ public class EOClientUnlimitsImageItem extends EOCustObject {
 		this.imageUrl = imageUrl;
 	}
 
-	public EOClientUnlimitsImage getUnlimitsImage() {
+	public EOCustUnlimitsImage getUnlimitsImage() {
 		return unlimitsImage;
 	}
 
-	public void setUnlimitsImage(EOClientUnlimitsImage unlimitsImage) {
+	public void setUnlimitsImage(EOCustUnlimitsImage unlimitsImage) {
 		this.unlimitsImage = unlimitsImage;
 	}
 

@@ -15,8 +15,8 @@ import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
 import com.brijframework.client.unlimits.device.service.DeviceClientUnlimitsTagService;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsTag;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
+import com.brijframework.client.unlimits.model.UICustUnlimitsTag;
 
 /**
  *  @author omnie
@@ -24,13 +24,13 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsTag;
 @RestController
 @RequestMapping({"/api/device/client/unlimits/tag","/api/client/unlimits/tag"})
 @CrossOrigin("*")
-public class DeviceClientUnlimitsTagController implements CrudController<UIClientUnlimitsTag, EOClientUnlimitsTag, Long>{
+public class DeviceClientUnlimitsTagController implements CrudController<UICustUnlimitsTag, EOCustUnlimitsTag, Long>{
 	
 	@Autowired
 	private DeviceClientUnlimitsTagService clientUnlimitsTagService;
 
 	@Override
-	public CrudService<UIClientUnlimitsTag, EOClientUnlimitsTag, Long> getService() {
+	public CrudService<UICustUnlimitsTag, EOCustUnlimitsTag, Long> getService() {
 		return clientUnlimitsTagService;
 	}
 	

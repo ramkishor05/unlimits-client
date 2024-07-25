@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.unlimits.rest.repository.CustomRepository;
 
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
 
 /**
  *  @author omnie
  */
 @Repository
 @Transactional
-public interface ClientUnlimitsExampleRepository extends CustomRepository<EOClientUnlimitsExample, Long>{
+public interface ClientUnlimitsExampleRepository extends CustomRepository<EOCustUnlimitsExample, Long>{
 
 	
 	@Query(nativeQuery = true,  value = "SELECT COALESCE(MAX(id), 0)+1 FROM EOCLIENT_UNLIMITS_EXAMPLE where CUST_BUSINESS_APP_ID=?1")

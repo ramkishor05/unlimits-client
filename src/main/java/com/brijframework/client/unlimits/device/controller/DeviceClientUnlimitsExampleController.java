@@ -15,8 +15,8 @@ import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
 import com.brijframework.client.unlimits.device.service.DeviceClientUnlimitsExampleService;
-import com.brijframework.client.unlimits.entities.EOClientUnlimitsExample;
-import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
+import com.brijframework.client.unlimits.model.UICustUnlimitsExample;
 
 /**
  *  @author omnie
@@ -24,13 +24,13 @@ import com.brijframework.client.unlimits.model.UIClientUnlimitsExample;
 @RestController
 @RequestMapping({"/api/device/client/unlimits/example", "/api/client/unlimits/example"})
 @CrossOrigin("*")
-public class DeviceClientUnlimitsExampleController implements CrudController<UIClientUnlimitsExample, EOClientUnlimitsExample, Long>{
+public class DeviceClientUnlimitsExampleController implements CrudController<UICustUnlimitsExample, EOCustUnlimitsExample, Long>{
 	
 	@Autowired
 	private DeviceClientUnlimitsExampleService clientUnlimitsExampleService;
 
 	@Override
-	public CrudService<UIClientUnlimitsExample, EOClientUnlimitsExample, Long> getService() {
+	public CrudService<UICustUnlimitsExample, EOCustUnlimitsExample, Long> getService() {
 		return clientUnlimitsExampleService;
 	}
 	
