@@ -15,6 +15,8 @@ public class PromptLibarary implements Serializable {
 	private String idenNo;
 
 	private String title;
+	
+	private String description;
 
 	private String name;
 
@@ -48,6 +50,14 @@ public class PromptLibarary implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Long getSubCategoryId() {
