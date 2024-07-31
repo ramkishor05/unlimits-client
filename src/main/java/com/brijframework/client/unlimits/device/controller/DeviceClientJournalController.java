@@ -2,6 +2,7 @@
  * 
  */
 package com.brijframework.client.unlimits.device.controller;
+import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -38,14 +39,14 @@ public class DeviceClientJournalController implements CrudController<UICustJourn
 	
 	@Override
 	public Object customizedResponse(List<UICustJournalItem> values) {
-		SimpleDateFormat dateFormat=new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat dateFormat=new SimpleDateFormat(UI_DATE_FORMAT_MMMM_DD_YYYY);
 		return values.stream().collect(Collectors.groupingBy(UICustJournalItem::toJournalDate)).entrySet().stream().map(entry->new UIClientJournalGroup(dateFormat.format(entry.getKey()), entry.getValue())).toList();
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object customizedResponse(PageDetail fetchPageObject) {
-		SimpleDateFormat dateFormat=new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat dateFormat=new SimpleDateFormat(UI_DATE_FORMAT_MMMM_DD_YYYY);
 		fetchPageObject.setElements(((List<UICustJournalItem>)fetchPageObject.getElements()).stream().collect(Collectors.groupingBy(UICustJournalItem::toJournalDate)).entrySet().stream().map(entry->new UIClientJournalGroup(dateFormat.format(entry.getKey()), entry.getValue())).toList());
 		return fetchPageObject;
 	}
