@@ -3,7 +3,8 @@
  */
 package com.brijframework.client.unlimits.device.service;
 
-import static com.brijframework.client.constants.ClientConstants.*;
+import static com.brijframework.client.constants.ClientConstants.CUST_BUSINESS_APP;
+import static com.brijframework.client.constants.ClientConstants.MY_UNLIMITS;
 
 import java.util.List;
 import java.util.Map;
@@ -22,13 +23,14 @@ import org.unlimits.rest.repository.CustomPredicate;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
+import com.brijframework.client.forgin.repository.PromptClient;
 import com.brijframework.client.mapper.ClientUnlimitsTagItemMapper;
 import com.brijframework.client.mapper.CustUnlimitsTagMapper;
 import com.brijframework.client.repository.ClientUnlimitsTagItemRepository;
-import com.brijframework.client.repository.CustUnlimitsTagRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
-import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
+import com.brijframework.client.repository.CustUnlimitsTagRepository;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsTagItem;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
 import com.brijframework.client.unlimits.model.UICustUnlimitsTag;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
@@ -56,6 +58,9 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UICustUn
 	
 	@Autowired
 	private ClientUnlimitsTagItemMapper clientUnlimitsTagItemMapper;
+	
+	@Autowired
+	private PromptClient promptClient;
 
 	@Override
 	public JpaRepository<EOCustUnlimitsTag, Long> getRepository() {
@@ -143,6 +148,12 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UICustUn
 			throw new UserNotFoundException("Invalid client");
 		}
 		return clientUnlimitsTagMapper.mapToDTO(eoCustBusinessApp.getClientUnlimitsTag());
+	}
+	
+	@Override
+	public List<UICustUnlimitsTag> postFetch(List<EOCustUnlimitsTag> findObjects) {
+
+		return super.postFetch(findObjects);
 	}
 	
 	@Override
