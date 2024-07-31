@@ -25,7 +25,7 @@ public class DeviceClientVisualizeController {
 	@Autowired
 	private DeviceClientVisualizeService clientVisualizeService;
 
-	@GetMapping("/year/{year}/type/{type}/unlimit/{unlimitId}")
+	@GetMapping
 	public UIClientVisualize  getVisualize(@RequestParam Integer year, @RequestParam UnlimitsType type,@RequestParam Long unlimitId) {
 		return clientVisualizeService.getVisualize(year, type, unlimitId);
 	}

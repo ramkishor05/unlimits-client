@@ -23,7 +23,6 @@ import org.unlimits.rest.repository.CustomPredicate;
 
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.repository.PromptClient;
 import com.brijframework.client.mapper.ClientUnlimitsTagItemMapper;
 import com.brijframework.client.mapper.CustUnlimitsTagMapper;
 import com.brijframework.client.repository.ClientUnlimitsTagItemRepository;
@@ -59,9 +58,6 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UICustUn
 	@Autowired
 	private ClientUnlimitsTagItemMapper clientUnlimitsTagItemMapper;
 	
-	@Autowired
-	private PromptClient promptClient;
-
 	@Override
 	public JpaRepository<EOCustUnlimitsTag, Long> getRepository() {
 		return clientUnlimitsTagRepository;
