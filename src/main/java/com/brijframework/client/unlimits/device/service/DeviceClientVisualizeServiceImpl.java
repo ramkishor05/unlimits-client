@@ -1,23 +1,37 @@
 package com.brijframework.client.unlimits.device.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 import org.brijframework.util.casting.DateUtil;
 import org.brijframework.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.brijframework.client.constants.ClientConstants;
-import com.brijframework.client.constants.UnlimitsType;
+import com.brijframework.client.forgin.model.ClientBoardingAnswer;
+import com.brijframework.client.forgin.model.ClientOnBoardingQuestion;
 import com.brijframework.client.forgin.model.PromptLibarary;
+import com.brijframework.client.forgin.repository.OnboardingClient;
 import com.brijframework.client.forgin.repository.PromptClient;
 import com.brijframework.client.repository.ClientUnlimitsExampleRepository;
 import com.brijframework.client.repository.ClientUnlimitsImageRepository;
 import com.brijframework.client.repository.CustUnlimitsTagRepository;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsExampleItem;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsImageItem;
+import com.brijframework.client.unlimits.entities.EOClientUnlimitsTagItem;
 import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
 import com.brijframework.client.unlimits.entities.EOCustUnlimitsImage;
 import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
-import com.brijframework.client.unlimits.model.UIClientVisualize;
+import com.brijframework.client.unlimits.model.UIClientUnlimits;
+import com.brijframework.client.unlimits.model.UIClientVisualizeRequest;
+import com.brijframework.client.unlimits.model.UIClientVisualizeResponse;
+import com.brijframework.client.unlimits.model.UICustUnlimitsExample;
+import com.brijframework.client.unlimits.model.UICustUnlimitsImage;
+import com.brijframework.client.unlimits.model.UICustUnlimitsTag;
 
 @Service
 public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeService {
@@ -33,61 +47,161 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 	
 	@Autowired
 	private PromptClient promptClient;
+	
+	@Autowired
+	private OnboardingClient onboardingClient;
+	
+	@Autowired
+	private DeviceClientUnlimitsTagService clientUnlimitsTagService;
+	
+	@Autowired
+	private DeviceClientUnlimitsImageService clientUnlimitsImageService;
+	
+	@Autowired
+	private DeviceClientUnlimitsExampleService clientUnlimitsExampleService;
+	
+	@Override
+	public List<UIClientUnlimits> findAll(Map<String, List<String>> headers, Map<String, Object> filters) {
+		List<UICustUnlimitsTag> custUnlimitsTags = clientUnlimitsTagService.findAll(headers, filters);
+		
+		List<UICustUnlimitsImage> custUnlimitsImages = clientUnlimitsImageService.findAll(headers, filters);
+		
+		List<UICustUnlimitsExample> custUnlimitsExamples = clientUnlimitsExampleService.findAll(headers, filters);
+		
+		return new ArrayList<UIClientUnlimits>() {/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+		{
+			addAll(custUnlimitsTags);
+			addAll(custUnlimitsImages);
+			addAll(custUnlimitsExamples);
+		}
+		};
+	}
+
 
 	@Override
-	public UIClientVisualize getVisualize(Integer year, UnlimitsType type, Long unlimitId) {
-		switch (type) {
+	public UIClientVisualizeResponse add(UIClientVisualizeRequest clientVisualizeRequest) {
+		switch (clientVisualizeRequest.getType()) {
 		case WORDS: {
-			return buildClientVisualizeByWords(year, unlimitId);
+			return buildClientVisualizeByWords(clientVisualizeRequest.getYear(), clientVisualizeRequest.getUnlimitId());
 		}
 		case IMAGE: {
-			return buildClientVisualizeByImage(year, unlimitId);
+			return buildClientVisualizeByImage(clientVisualizeRequest.getYear(), clientVisualizeRequest.getUnlimitId());
 		}
 		case EXAMPLE: {
-			return buildClientVisualizeByExample(year, unlimitId);
+			return buildClientVisualizeByExample(clientVisualizeRequest.getYear(), clientVisualizeRequest.getUnlimitId());
 		}
 		default:
-			throw new IllegalArgumentException("Unexpected value: " + type);
+			throw new IllegalArgumentException("Unexpected value: " + clientVisualizeRequest.getType());
 		}
 	}
-	
 
-	private UIClientVisualize buildClientVisualizeByWords(Integer year, Long unlimitId) {
+	private UIClientVisualizeResponse buildClientVisualizeByWords(Integer year, Long unlimitId) {
 		EOCustUnlimitsTag unlimitsTag = clientUnlimitsTagRepository.findById(unlimitId).orElseThrow(()-> new RuntimeException("Invalid unlimt!"));
 		Long subCategoryId = unlimitsTag.getSubCategoryId();
-		return buildClientVisualize(year, subCategoryId);
-	}
-	
-	private UIClientVisualize buildClientVisualizeByImage(Integer year, Long unlimitId) {
-		EOCustUnlimitsImage unlimitsImage = clientUnlimitsImageRepository.findById(unlimitId).orElseThrow(()-> new RuntimeException("Invalid unlimt!"));
-		Long subCategoryId = unlimitsImage.getSubCategoryId();
-		return buildClientVisualize(year, subCategoryId);
-	}
-	
-	private UIClientVisualize buildClientVisualizeByExample(Integer year, Long unlimitId) {
-		EOCustUnlimitsExample unlimitsExample = clientUnlimitsExampleRepository.findById(unlimitId).orElseThrow(()-> new RuntimeException("Invalid unlimt!"));
-		Long subCategoryId = unlimitsExample.getSubCategoryId();
-		return buildClientVisualize(year, subCategoryId);
+		UIClientVisualizeResponse buildClientVisualize = buildClientVisualize(year, subCategoryId);
+		List<EOClientUnlimitsTagItem> tagItems = unlimitsTag.getTagItems();
+		StringBuffer request=new StringBuffer(buildClientVisualize.getVisualizeRequest());
+		for(EOClientUnlimitsTagItem clientUnlimitsTagItem: tagItems) {
+			String tagName=clientUnlimitsTagItem.getTagName();
+			addTagNameFromTag(request, tagName);
+		}
+		return buildClientVisualize;
 	}
 
-	private UIClientVisualize buildClientVisualize(Integer year, Long subCategoryId) {
+
+	private boolean addTagNameFromTag(StringBuffer request, String tagName) {
+		if(StringUtil.isEmpty(tagName)) {
+			return false;
+		}
+		if(request.length()>0) {
+			request.append("\r\n");
+		}
+		request.append(tagName);
+		return true;
+	}
+	
+	private UIClientVisualizeResponse buildClientVisualizeByImage(Integer year, Long unlimitId) {
+		EOCustUnlimitsImage unlimitsImage = clientUnlimitsImageRepository.findById(unlimitId).orElseThrow(()-> new RuntimeException("Invalid unlimt!"));
+		Long subCategoryId = unlimitsImage.getSubCategoryId();
+		UIClientVisualizeResponse buildClientVisualize = buildClientVisualize(year, subCategoryId);
+		List<EOClientUnlimitsImageItem> imageItems = unlimitsImage.getImageItems();
+		StringBuffer request=new StringBuffer(buildClientVisualize.getVisualizeRequest());
+		for(EOClientUnlimitsImageItem clientUnlimitsImageItem: imageItems) {
+			String imageUrl=clientUnlimitsImageItem.getImageUrl();
+			addTagNameFromImage(request, imageUrl);
+		}
+		return buildClientVisualize;
+	}
+	
+	private UIClientVisualizeResponse buildClientVisualizeByExample(Integer year, Long unlimitId) {
+		EOCustUnlimitsExample unlimitsExample = clientUnlimitsExampleRepository.findById(unlimitId).orElseThrow(()-> new RuntimeException("Invalid unlimt!"));
+		Long subCategoryId = unlimitsExample.getSubCategoryId();
+		UIClientVisualizeResponse buildClientVisualize = buildClientVisualize(year, subCategoryId);
+		List<EOClientUnlimitsExampleItem> exampleItems = unlimitsExample.getExampleItems();
+		StringBuffer request=new StringBuffer(buildClientVisualize.getVisualizeRequest());
+		for(EOClientUnlimitsExampleItem clientUnlimitsExampleItem: exampleItems) {
+			
+			String tagName = clientUnlimitsExampleItem.getTagName();
+			
+			if(addTagNameFromTag(request, tagName)) {
+				continue;
+			}
+			
+			String imageUrl=clientUnlimitsExampleItem.getImageUrl();
+			addTagNameFromImage(request, imageUrl);
+		}
+		return buildClientVisualize;
+	}
+
+
+	private void addTagNameFromImage(StringBuffer request, String imageUrl) {
+		if(StringUtil.isEmpty(imageUrl)) {
+			return;
+		}
+		String[] tagList = imageUrl.split("\\.")[0].split(",");
+		for(String tagName: tagList) {
+			if(request.length()>0) {
+				request.append("\r\n");
+			}
+			request.append(tagName);
+		}
+	}
+
+	private UIClientVisualizeResponse buildClientVisualize(Integer year, Long subCategoryId) {
 		PromptLibarary yearPrompt = promptClient.getPromptsByYear(year);
 		PromptLibarary subCategoryPrompt = promptClient.getPromptsBySubCategory(subCategoryId);
-		StringBuffer profile=new StringBuffer();
+		StringBuffer request=new StringBuffer();
 		if(yearPrompt!=null && StringUtil.isNonEmpty(yearPrompt.getDescription())) {
-			profile.append(yearPrompt.getDescription());
+			request.append(yearPrompt.getDescription()+".\r\n");
 		}
 		if(subCategoryPrompt!=null && StringUtil.isNonEmpty(subCategoryPrompt.getDescription())) {
-			if(profile.length()>0) {
-				profile.append("\n");
+			request.append(subCategoryPrompt.getDescription()+".\r\n");
+		}
+		
+		List<ClientOnBoardingQuestion> onboardings = onboardingClient.getOnboardings();
+		if(!CollectionUtils.isEmpty(onboardings)) {
+			onboardings.sort((q1,q2)->q1.getQuestion().getOrderSequence().compareTo(q1.getQuestion().getOrderSequence()));
+			
+			for(ClientOnBoardingQuestion clientOnBoardingQuestion: onboardings) {
+				if(CollectionUtils.isEmpty(clientOnBoardingQuestion.getAnswers())) {
+					continue;
+				}
+				request.append(clientOnBoardingQuestion.getQuestion().getQuestion()+" is ");
+				for(ClientBoardingAnswer answer:  clientOnBoardingQuestion.getAnswers()) {
+					request.append(answer.getValue());
+				}
+				request.append(".");
 			}
-			profile.append(subCategoryPrompt.getDescription());
 		}
 		Calendar instance = Calendar.getInstance();
 		instance.add(Calendar.YEAR, year);
-		UIClientVisualize uiClientVisualize=new UIClientVisualize();
+		UIClientVisualizeResponse uiClientVisualize=new UIClientVisualizeResponse();
 		uiClientVisualize.setVisualizeDate(DateUtil.getDateStringForPattern(instance.getTime(), ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY));
-		uiClientVisualize.setVisualizeRequest(profile.toString());
+		uiClientVisualize.setVisualizeRequest(request.toString());
 		return uiClientVisualize;
 	}
 

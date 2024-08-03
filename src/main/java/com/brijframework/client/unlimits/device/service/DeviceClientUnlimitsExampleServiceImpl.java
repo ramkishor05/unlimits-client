@@ -2,10 +2,10 @@
  * 
  */
 package com.brijframework.client.unlimits.device.service;
-import static com.brijframework.client.constants.ClientConstants.MY_UNLIMITS;
-import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY;
 import static com.brijframework.client.constants.ClientConstants.CUST_BUSINESS_APP;
 import static com.brijframework.client.constants.ClientConstants.INVALID_CLIENT;
+import static com.brijframework.client.constants.ClientConstants.MY_UNLIMITS;
+import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -26,6 +26,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.UnlimitsType;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientUnlimitsExampleItemMapper;
@@ -33,8 +34,8 @@ import com.brijframework.client.mapper.ClientUnlimitsExampleMapper;
 import com.brijframework.client.repository.ClientUnlimitsExampleItemRepository;
 import com.brijframework.client.repository.ClientUnlimitsExampleRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
-import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsExampleItem;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
 import com.brijframework.client.unlimits.model.UICustUnlimitsExample;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
@@ -165,6 +166,11 @@ public class DeviceClientUnlimitsExampleServiceImpl extends CrudServiceImpl<UICu
 			throw new UserNotFoundException(INVALID_CLIENT);
 		}
 		return clientUnlimitsExampleMapper.mapToDTO(eoCustBusinessApp.getClientUnlimitsExample());
+	}
+	
+	@Override
+	public void postFetch(EOCustUnlimitsExample findObject, UICustUnlimitsExample dtoObject) {
+		dtoObject.setType(UnlimitsType.EXAMPLE);
 	}
 	
 	@Override

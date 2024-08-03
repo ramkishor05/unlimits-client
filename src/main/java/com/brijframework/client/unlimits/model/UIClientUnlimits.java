@@ -2,6 +2,7 @@ package com.brijframework.client.unlimits.model;
 
 import org.unlimits.rest.model.UIModel;
 
+import com.brijframework.client.constants.UnlimitsType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -15,6 +16,8 @@ public class UIClientUnlimits extends UIModel {
 	private Long categoryId;
 
 	private Long subCategoryId;
+	
+	private UnlimitsType type;
 
 	public String getDate() {
 		return date;
@@ -30,6 +33,14 @@ public class UIClientUnlimits extends UIModel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public UnlimitsType getType() {
+		return type;
+	}
+
+	public void setType(UnlimitsType type) {
+		this.type = type;
 	}
 
 	public Long getCategoryId() {

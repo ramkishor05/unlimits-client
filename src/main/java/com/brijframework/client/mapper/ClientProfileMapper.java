@@ -8,11 +8,11 @@ import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
 import com.brijframework.client.unlimits.entities.EOClientProfile;
-import com.brijframework.client.unlimits.model.UIClientVisualize;
+import com.brijframework.client.unlimits.model.UIClientVisualizeResponse;
 
 @Mapper(componentModel = SPRING, implementationPackage = APP_CLIENT_PACKAGE_IMPL, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClientProfileMapper extends GenericMapper<EOClientProfile, UIClientVisualize>{
+public interface ClientProfileMapper extends GenericMapper<EOClientProfile, UIClientVisualizeResponse>{
 
 	@Override
-	EOClientProfile mapToDAO(UIClientVisualize d) ;
+	EOClientProfile mapToDAO(UIClientVisualizeResponse d) ;
 }

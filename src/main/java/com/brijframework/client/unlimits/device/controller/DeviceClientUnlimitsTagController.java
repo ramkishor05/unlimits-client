@@ -35,8 +35,8 @@ public class DeviceClientUnlimitsTagController implements CrudController<UICustU
 	}
 	
     @GetMapping("/current")
-	public Response getCuurent(@RequestHeader(required =false)  MultiValueMap<String,String> headers){
-    	Response response=new Response();
+	public Response<Object> getCuurent(@RequestHeader(required =false)  MultiValueMap<String,String> headers){
+    	Response<Object> response=new Response<Object>();
 		try {
 			response.setData(clientUnlimitsTagService.getCurrent(headers));
 			response.setSuccess(SUCCESS);

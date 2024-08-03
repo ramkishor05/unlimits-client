@@ -21,9 +21,9 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.UnlimitsType;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.repository.PromptClient;
 import com.brijframework.client.mapper.ClientUnlimitsTagItemMapper;
 import com.brijframework.client.mapper.CustUnlimitsTagMapper;
 import com.brijframework.client.repository.ClientUnlimitsTagItemRepository;
@@ -58,9 +58,6 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UICustUn
 	
 	@Autowired
 	private ClientUnlimitsTagItemMapper clientUnlimitsTagItemMapper;
-	
-	@Autowired
-	private PromptClient promptClient;
 
 	@Override
 	public JpaRepository<EOCustUnlimitsTag, Long> getRepository() {
@@ -149,12 +146,12 @@ public class DeviceClientUnlimitsTagServiceImpl extends CrudServiceImpl<UICustUn
 		}
 		return clientUnlimitsTagMapper.mapToDTO(eoCustBusinessApp.getClientUnlimitsTag());
 	}
-	
-	@Override
-	public List<UICustUnlimitsTag> postFetch(List<EOCustUnlimitsTag> findObjects) {
 
-		return super.postFetch(findObjects);
+	@Override
+	public void postFetch(EOCustUnlimitsTag findObject, UICustUnlimitsTag dtoObject) {
+		dtoObject.setType(UnlimitsType.WORDS);
 	}
+
 	
 	@Override
 	public List<EOCustUnlimitsTag> repositoryFindAll(Map<String, List<String>> headers, Map<String, Object> filters) {

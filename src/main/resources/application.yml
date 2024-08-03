@@ -32,7 +32,7 @@ spring:
    sql.init.mode: always
    datasource:
      driverClassName: com.mysql.cj.jdbc.Driver
-     url: jdbc:mysql://${server.database.host}:${server.database.port}/${server.database.schema}?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+     url: jdbc:mysql://${server.database.host}:${server.database.port}/${server.database.schema}
      username: ${server.database.username}
      password: ${server.database.password}
      show-sql: true

@@ -1,9 +1,16 @@
 package com.brijframework.client.unlimits.device.service;
 
-import com.brijframework.client.constants.UnlimitsType;
-import com.brijframework.client.unlimits.model.UIClientVisualize;
+import java.util.List;
+import java.util.Map;
+
+import com.brijframework.client.unlimits.model.UIClientUnlimits;
+import com.brijframework.client.unlimits.model.UIClientVisualizeRequest;
+import com.brijframework.client.unlimits.model.UIClientVisualizeResponse;
 
 public interface DeviceClientVisualizeService {
 	
-	public UIClientVisualize  getVisualize(Integer year, UnlimitsType type, Long unlimitId) ;
+	List<UIClientUnlimits> findAll(Map<String, List<String>> headers, Map<String, Object> filters);
+	
+	UIClientVisualizeResponse add(UIClientVisualizeRequest clientVisualizeRequest);
+
 }

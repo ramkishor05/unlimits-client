@@ -21,6 +21,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.UnlimitsType;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.mapper.ClientUnlimitsImageItemMapper;
@@ -28,8 +29,8 @@ import com.brijframework.client.mapper.ClientUnlimitsImageMapper;
 import com.brijframework.client.repository.ClientUnlimitsImageItemRepository;
 import com.brijframework.client.repository.ClientUnlimitsImageRepository;
 import com.brijframework.client.repository.CustBusinessAppRepository;
-import com.brijframework.client.unlimits.entities.EOCustUnlimitsImage;
 import com.brijframework.client.unlimits.entities.EOClientUnlimitsImageItem;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsImage;
 import com.brijframework.client.unlimits.model.UICustUnlimitsImage;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
@@ -146,6 +147,12 @@ public class DeviceClientUnlimitsImageServiceImpl extends CrudServiceImpl<UICust
 			throw new UserNotFoundException(INVALID_CLIENT);
 		}
 		return clientUnlimitsImageMapper.mapToDTO(eoCustBusinessApp.getClientUnlimitsImage());
+	}
+	
+
+	@Override
+	public void postFetch(EOCustUnlimitsImage findObject, UICustUnlimitsImage dtoObject) {
+		dtoObject.setType(UnlimitsType.IMAGE);
 	}
 	
 	@Override

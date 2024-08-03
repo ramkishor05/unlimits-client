@@ -1,6 +1,6 @@
 package com.brijframework.client.unlimits.model;
 
-public class UIClientVisualize {
+public class UIClientVisualizeResponse {
 
 	private String visualizeDate;
 	private String visualizeRequest;
