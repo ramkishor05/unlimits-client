@@ -172,8 +172,10 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 	}
 
 	private UIClientVisualizeResponse buildClientVisualize(Integer year, Long subCategoryId) {
-		PromptLibarary yearPrompt = promptClient.getPromptsByYear(year);
-		PromptLibarary subCategoryPrompt = promptClient.getPromptsBySubCategory(subCategoryId);
+		PromptLibarary yearPrompt = getPrompt(promptClient.getPromptsByYear(year));
+		System.out.println("yearPrompt="+yearPrompt);
+		PromptLibarary subCategoryPrompt = getPrompt(promptClient.getPromptsBySubCategory(subCategoryId));
+		System.out.println("subCategoryPrompt="+yearPrompt);
 		StringBuffer request=new StringBuffer();
 		if(yearPrompt!=null && StringUtil.isNonEmpty(yearPrompt.getDescription())) {
 			request.append(yearPrompt.getDescription()+".\r\n");
@@ -203,6 +205,18 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 		uiClientVisualize.setVisualizeDate(DateUtil.getDateStringForPattern(instance.getTime(), ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY));
 		uiClientVisualize.setVisualizeRequest(request.toString());
 		return uiClientVisualize;
+	}
+
+
+	private PromptLibarary getPrompt(PromptLibararyResponse response) {
+		if("1".equals(response.getSuccess())) {
+			List<PromptLibarary> data = response.getData();
+			if(CollectionUtils.isEmpty(data)) {
+				return null;
+			}
+			return data.get(0);
+		}
+		return null;
 	}
 
 

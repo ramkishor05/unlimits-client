@@ -1,6 +1,8 @@
 package com.brijframework.client.unlimits.model;
 
 import java.text.SimpleDateFormat;
+
+import static com.brijframework.client.constants.ClientConstants.UI_DATE_FORMAT_MMMM_DD_YYYY;
 import java.util.Date;
 
 import org.unlimits.rest.model.UIModel;
@@ -49,7 +51,7 @@ public class UICustJournalItem extends UIModel{
 
 	public Date toJournalDate() {
 		try {
-			return new SimpleDateFormat("MM/dd/yyyy").parse(journalDate);
+			return new SimpleDateFormat(UI_DATE_FORMAT_MMMM_DD_YYYY).parse(journalDate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

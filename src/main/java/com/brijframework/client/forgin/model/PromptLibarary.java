@@ -75,4 +75,12 @@ public class PromptLibarary implements Serializable {
 	public void setTenureId(Long tenureId) {
 		this.tenureId = tenureId;
 	}
+
+	@Override
+	public String toString() {
+		return "PromptLibarary [type=" + type + ", subCategoryId=" + subCategoryId + ", tenureId=" + tenureId
+				+ ", idenNo=" + idenNo + ", title=" + title + ", description=" + description + ", name=" + name + "]";
+	}
+	
+	
 }
