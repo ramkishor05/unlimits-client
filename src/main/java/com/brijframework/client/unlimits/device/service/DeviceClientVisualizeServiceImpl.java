@@ -10,6 +10,7 @@ import org.brijframework.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.unlimits.rest.crud.beans.Response;
 
 import com.brijframework.client.constants.ClientConstants;
 import com.brijframework.client.forgin.model.ClientBoardingAnswer;
@@ -109,7 +110,16 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 			String tagName=clientUnlimitsTagItem.getTagName();
 			addTagNameFromTag(request, tagName);
 		}
+		String visualizeRequest = request.toString();
+		buildClientVisualize.setVisualizeRequest(visualizeRequest);
+		buildClientVisualize.setVisualizeResponse(getResponse(visualizeRequest));
 		return buildClientVisualize;
+	}
+
+
+	private String getResponse(String visualizeRequest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
@@ -118,7 +128,7 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 			return false;
 		}
 		if(request.length()>0) {
-			request.append("\r\n");
+			request.append(" ");
 		}
 		request.append(tagName);
 		return true;
@@ -134,6 +144,9 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 			String imageUrl=clientUnlimitsImageItem.getImageUrl();
 			addTagNameFromImage(request, imageUrl);
 		}
+		String visualizeRequest = request.toString();
+		buildClientVisualize.setVisualizeRequest(visualizeRequest);
+		buildClientVisualize.setVisualizeResponse(getResponse(visualizeRequest));
 		return buildClientVisualize;
 	}
 	
@@ -154,6 +167,9 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 			String imageUrl=clientUnlimitsExampleItem.getImageUrl();
 			addTagNameFromImage(request, imageUrl);
 		}
+		String visualizeRequest = request.toString();
+		buildClientVisualize.setVisualizeRequest(visualizeRequest);
+		buildClientVisualize.setVisualizeResponse(getResponse(visualizeRequest));
 		return buildClientVisualize;
 	}
 
@@ -165,7 +181,7 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 		String[] tagList = imageUrl.split("\\.")[0].split(",");
 		for(String tagName: tagList) {
 			if(request.length()>0) {
-				request.append("\r\n");
+				request.append(" ");
 			}
 			request.append(tagName);
 		}
@@ -173,18 +189,16 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 
 	private UIClientVisualizeResponse buildClientVisualize(Integer year, Long subCategoryId) {
 		PromptLibarary yearPrompt = getPrompt(promptClient.getPromptsByYear(year));
-		System.out.println("yearPrompt="+yearPrompt);
 		PromptLibarary subCategoryPrompt = getPrompt(promptClient.getPromptsBySubCategory(subCategoryId));
-		System.out.println("subCategoryPrompt="+yearPrompt);
 		StringBuffer request=new StringBuffer();
 		if(yearPrompt!=null && StringUtil.isNonEmpty(yearPrompt.getDescription())) {
-			request.append(yearPrompt.getDescription()+".\r\n");
+			request.append(yearPrompt.getDescription());
 		}
 		if(subCategoryPrompt!=null && StringUtil.isNonEmpty(subCategoryPrompt.getDescription())) {
-			request.append(subCategoryPrompt.getDescription()+".\r\n");
+			request.append(subCategoryPrompt.getDescription());
 		}
 		
-		List<ClientOnBoardingQuestion> onboardings = onboardingClient.getOnboardings();
+		List<ClientOnBoardingQuestion> onboardings = getBoardingQuestion(onboardingClient.getOnboardings());
 		if(!CollectionUtils.isEmpty(onboardings)) {
 			onboardings.sort((q1,q2)->q1.getQuestion().getOrderSequence().compareTo(q1.getQuestion().getOrderSequence()));
 			
@@ -194,9 +208,8 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 				}
 				request.append(clientOnBoardingQuestion.getQuestion().getQuestion()+" is ");
 				for(ClientBoardingAnswer answer:  clientOnBoardingQuestion.getAnswers()) {
-					request.append(answer.getValue());
+					request.append(answer.getValue() +".");
 				}
-				request.append(".");
 			}
 		}
 		Calendar instance = Calendar.getInstance();
@@ -208,13 +221,20 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 	}
 
 
-	private PromptLibarary getPrompt(PromptLibararyResponse response) {
+	private PromptLibarary getPrompt(Response<List<PromptLibarary>> response) {
 		if("1".equals(response.getSuccess())) {
 			List<PromptLibarary> data = response.getData();
 			if(CollectionUtils.isEmpty(data)) {
 				return null;
 			}
 			return data.get(0);
+		}
+		return null;
+	}
+	
+	private List<ClientOnBoardingQuestion> getBoardingQuestion(Response<List<ClientOnBoardingQuestion>> response) {
+		if("1".equals(response.getSuccess())) {
+			return response.getData();
 		}
 		return null;
 	}

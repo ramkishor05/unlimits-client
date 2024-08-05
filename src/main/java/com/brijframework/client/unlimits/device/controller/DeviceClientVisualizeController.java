@@ -35,7 +35,6 @@ public class DeviceClientVisualizeController {
 
 	@PostMapping
 	public UIClientVisualizeResponse  add(@RequestBody  UIClientVisualizeRequest clientVisualizeRequest) {
-		System.out.println(clientVisualizeRequest);
 		return clientVisualizeService.add(clientVisualizeRequest);
 	}
 

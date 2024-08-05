@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.unlimits.rest.crud.beans.Response;
 
 import com.brijframework.client.forgin.model.ClientOnBoardingQuestion;
 
@@ -11,6 +12,6 @@ import com.brijframework.client.forgin.model.ClientOnBoardingQuestion;
 public interface OnboardingClient {
 
 	@GetMapping(value = "/api/device/onboarding/question")
-	public List<ClientOnBoardingQuestion> getOnboardings();
+	public Response<List<ClientOnBoardingQuestion>> getOnboardings();
 	
 }
