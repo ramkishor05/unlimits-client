@@ -21,7 +21,6 @@ import com.brijframework.client.unlimits.model.UIClientCommitmentGroup;
 @RequestMapping({"/api/device/client/commitments"})
 @CrossOrigin("*")
 public class DeviceClientCommitmentController implements CrudController<UIClientCommitmentGroup, EOClientCommitmentGroup, Long>{
-
 	
 	@Autowired
 	private DeviceClientCommitmentService clientCommitmentService;
@@ -30,6 +29,5 @@ public class DeviceClientCommitmentController implements CrudController<UIClient
 	public CrudService<UIClientCommitmentGroup, EOClientCommitmentGroup, Long> getService() {
 		return clientCommitmentService;
 	}
-
 
 }

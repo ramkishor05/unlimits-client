@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.brijframework.client.forgin.config.FeignClientConfig;
 import com.brijframework.client.forgin.model.ResourceFile;
 
-@FeignClient(name = "UNLIMITS-CONTENT", configuration = FeignClientConfig.class, url = "http://localhost:3333")
+@FeignClient(name = "UNLIMITS-CONTENT", configuration = FeignClientConfig.class, url = "http://51.79.159.7:3333")
 public interface ResourceClient {
 
 	@PostMapping(value = "/resource/{type}/{name}")

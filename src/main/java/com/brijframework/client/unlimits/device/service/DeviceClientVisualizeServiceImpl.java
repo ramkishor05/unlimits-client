@@ -16,6 +16,7 @@ import com.brijframework.client.constants.ClientConstants;
 import com.brijframework.client.forgin.model.ClientBoardingAnswer;
 import com.brijframework.client.forgin.model.ClientOnBoardingQuestion;
 import com.brijframework.client.forgin.model.PromptLibarary;
+import com.brijframework.client.forgin.repository.ChatGptClient;
 import com.brijframework.client.forgin.repository.OnboardingClient;
 import com.brijframework.client.forgin.repository.PromptClient;
 import com.brijframework.client.repository.ClientUnlimitsExampleRepository;
@@ -51,6 +52,9 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 	
 	@Autowired
 	private OnboardingClient onboardingClient;
+	
+	@Autowired
+	private ChatGptClient chatGptClient;
 	
 	@Autowired
 	private DeviceClientUnlimitsTagService clientUnlimitsTagService;
@@ -117,9 +121,8 @@ public class DeviceClientVisualizeServiceImpl implements DeviceClientVisualizeSe
 	}
 
 
-	private String getResponse(String visualizeRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	private String getResponse(String prompts) {
+		return chatGptClient.getTextResult(prompts);
 	}
 
 
