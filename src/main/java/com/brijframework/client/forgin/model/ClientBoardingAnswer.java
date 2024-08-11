@@ -4,6 +4,10 @@ import org.unlimits.rest.model.UIModel;
 
 public class ClientBoardingAnswer extends UIModel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String value;
 
 	public String getValue() {

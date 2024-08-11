@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.brijframework.client.constants.ClientConstants;
+import com.brijframework.client.constants.Constants;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -25,7 +25,7 @@ public class OpenApiConfig {
 	
 	@Bean
 	public OpenAPI customOpenAPI() {
-		final String securitySchemeName = ClientConstants. AUTHORIZATION;
+		final String securitySchemeName = Constants. AUTHORIZATION;
 		final String apiTitle = String.format("%s API", StringUtils.capitalize(moduleName));
 		return new OpenAPI().addServersItem(new Server().url(serverUrl))
 				.addSecurityItem(new SecurityRequirement()

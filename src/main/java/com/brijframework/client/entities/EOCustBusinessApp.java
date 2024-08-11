@@ -6,10 +6,6 @@ import static com.brijframework.client.constants.TableConstants.EOCUST_BUSINESS_
 
 import org.unlimits.rest.crud.beans.IUserAccount;
 
-import com.brijframework.client.unlimits.entities.EOCustUnlimitsExample;
-import com.brijframework.client.unlimits.entities.EOCustUnlimitsImage;
-import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
@@ -37,15 +33,15 @@ public class EOCustBusinessApp extends EOCustObject implements IUserAccount{
 	
 	@JoinColumn(name = "CURRENT_UNLIMITS_TAG_ID")
 	@OneToOne
-	private EOCustUnlimitsTag clientUnlimitsTag;
+	private EOUnlimitsTag unlimitsTag;
 	
 	@JoinColumn(name = "CURRENT_UNLIMITS_IMAGE_ID")
 	@OneToOne
-	private EOCustUnlimitsImage clientUnlimitsImage;
+	private EOUnlimitsImage unlimitsImage;
 	
 	@JoinColumn(name = "CURRENT_UNLIMITS_EXAMPLE_ID")
 	@OneToOne
-	private EOCustUnlimitsExample clientUnlimitsExample;
+	private EOUnlimitsExample unlimitsExample;
 	
 	public EOCustBusinessApp() {
 	}
@@ -81,28 +77,28 @@ public class EOCustBusinessApp extends EOCustObject implements IUserAccount{
 		this.businessId = businessId;
 	}
 
-	public EOCustUnlimitsTag getClientUnlimitsTag() {
-		return clientUnlimitsTag;
+	public EOUnlimitsTag getUnlimitsTag() {
+		return unlimitsTag;
 	}
 
-	public void setClientUnlimitsTag(EOCustUnlimitsTag clientUnlimitsTag) {
-		this.clientUnlimitsTag = clientUnlimitsTag;
+	public void setUnlimitsTag(EOUnlimitsTag clientUnlimitsTag) {
+		this.unlimitsTag = clientUnlimitsTag;
 	}
 
-	public EOCustUnlimitsImage getClientUnlimitsImage() {
-		return clientUnlimitsImage;
+	public EOUnlimitsImage getUnlimitsImage() {
+		return unlimitsImage;
 	}
 
-	public void setClientUnlimitsImage(EOCustUnlimitsImage clientUnlimitsImage) {
-		this.clientUnlimitsImage = clientUnlimitsImage;
+	public void setUnlimitsImage(EOUnlimitsImage clientUnlimitsImage) {
+		this.unlimitsImage = clientUnlimitsImage;
 	}
 
-	public EOCustUnlimitsExample getClientUnlimitsExample() {
-		return clientUnlimitsExample;
+	public EOUnlimitsExample getUnlimitsExample() {
+		return unlimitsExample;
 	}
 
-	public void setClientUnlimitsExample(EOCustUnlimitsExample clientUnlimitsExample) {
-		this.clientUnlimitsExample = clientUnlimitsExample;
+	public void setUnlimitsExample(EOUnlimitsExample clientUnlimitsExample) {
+		this.unlimitsExample = clientUnlimitsExample;
 	}
 	
 }

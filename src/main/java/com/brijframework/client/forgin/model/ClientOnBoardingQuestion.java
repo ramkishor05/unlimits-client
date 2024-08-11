@@ -7,6 +7,11 @@ import org.unlimits.rest.model.UIModel;
 
 public class ClientOnBoardingQuestion extends UIModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private GlobalBoardingQuestion question;
 
 	private List<ClientBoardingAnswer> answers;

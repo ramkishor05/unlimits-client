@@ -1,10 +1,10 @@
 package com.brijframework.client.filters;
 
-import static com.brijframework.client.constants.ClientConstants.APP_ID_KEY;
-import static com.brijframework.client.constants.ClientConstants.BUSINESS_ID_KEY;
-import static com.brijframework.client.constants.ClientConstants.CUST_APP_ID;
-import static com.brijframework.client.constants.ClientConstants.OWNER_ID_KEY;
-import static com.brijframework.client.constants.ClientConstants.USER_ROLE;
+import static com.brijframework.client.constants.Constants.APP_ID_KEY;
+import static com.brijframework.client.constants.Constants.BUSINESS_ID_KEY;
+import static com.brijframework.client.constants.Constants.CUST_APP_ID;
+import static com.brijframework.client.constants.Constants.OWNER_ID_KEY;
+import static com.brijframework.client.constants.Constants.USER_ROLE;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import org.springframework.util.CollectionUtils;
 import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.context.ApiTokenContext;
 
-import com.brijframework.client.constants.ClientConstants;
+import com.brijframework.client.constants.Constants;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.util.CommanUtil;
@@ -42,7 +42,7 @@ public class TransactionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         TransactionRequest requestWrapper = new TransactionRequest(req);
-        String apiToken = req.getHeader(ClientConstants.AUTHORIZATION);
+        String apiToken = req.getHeader(Constants.AUTHORIZATION);
         if(StringUtil.isNonEmpty(apiToken)) {
         	ApiTokenContext.getContext().setCurrentToken(apiToken);
         	String userRole = ApiTokenContext.getUserRole(apiToken); 
