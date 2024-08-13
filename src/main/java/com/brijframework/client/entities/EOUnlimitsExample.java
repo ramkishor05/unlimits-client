@@ -66,6 +66,54 @@ public class EOUnlimitsExample extends EOUnlimits {
 		this.exampleDate = exampleDate;
 	}
 
+	public String getProfileName() {
+		return profileName;
+	}
+
+	public void setProfileName(String profileName) {
+		this.profileName = profileName;
+	}
+
+	public String getProfilePictureURL() {
+		return profilePictureURL;
+	}
+
+	public void setProfilePictureURL(String profilePictureURL) {
+		this.profilePictureURL = profilePictureURL;
+	}
+
+	public String getProfileAge() {
+		return profileAge;
+	}
+
+	public void setProfileAge(String profileAge) {
+		this.profileAge = profileAge;
+	}
+
+	public String getProfilePosition() {
+		return profilePosition;
+	}
+
+	public void setProfilePosition(String profilePosition) {
+		this.profilePosition = profilePosition;
+	}
+
+	public String getProfileOrganization() {
+		return profileOrganization;
+	}
+
+	public void setProfileOrganization(String profileOrganization) {
+		this.profileOrganization = profileOrganization;
+	}
+
+	public String getPosterUrl() {
+		return posterUrl;
+	}
+
+	public void setPosterUrl(String posterUrl) {
+		this.posterUrl = posterUrl;
+	}
+
 	public List<EOUnlimitsExampleItem> getExampleItems() {
 		return exampleItems;
 	}
