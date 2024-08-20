@@ -1,10 +1,12 @@
 package com.brijframework.client.device.model;
 
+import org.unlimits.rest.model.UIModel;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(value = Include.NON_NULL)
-public class UIDeviceUnlimitsExampleItem extends UIDeviceModel {
+public class UIDeviceUnlimitsExampleItem extends UIModel {
 
 	/**
 	 * 
@@ -18,6 +20,14 @@ public class UIDeviceUnlimitsExampleItem extends UIDeviceModel {
 	private Long imageId;
 
 	private String imageUrl;
+
+	private Long mainCategoryId;
+
+	private String mainCategoryName;
+
+	private Long subCategoryId;
+
+	private String subCategoryName;
 
 	public Long getImageId() {
 		return imageId;
@@ -49,6 +59,38 @@ public class UIDeviceUnlimitsExampleItem extends UIDeviceModel {
 
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
+	}
+
+	public Long getMainCategoryId() {
+		return mainCategoryId;
+	}
+
+	public void setMainCategoryId(Long mainCategoryId) {
+		this.mainCategoryId = mainCategoryId;
+	}
+
+	public String getMainCategoryName() {
+		return mainCategoryName;
+	}
+
+	public void setMainCategoryName(String mainCategoryName) {
+		this.mainCategoryName = mainCategoryName;
+	}
+
+	public Long getSubCategoryId() {
+		return subCategoryId;
+	}
+
+	public void setSubCategoryId(Long subCategoryId) {
+		this.subCategoryId = subCategoryId;
+	}
+
+	public String getSubCategoryName() {
+		return subCategoryName;
+	}
+
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
 	}
 
 }

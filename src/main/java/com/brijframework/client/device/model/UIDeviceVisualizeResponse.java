@@ -1,7 +1,13 @@
 package com.brijframework.client.device.model;
 
-public class UIDeviceVisualizeResponse {
+import org.unlimits.rest.model.UIModel;
 
+public class UIDeviceVisualizeResponse extends UIModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String visualizeDate;
 	private String visualizeRequest;
 	private String visualizeResponse;

@@ -5,7 +5,9 @@ import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MM
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class UIDeviceJournalItem extends UIDeviceModel{
+import org.unlimits.rest.model.UIModel;
+
+public class UIDeviceJournalItem extends UIModel{
 
 	/**
 	 * 

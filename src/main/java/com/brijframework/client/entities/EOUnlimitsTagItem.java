@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
- *  @author omnie
+ * @author omnie
  */
 @Entity
 @Table(name = "EOCLIENT_UNLIMITS_TAG_ITEM")
@@ -20,17 +20,28 @@ public class EOUnlimitsTagItem extends EOCustObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	@Column(name = "YEAR")
-	private Long year;
-	
+	private Integer year;
+
 	@Column(name = "TAG_ID", nullable = true)
 	private String tagId;
-	
+
 	@Column(name = "TAG_NAME", nullable = true)
 	private String tagName;
-	
+
+	@Column(name = "MAIN_CATEGORY_ID")
+	private Long mainCategoryId;
+
+	@Column(name = "MAIN_CATEGORY_NAME")
+	private String mainCategoryName;
+
+	@Column(name = "SUB_CATEGORY_ID")
+	private Long subCategoryId;
+
+	@Column(name = "SUB_CATEGORY_NAME")
+	private String subCategoryName;
+
 	@JoinColumn(name = "UNLIMITS_TAG_ID", referencedColumnName = "ID")
 	@ManyToOne
 	private EOUnlimitsTag unlimitsTag;
@@ -51,12 +62,44 @@ public class EOUnlimitsTagItem extends EOCustObject {
 		this.tagName = tagName;
 	}
 
-	public Long getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(Long year) {
+	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	public Long getSubCategoryId() {
+		return subCategoryId;
+	}
+
+	public void setSubCategoryId(Long subCategoryId) {
+		this.subCategoryId = subCategoryId;
+	}
+
+	public Long getMainCategoryId() {
+		return mainCategoryId;
+	}
+
+	public void setMainCategoryId(Long mainCategoryId) {
+		this.mainCategoryId = mainCategoryId;
+	}
+
+	public String getMainCategoryName() {
+		return mainCategoryName;
+	}
+
+	public void setMainCategoryName(String mainCategoryName) {
+		this.mainCategoryName = mainCategoryName;
+	}
+
+	public String getSubCategoryName() {
+		return subCategoryName;
+	}
+
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
 	}
 
 	public EOUnlimitsTag getUnlimitsTag() {
@@ -66,5 +109,5 @@ public class EOUnlimitsTagItem extends EOCustObject {
 	public void setUnlimitsTag(EOUnlimitsTag UnlimitsTag) {
 		this.unlimitsTag = UnlimitsTag;
 	}
-	
+
 }

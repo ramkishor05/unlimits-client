@@ -3,9 +3,11 @@ package com.brijframework.client.device.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.unlimits.rest.model.UIModel;
+
 import com.brijframework.client.forgin.model.ResourceFile;
 
-public class UIDeviceReProgramGroup extends UIDeviceModel {
+public class UIDeviceReProgramGroup extends UIModel {
 
 	/**
 	 * 

@@ -2,9 +2,11 @@ package com.brijframework.client.device.model;
 
 import java.util.List;
 
+import org.unlimits.rest.model.UIModel;
+
 import com.brijframework.client.forgin.model.ResourceFile;
 
-public class UIDeviceMindSetGroup extends UIDeviceModel{
+public class UIDeviceMindSetGroup extends UIModel{
 
 	/**
 	 * 

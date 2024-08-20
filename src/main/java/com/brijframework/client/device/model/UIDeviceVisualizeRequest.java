@@ -1,11 +1,17 @@
 package com.brijframework.client.device.model;
 
+import org.unlimits.rest.model.UIModel;
+
 import com.brijframework.client.constants.UnlimitsType;
 
 import jakarta.validation.constraints.NotNull;
 
-public class UIDeviceVisualizeRequest {
+public class UIDeviceVisualizeRequest extends UIModel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@NotNull
 	private Integer year;
 	@NotNull

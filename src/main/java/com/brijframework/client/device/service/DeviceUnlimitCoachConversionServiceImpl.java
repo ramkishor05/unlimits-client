@@ -1,11 +1,14 @@
 package com.brijframework.client.device.service;
 
+import static org.unlimits.rest.constants.RestConstant.ORDER_BY;
+import static org.unlimits.rest.constants.RestConstant.SORT_ORDER;
+
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.unlimits.rest.crud.mapper.GenericMapper;
@@ -13,12 +16,13 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceCoachGroupMapper;
-import com.brijframework.client.device.model.UIDeviceCoachGroup;
-import com.brijframework.client.entities.EOCoachGroup;
+import com.brijframework.client.device.model.UIUnlimitsCoachConversion;
+import com.brijframework.client.entities.EOUnlimitsCoachConversion;
 import com.brijframework.client.repository.CoachLibararyRepository;
 
 @Service
-public class DeviceCoachServiceImpl extends CrudServiceImpl<UIDeviceCoachGroup, EOCoachGroup, Long> implements DeviceCoachService {
+public class DeviceUnlimitCoachConversionServiceImpl extends CrudServiceImpl<UIUnlimitsCoachConversion, EOUnlimitsCoachConversion, Long> implements DeviceUnlimitCoachConversionService {
+	
 	private static final String RECORD_STATE = "recordState";
 	
 	@Autowired
@@ -31,19 +35,19 @@ public class DeviceCoachServiceImpl extends CrudServiceImpl<UIDeviceCoachGroup, 
 	private String serverUrl;
 	
 	@Override
-	public JpaRepository<EOCoachGroup, Long> getRepository() {
+	public JpaRepository<EOUnlimitsCoachConversion, Long> getRepository() {
 		return coachLibararyRepository;
 	}
 
 	@Override
-	public GenericMapper<EOCoachGroup, UIDeviceCoachGroup> getMapper() {
+	public GenericMapper<EOUnlimitsCoachConversion, UIUnlimitsCoachConversion> getMapper() {
 		return deviceCoachLibararyMapper;
 	}
 	
 	@Override
-	public List<UIDeviceCoachGroup> postFetch(List<EOCoachGroup> findObjects) {
-		List<UIDeviceCoachGroup> uiObjects = super.postFetch(findObjects);
-		uiObjects.sort((op1,op2)->op1.getOrderSequence().compareTo(op2.getOrderSequence()));
+	public List<UIUnlimitsCoachConversion> postFetch(List<EOUnlimitsCoachConversion> findObjects) {
+		List<UIUnlimitsCoachConversion> uiObjects = super.postFetch(findObjects);
+		uiObjects.sort((op1,op2)->op2.getCoachDate().compareTo(op1.getCoachDate()));
 		return uiObjects;
 	}
 	
@@ -53,9 +57,14 @@ public class DeviceCoachServiceImpl extends CrudServiceImpl<UIDeviceCoachGroup, 
 	}
 	
 	@Override
-	public void postFetch(EOCoachGroup findObject, UIDeviceCoachGroup dtoObject) {
-		if(StringUtils.isEmpty(dtoObject.getIdenNo())) {
-			dtoObject.setIdenNo(findObject.getId()+"");
-		}
+	public List<Order> buidOrders(Map<String, Object> sortOrders) {
+		sortOrders.put(ORDER_BY, "coachDate");
+		sortOrders.put(SORT_ORDER, "desc");
+		return super.buidOrders(sortOrders);
+	}
+	
+	@Override
+	public void postFetch(EOUnlimitsCoachConversion findObject, UIUnlimitsCoachConversion dtoObject) {
+		
 	}
 }

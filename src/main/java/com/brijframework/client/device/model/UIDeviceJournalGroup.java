@@ -2,7 +2,9 @@ package com.brijframework.client.device.model;
 
 import java.util.List;
 
-public class UIDeviceJournalGroup extends UIDeviceModel{
+import org.unlimits.rest.model.UIModel;
+
+public class UIDeviceJournalGroup extends UIModel{
 
 	/**
 	 * 

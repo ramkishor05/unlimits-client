@@ -35,12 +35,6 @@ public abstract class EOUnlimits extends EOCustObject {
 	@Column(name = "NAME")
 	private String name;
 
-	@Column(name = "CATEGORY_ID")
-	private Long categoryId;
-
-	@Column(name = "SUB_CATEGORY_ID")
-	private Long subCategoryId;
-
 	@JoinColumn(name = CUST_BUSINESS_APP_ID, nullable = false)
 	@ManyToOne
 	private EOCustBusinessApp custBusinessApp;
@@ -69,19 +63,4 @@ public abstract class EOUnlimits extends EOCustObject {
 		this.name = name;
 	}
 
-	public Long getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public Long getSubCategoryId() {
-		return subCategoryId;
-	}
-
-	public void setSubCategoryId(Long subCategoryId) {
-		this.subCategoryId = subCategoryId;
-	}
 }

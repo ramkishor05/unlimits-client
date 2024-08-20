@@ -1,8 +1,10 @@
 package com.brijframework.client.device.model;
 
+import org.unlimits.rest.model.UIModel;
+
 import com.brijframework.client.forgin.model.ResourceFile;
 
-public class UIDeviceMindSetItem extends UIDeviceModel{
+public class UIDeviceMindSetItem extends UIModel{
 
 	/**
 	 * 

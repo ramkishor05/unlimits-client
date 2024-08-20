@@ -1,6 +1,8 @@
 package com.brijframework.client.device.model;
 
-public class UIDeviceGoalItem extends UIDeviceModel{
+import org.unlimits.rest.model.UIModel;
+
+public class UIDeviceGoalItem extends UIModel{
 
 	/**
 	 * 

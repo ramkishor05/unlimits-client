@@ -20,7 +20,6 @@ public class EOUnlimitsImageItem extends EOCustObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	@Column(name = "YEAR")
 	private Long year;
@@ -30,6 +29,18 @@ public class EOUnlimitsImageItem extends EOCustObject {
 
 	@Column(name = "IMAGE_URL", nullable = true)
 	private String imageUrl;
+
+	@Column(name = "MAIN_CATEGORY_ID")
+	private Long mainCategoryId;
+
+	@Column(name = "MAIN_CATEGORY_NAME")
+	private String mainCategoryName;
+
+	@Column(name = "SUB_CATEGORY_ID")
+	private Long subCategoryId;
+
+	@Column(name = "SUB_CATEGORY_NAME")
+	private String subCategoryName;
 
 	@JoinColumn(name = "UNLIMITS_IMAGE_ID", referencedColumnName = "ID")
 	@ManyToOne
@@ -49,6 +60,46 @@ public class EOUnlimitsImageItem extends EOCustObject {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public Long getYear() {
+		return year;
+	}
+
+	public void setYear(Long year) {
+		this.year = year;
+	}
+
+	public Long getSubCategoryId() {
+		return subCategoryId;
+	}
+
+	public void setSubCategoryId(Long subCategoryId) {
+		this.subCategoryId = subCategoryId;
+	}
+
+	public Long getMainCategoryId() {
+		return mainCategoryId;
+	}
+
+	public void setMainCategoryId(Long mainCategoryId) {
+		this.mainCategoryId = mainCategoryId;
+	}
+
+	public String getMainCategoryName() {
+		return mainCategoryName;
+	}
+
+	public void setMainCategoryName(String mainCategoryName) {
+		this.mainCategoryName = mainCategoryName;
+	}
+
+	public String getSubCategoryName() {
+		return subCategoryName;
+	}
+
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
 	}
 
 	public EOUnlimitsImage getUnlimitsImage() {

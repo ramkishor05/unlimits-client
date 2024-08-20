@@ -1,11 +1,13 @@
 package com.brijframework.client.device.model;
 
+import org.unlimits.rest.model.UIModel;
+
 import com.brijframework.client.constants.UnlimitsType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(value = Include.NON_NULL)
-public class UIDeviceUnlimits extends UIDeviceModel {
+public class UIDeviceUnlimits extends UIModel {
 
 	/**
 	 * 
@@ -15,10 +17,6 @@ public class UIDeviceUnlimits extends UIDeviceModel {
 	private String date;
 
 	private String name;
-
-	private Long categoryId;
-
-	private Long subCategoryId;
 	
 	private UnlimitsType type;
 
@@ -44,22 +42,6 @@ public class UIDeviceUnlimits extends UIDeviceModel {
 
 	public void setType(UnlimitsType type) {
 		this.type = type;
-	}
-
-	public Long getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public Long getSubCategoryId() {
-		return subCategoryId;
-	}
-
-	public void setSubCategoryId(Long subCategoryId) {
-		this.subCategoryId = subCategoryId;
 	}
 
 }
