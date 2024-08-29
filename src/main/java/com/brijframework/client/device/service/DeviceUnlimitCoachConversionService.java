@@ -8,5 +8,4 @@ import com.brijframework.client.entities.EOUnlimitsCoachConversion;
 
 public interface DeviceUnlimitCoachConversionService extends CrudService<UIUnlimitsCoachConversion, EOUnlimitsCoachConversion, Long>{
 
-
 }
