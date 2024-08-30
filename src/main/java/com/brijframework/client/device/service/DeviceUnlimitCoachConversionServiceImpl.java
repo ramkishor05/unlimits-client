@@ -1,13 +1,17 @@
 package com.brijframework.client.device.service;
 
+import static com.brijframework.client.constants.Constants.COACH_DATE;
 import static com.brijframework.client.constants.Constants.CUST_BUSINESS_APP;
+import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
 import static com.brijframework.client.constants.Constants.INVALID_CLIENT;
 import static org.unlimits.rest.constants.RestConstant.ORDER_BY;
 import static org.unlimits.rest.constants.RestConstant.SORT_ORDER;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.brijframework.util.casting.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -16,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
@@ -64,7 +70,15 @@ public class DeviceUnlimitCoachConversionServiceImpl extends CrudServiceImpl<UIU
 			return custBusinessAppIn;
 		};
 		
+		CustomPredicate<EOUnlimitsCoachConversion> coachDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
+			Path<Object> coachDatePath = root.get(COACH_DATE);
+			In<Object> coachDateIn = criteriaBuilder.in(coachDatePath);
+			coachDateIn.value(DateUtil.dateObject(filter.getColumnValue().toString(), DEVICE_DATE_FORMAT_MMMM_DD_YYYY));
+			return coachDateIn;
+		};
+		
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
+		addCustomPredicate(COACH_DATE, coachDate);
 	}
 	
 	@Override
@@ -151,5 +165,38 @@ public class DeviceUnlimitCoachConversionServiceImpl extends CrudServiceImpl<UIU
 		}
 		filters.put(CUST_BUSINESS_APP, eoCustBusinessApp);
 		return super.repositoryFindAll(headers, sort, filters);
+	}
+	
+	@Override
+	public List<UIUnlimitsCoachConversion> findAllByCoachDateDateRange(String startDate, String endDate, MultiValueMap<String, String> headers, Map<String, Object> sortOrders, Map<String, Object> filters){
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if (eoCustBusinessApp == null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		Date toStart = DateUtil.dateObject(startDate, DEVICE_DATE_FORMAT_MMMM_DD_YYYY);
+		Date toEnd = DateUtil.dateObject(endDate, DEVICE_DATE_FORMAT_MMMM_DD_YYYY);
+		return postFetch(coachLibararyRepository.findAllByCoachDateDateRange(eoCustBusinessApp.getId(), new java.sql.Date(toStart.getTime()), new java.sql.Date(toEnd.getTime()),  RecordStatus.ACTIVETED.getStatusIds()));
+	}
+	
+	@Override
+	public List<UIUnlimitsCoachConversion> findLastCoach() {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if (eoCustBusinessApp == null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		List<EOUnlimitsCoachConversion> findTodayJournalLibarary = coachLibararyRepository.findTodayJournalLibarary(eoCustBusinessApp.getId(), RecordStatus.ACTIVETED.getStatusIds());
+		if(CollectionUtils.isEmpty(findTodayJournalLibarary)) {
+			return postFetch(coachLibararyRepository.findLastJournalLibarary(eoCustBusinessApp.getId(), RecordStatus.ACTIVETED.getStatusIds()));
+		}
+		return postFetch(findTodayJournalLibarary);
+	}
+	
+	@Override
+	public List<UIUnlimitsCoachConversion> findYesterdayCoach() {
+		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();
+		if (eoCustBusinessApp == null) {
+			throw new UserNotFoundException("Invalid client");
+		}
+		return postFetch(coachLibararyRepository.findYesterdayJournalLibarary(eoCustBusinessApp.getId(), RecordStatus.ACTIVETED.getStatusIds()));
 	}
 }
