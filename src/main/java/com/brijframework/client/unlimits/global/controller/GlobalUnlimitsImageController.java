@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.global.controller;
+package com.brijframework.client.unlimits.global.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -14,9 +14,11 @@ import org.unlimits.rest.crud.beans.Response;
 import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
-import com.brijframework.client.entities.EOUnlimitsImage;
-import com.brijframework.client.global.model.UIGlobalUnlimitsImage;
-import com.brijframework.client.global.service.GlobalUnlimitsImageService;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsImage;
+import com.brijframework.client.unlimits.global.service.GlobalCustUnlimitsImageService;
+import com.brijframework.client.unlimits.model.UICustUnlimitsImage;
+
+import io.swagger.v3.oas.annotations.Hidden;
 
 /**
  *  @author omnie
@@ -24,21 +26,22 @@ import com.brijframework.client.global.service.GlobalUnlimitsImageService;
 @RestController
 @RequestMapping(value = "/api/global/unlimits/image")
 @CrossOrigin("*")
-public class GlobalUnlimitsImageController implements CrudController<UIGlobalUnlimitsImage, EOUnlimitsImage, Long>{
+@Hidden
+public class GlobalCustUnlimitsImageController implements CrudController<UICustUnlimitsImage, EOCustUnlimitsImage, Long>{
 	
 	@Autowired
-	private GlobalUnlimitsImageService globalUnlimitsImageService;
+	private GlobalCustUnlimitsImageService globalCustUnlimitsImageService;
 
 	@Override
-	public CrudService<UIGlobalUnlimitsImage, EOUnlimitsImage, Long> getService() {
-		return globalUnlimitsImageService;
+	public CrudService<UICustUnlimitsImage, EOCustUnlimitsImage, Long> getService() {
+		return globalCustUnlimitsImageService;
 	}
 	
     @GetMapping("/current")
 	public Response<Object> getCuurent(@RequestHeader(required =false)  MultiValueMap<String,String> headers){
     	Response<Object> response=new Response<Object>();
 		try {
-			response.setData(globalUnlimitsImageService.getCurrent(headers));
+			response.setData(globalCustUnlimitsImageService.getCurrent(headers));
 			response.setSuccess(SUCCESS);
 			response.setMessage(SUCCESSFULLY_PROCCEED);
 			return response;

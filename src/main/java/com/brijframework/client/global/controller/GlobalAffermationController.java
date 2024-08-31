@@ -18,15 +18,12 @@ import com.brijframework.client.entities.EOUnlimitsTag;
 import com.brijframework.client.global.model.UIGlobalUnlimitsTag;
 import com.brijframework.client.global.service.GlobalUnlimitsTagService;
 
-import io.swagger.v3.oas.annotations.Hidden;
-
 /**
  *  @author omnie
  */
 @RestController
 @RequestMapping(value = "/api/global/affermation")
 @CrossOrigin("*")
-@Hidden
 public class GlobalAffermationController implements CrudController<UIGlobalUnlimitsTag, EOUnlimitsTag, Long>{
 	
 	@Autowired

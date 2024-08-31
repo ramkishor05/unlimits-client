@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brijframework.client.global.controller;
+package com.brijframework.client.unlimits.global.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -14,31 +14,34 @@ import org.unlimits.rest.crud.beans.Response;
 import org.unlimits.rest.crud.controller.CrudController;
 import org.unlimits.rest.crud.service.CrudService;
 
-import com.brijframework.client.entities.EOUnlimitsImage;
-import com.brijframework.client.global.model.UIGlobalUnlimitsImage;
-import com.brijframework.client.global.service.GlobalUnlimitsImageService;
+import com.brijframework.client.unlimits.entities.EOCustUnlimitsTag;
+import com.brijframework.client.unlimits.global.service.GlobalCustUnlimitsTagService;
+import com.brijframework.client.unlimits.model.UICustUnlimitsTag;
+
+import io.swagger.v3.oas.annotations.Hidden;
 
 /**
  *  @author omnie
  */
 @RestController
-@RequestMapping(value = "/api/global/unlimits/image")
+@RequestMapping(value = "/api/global/unlimits/tag")
 @CrossOrigin("*")
-public class GlobalUnlimitsImageController implements CrudController<UIGlobalUnlimitsImage, EOUnlimitsImage, Long>{
+@Hidden
+public class GlobalCustUnlimitsTagController implements CrudController<UICustUnlimitsTag, EOCustUnlimitsTag, Long>{
 	
 	@Autowired
-	private GlobalUnlimitsImageService globalUnlimitsImageService;
+	private GlobalCustUnlimitsTagService globalCustUnlimitsTagService;
 
 	@Override
-	public CrudService<UIGlobalUnlimitsImage, EOUnlimitsImage, Long> getService() {
-		return globalUnlimitsImageService;
+	public CrudService<UICustUnlimitsTag, EOCustUnlimitsTag, Long> getService() {
+		return globalCustUnlimitsTagService;
 	}
 	
     @GetMapping("/current")
 	public Response<Object> getCuurent(@RequestHeader(required =false)  MultiValueMap<String,String> headers){
     	Response<Object> response=new Response<Object>();
 		try {
-			response.setData(globalUnlimitsImageService.getCurrent(headers));
+			response.setData(globalCustUnlimitsTagService.getCurrent(headers));
 			response.setSuccess(SUCCESS);
 			response.setMessage(SUCCESSFULLY_PROCCEED);
 			return response;

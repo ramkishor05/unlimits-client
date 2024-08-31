@@ -14,15 +14,12 @@ import com.brijframework.client.entities.EOJournal;
 import com.brijframework.client.global.model.UIGlobalJournalItem;
 import com.brijframework.client.global.service.GlobalJournalService;
 
-import io.swagger.v3.oas.annotations.Hidden;
-
 /**
  *  @author omnie
  */
 @RestController
 @RequestMapping(value = "/api/global/journals")
 @CrossOrigin("*")
-@Hidden
 public class GlobalJournalController implements CrudController<UIGlobalJournalItem, EOJournal, Long>{
 	
 	@Autowired

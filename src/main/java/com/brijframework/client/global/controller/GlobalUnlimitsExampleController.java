@@ -18,15 +18,12 @@ import com.brijframework.client.entities.EOUnlimitsExample;
 import com.brijframework.client.global.model.UIGlobalUnlimitsExample;
 import com.brijframework.client.global.service.GlobalUnlimitsExampleService;
 
-import io.swagger.v3.oas.annotations.Hidden;
-
 /**
  *  @author omnie
  */
 @RestController
 @RequestMapping(value = "/api/global/unlimits/example")
 @CrossOrigin("*")
-@Hidden
 public class GlobalUnlimitsExampleController implements CrudController<UIGlobalUnlimitsExample, EOUnlimitsExample, Long>{
 	
 	@Autowired
