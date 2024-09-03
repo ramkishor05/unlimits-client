@@ -6,43 +6,61 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(value = Include.NON_NULL)
-public class UIDeviceUnlimitsImageItem extends UIModel{
+public class UIDeviceUnlimitsImageItem extends UIModel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private Long year;
-	
-	private String imageId;
 
-	private String imageName;
+	private Long year;
+
+	private Long tagId;
+
+	private String tagName;
+
+	private Long imageId;
 
 	private String imageUrl;
-	
+
 	private Long mainCategoryId;
-	
+
 	private String mainCategoryName;
 
 	private Long subCategoryId;
-	
+
 	private String subCategoryName;
 
-	public String getImageId() {
+	public Long getYear() {
+		return year;
+	}
+
+	public void setYear(Long year) {
+		this.year = year;
+	}
+
+	public Long getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(Long tagId) {
+		this.tagId = tagId;
+	}
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
+	public Long getImageId() {
 		return imageId;
 	}
 
-	public void setImageId(String imageId) {
+	public void setImageId(Long imageId) {
 		this.imageId = imageId;
-	}
-
-	public String getImageName() {
-		return imageName;
-	}
-
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
 	}
 
 	public String getImageUrl() {
@@ -51,14 +69,6 @@ public class UIDeviceUnlimitsImageItem extends UIModel{
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-	public Long getYear() {
-		return year;
-	}
-
-	public void setYear(Long year) {
-		this.year = year;
 	}
 
 	public Long getMainCategoryId() {
@@ -92,4 +102,5 @@ public class UIDeviceUnlimitsImageItem extends UIModel{
 	public void setSubCategoryName(String subCategoryName) {
 		this.subCategoryName = subCategoryName;
 	}
+
 }

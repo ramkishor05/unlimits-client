@@ -1,6 +1,7 @@
 package com.brijframework.client.device.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -23,6 +24,8 @@ public class UIDeviceUnlimitsExample extends UIDeviceUnlimits{
 	private String posterUrl;
 
 	private List<UIDeviceUnlimitsExampleItem> exampleItems;
+	
+	private Map<Integer, UIDeviceUnlimitsVisualize> visualizeMap;
 
 	public Long getExampleId() {
 		return exampleId;
@@ -88,4 +91,12 @@ public class UIDeviceUnlimitsExample extends UIDeviceUnlimits{
 		this.exampleItems = exampleItems;
 	}
 
+	public Map<Integer, UIDeviceUnlimitsVisualize> getVisualizeMap() {
+		return visualizeMap;
+	}
+
+	public void setVisualizeMap(Map<Integer, UIDeviceUnlimitsVisualize> visualizeMap) {
+		this.visualizeMap = visualizeMap;
+	}
+	
 }

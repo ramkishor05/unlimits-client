@@ -24,6 +24,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceGoalGroupMapper;
 import com.brijframework.client.device.mapper.DeviceGoalItemMapper;
 import com.brijframework.client.device.model.UIDeviceGoalGroup;
@@ -92,6 +93,11 @@ public class DeviceGoalGroupServiceImpl extends CrudServiceImpl<UIDeviceGoalGrou
  
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 		addCustomPredicate(GOAL_DATE, goalDate);
+	}
+	
+	@Override
+	public void preAdd(UIDeviceGoalGroup data, Map<String, List<String>> headers) {
+		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
 	}
 
 	@Override

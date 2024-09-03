@@ -22,6 +22,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceAffirmationGroupMapper;
 import com.brijframework.client.device.mapper.DeviceAffirmationItemMapper;
 import com.brijframework.client.device.model.UIDeviceAffirmationGroup;
@@ -95,6 +96,7 @@ public class DeviceAffirmationServiceImpl extends CrudServiceImpl<UIDeviceAffirm
 	
 	@Override
 	public void preAdd(UIDeviceAffirmationGroup data, Map<String, List<String>> headers) {
+		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
 		ResourceFile resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(AFFIRMATION);

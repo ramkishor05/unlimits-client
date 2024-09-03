@@ -38,7 +38,7 @@ public abstract class EOUnlimits extends EOCustObject {
 	@JoinColumn(name = CUST_BUSINESS_APP_ID, nullable = false)
 	@ManyToOne
 	private EOCustBusinessApp custBusinessApp;
-
+	
 	public EOCustBusinessApp getCustBusinessApp() {
 		return custBusinessApp;
 	}

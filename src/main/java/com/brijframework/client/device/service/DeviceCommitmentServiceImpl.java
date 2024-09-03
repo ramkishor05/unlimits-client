@@ -24,6 +24,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceCommitmentGroupMapper;
 import com.brijframework.client.device.mapper.DeviceCommitmentItemMapper;
 import com.brijframework.client.device.model.UIDeviceCommitmentGroup;
@@ -95,6 +96,10 @@ public class DeviceCommitmentServiceImpl
 		addCustomPredicate(COMMITMENT_DATE, commitmentDate);
 	}
 	
+	@Override
+	public void preAdd(UIDeviceCommitmentGroup data, Map<String, List<String>> headers) {
+		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
+	}
 
 	@Override
 	public void preAdd(UIDeviceCommitmentGroup data, EOCommitmentGroup entity,

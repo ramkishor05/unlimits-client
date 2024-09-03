@@ -50,6 +50,9 @@ public class EOUnlimitsExample extends EOUnlimits {
 	@OneToMany(mappedBy = "unlimitsExample", cascade = CascadeType.ALL)
 	private List<EOUnlimitsExampleItem> exampleItems;
 
+	@OneToMany(mappedBy = "unlimitsExample")
+	private List<EOUnlimitsVisualize> unlimitsVisualizeList;
+
 	public Long getExampleId() {
 		return exampleId;
 	}
@@ -120,5 +123,13 @@ public class EOUnlimitsExample extends EOUnlimits {
 
 	public void setExampleItems(List<EOUnlimitsExampleItem> exampleItems) {
 		this.exampleItems = exampleItems;
+	}
+
+	public List<EOUnlimitsVisualize> getUnlimitsVisualizeList() {
+		return unlimitsVisualizeList;
+	}
+
+	public void setUnlimitsVisualizeList(List<EOUnlimitsVisualize> unlimitsVisualizeList) {
+		this.unlimitsVisualizeList = unlimitsVisualizeList;
 	}
 }

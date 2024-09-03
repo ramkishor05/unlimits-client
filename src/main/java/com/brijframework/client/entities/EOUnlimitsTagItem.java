@@ -25,10 +25,16 @@ public class EOUnlimitsTagItem extends EOCustObject {
 	private Integer year;
 
 	@Column(name = "TAG_ID", nullable = true)
-	private String tagId;
+	private Long tagId;
 
 	@Column(name = "TAG_NAME", nullable = true)
 	private String tagName;
+
+	@Column(name = "IMAGE_ID", nullable = true)
+	private Long imageId;
+
+	@Column(name = "IMAGE_URL", nullable = true)
+	private String imageUrl;
 
 	@Column(name = "MAIN_CATEGORY_ID")
 	private Long mainCategoryId;
@@ -46,11 +52,11 @@ public class EOUnlimitsTagItem extends EOCustObject {
 	@ManyToOne
 	private EOUnlimitsTag unlimitsTag;
 
-	public String getTagId() {
+	public Long getTagId() {
 		return tagId;
 	}
 
-	public void setTagId(String tagId) {
+	public void setTagId(Long tagId) {
 		this.tagId = tagId;
 	}
 
@@ -60,6 +66,22 @@ public class EOUnlimitsTagItem extends EOCustObject {
 
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
+	}
+
+	public Long getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		this.imageId = imageId;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public Integer getYear() {

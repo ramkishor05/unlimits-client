@@ -3,14 +3,17 @@ package com.brijframework.client.device.service;
 import java.util.List;
 import java.util.Map;
 
-import com.brijframework.client.device.model.UIDeviceUnlimits;
-import com.brijframework.client.device.model.UIDeviceVisualizeRequest;
-import com.brijframework.client.device.model.UIDeviceVisualizeResponse;
+import org.unlimits.rest.crud.service.CrudService;
 
-public interface DeviceVisualizeService {
+import com.brijframework.client.device.model.UIDeviceUnlimits;
+import com.brijframework.client.device.model.UIDeviceUnlimitsVisualize;
+import com.brijframework.client.device.model.UIDeviceVisualizeRequest;
+import com.brijframework.client.entities.EOUnlimitsVisualize;
+
+public interface DeviceVisualizeService extends CrudService<UIDeviceUnlimitsVisualize, EOUnlimitsVisualize, Long>{
 	
-	List<UIDeviceUnlimits> findAll(Map<String, List<String>> headers, Map<String, Object> filters);
+	List<UIDeviceUnlimits> findAllDeviceUnlimits(Map<String, List<String>> headers, Map<String, Object> filters);
 	
-	UIDeviceVisualizeResponse add(UIDeviceVisualizeRequest clientVisualizeRequest);
+	UIDeviceUnlimitsVisualize request(UIDeviceVisualizeRequest clientVisualizeRequest, Map<String, List<String>> headers);
 
 }

@@ -22,7 +22,13 @@ public class EOUnlimitsImageItem extends EOCustObject {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "YEAR")
-	private Long year;
+	private Integer year;
+
+	@Column(name = "TAG_ID", nullable = true)
+	private Long tagId;
+
+	@Column(name = "TAG_NAME", nullable = true)
+	private String tagName;
 
 	@Column(name = "IMAGE_ID", nullable = true)
 	private String imageId;
@@ -46,6 +52,22 @@ public class EOUnlimitsImageItem extends EOCustObject {
 	@ManyToOne
 	private EOUnlimitsImage unlimitsImage;
 
+	public Long getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(Long tagId) {
+		this.tagId = tagId;
+	}
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
 	public String getImageId() {
 		return imageId;
 	}
@@ -62,11 +84,11 @@ public class EOUnlimitsImageItem extends EOCustObject {
 		this.imageUrl = imageUrl;
 	}
 
-	public Long getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(Long year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 

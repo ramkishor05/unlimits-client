@@ -25,6 +25,9 @@ public class EOUnlimitsImage extends EOUnlimits {
 
 	@OneToMany(mappedBy = "unlimitsImage", cascade = CascadeType.ALL)
 	private List<EOUnlimitsImageItem> imageItems;
+	
+	@OneToMany(mappedBy = "unlimitsImage")
+	private List<EOUnlimitsVisualize> unlimitsVisualizeList;
 
 	public List<EOUnlimitsImageItem> getImageItems() {
 		if(imageItems==null) {
@@ -35,6 +38,15 @@ public class EOUnlimitsImage extends EOUnlimits {
 
 	public void setImageItems(List<EOUnlimitsImageItem> imageItems) {
 		this.imageItems = imageItems;
+	}
+
+
+	public List<EOUnlimitsVisualize> getUnlimitsVisualizeList() {
+		return unlimitsVisualizeList;
+	}
+
+	public void setUnlimitsVisualizeList(List<EOUnlimitsVisualize> unlimitsVisualizeList) {
+		this.unlimitsVisualizeList = unlimitsVisualizeList;
 	}
 
 }

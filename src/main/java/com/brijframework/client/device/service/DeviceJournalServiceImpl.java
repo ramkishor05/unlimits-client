@@ -25,6 +25,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceJournalMapper;
 import com.brijframework.client.device.model.UIDeviceJournalItem;
 import com.brijframework.client.entities.EOCustBusinessApp;
@@ -84,6 +85,11 @@ public class DeviceJournalServiceImpl extends CrudServiceImpl<UIDeviceJournalIte
  
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 		addCustomPredicate(JOURNAL_DATE, journalDate);
+	}
+	
+	@Override
+	public void preAdd(UIDeviceJournalItem data, Map<String, List<String>> headers) {
+		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
 	}
 
 	@Override

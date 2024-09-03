@@ -24,6 +24,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceReProgramGroupMapper;
 import com.brijframework.client.device.mapper.DeviceReProgramItemMapper;
 import com.brijframework.client.device.model.UIDeviceReProgramGroup;
@@ -104,6 +105,7 @@ public class DeviceReProgramServiceImpl extends CrudServiceImpl<UIDeviceReProgra
 	
 	@Override
 	public void preAdd(UIDeviceReProgramGroup data, Map<String, List<String>> headers) {
+		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
 		ResourceFile resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(REPROGRAM);

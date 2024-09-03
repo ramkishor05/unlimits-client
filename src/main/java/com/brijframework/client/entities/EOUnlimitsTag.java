@@ -25,6 +25,9 @@ public class EOUnlimitsTag extends EOUnlimits{
 	
 	@OneToMany(mappedBy = "unlimitsTag", cascade = CascadeType.ALL)
 	private List<EOUnlimitsTagItem> tagItems;
+	
+	@OneToMany(mappedBy = "unlimitsTag")
+	private List<EOUnlimitsVisualize> unlimitsVisualizeList;
 
 	public List<EOUnlimitsTagItem> getTagItems() {
 		if(tagItems==null) {
@@ -37,4 +40,13 @@ public class EOUnlimitsTag extends EOUnlimits{
 		this.tagItems = tagItems;
 	}
 	
+
+	public List<EOUnlimitsVisualize> getUnlimitsVisualizeList() {
+		return unlimitsVisualizeList;
+	}
+
+	public void setUnlimitsVisualizeList(List<EOUnlimitsVisualize> unlimitsVisualizeList) {
+		this.unlimitsVisualizeList = unlimitsVisualizeList;
+	}
+
 }

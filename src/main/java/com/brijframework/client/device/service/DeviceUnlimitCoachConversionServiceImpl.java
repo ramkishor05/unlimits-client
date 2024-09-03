@@ -82,6 +82,11 @@ public class DeviceUnlimitCoachConversionServiceImpl extends CrudServiceImpl<UIU
 	}
 	
 	@Override
+	public void preAdd(UIUnlimitsCoachConversion data, Map<String, List<String>> headers) {
+		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
+	}
+	
+	@Override
 	public void preAdd(UIUnlimitsCoachConversion data, EOUnlimitsCoachConversion entity,
 			Map<String, List<String>> headers) {
 		EOCustBusinessApp eoCustBusinessApp = (EOCustBusinessApp) ApiSecurityContext.getContext().getCurrentAccount();

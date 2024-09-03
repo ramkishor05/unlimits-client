@@ -21,6 +21,7 @@ import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
 import org.unlimits.rest.repository.CustomPredicate;
 
+import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceMindSetGroupMapper;
 import com.brijframework.client.device.mapper.DeviceMindSetItemMapper;
 import com.brijframework.client.device.model.UIDeviceMindSetGroup;
@@ -94,9 +95,11 @@ public class DeviceMindSetServiceImpl extends CrudServiceImpl<UIDeviceMindSetGro
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 		addCustomPredicate(MINDSET_DATE, mindsetDate);
 	}
-	
+
+
 	@Override
 	public void preAdd(UIDeviceMindSetGroup data, Map<String, List<String>> headers) {
+		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
 		ResourceFile resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(MINDSET);

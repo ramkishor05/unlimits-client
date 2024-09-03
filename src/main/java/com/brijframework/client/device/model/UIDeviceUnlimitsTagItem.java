@@ -15,9 +15,13 @@ public class UIDeviceUnlimitsTagItem extends UIModel {
 
 	private Long year;
 
-	private String tagId;
+	private Long tagId;
 
 	private String tagName;
+
+	private Long imageId;
+
+	private String imageUrl;
 
 	private Long mainCategoryId;
 
@@ -27,11 +31,11 @@ public class UIDeviceUnlimitsTagItem extends UIModel {
 
 	private String subCategoryName;
 
-	public String getTagId() {
+	public Long getTagId() {
 		return tagId;
 	}
 
-	public void setTagId(String tagId) {
+	public void setTagId(Long tagId) {
 		this.tagId = tagId;
 	}
 
@@ -41,6 +45,22 @@ public class UIDeviceUnlimitsTagItem extends UIModel {
 
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
+	}
+
+	public Long getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		this.imageId = imageId;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public Long getYear() {
