@@ -43,7 +43,6 @@ import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.repository.UnlimitsExampleItemRepository;
 import com.brijframework.client.repository.UnlimitsExampleRepository;
-import com.brijframework.client.repository.UnlimitsVisualizeRepository;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 import jakarta.persistence.criteria.Path;
@@ -71,9 +70,6 @@ public class DeviceUnlimitsExampleServiceImpl extends CrudServiceImpl<UIDeviceUn
 
 	@Autowired
 	private DeviceUnlimitsExampleItemMapper clientUnlimitsExampleItemMapper;
-
-	@Autowired
-	private UnlimitsVisualizeRepository unlimitsVisualizeRepository;
 
 	@Autowired
 	private DeviceUnlimitsVisualizeMapper deviceUnlimitsVisualizeMapper;
@@ -190,8 +186,7 @@ public class DeviceUnlimitsExampleServiceImpl extends CrudServiceImpl<UIDeviceUn
 	@Override
 	public void postFetch(EOUnlimitsExample findObject, UIDeviceUnlimitsExample dtoObject) {
 		dtoObject.setType(UnlimitsType.EXAMPLE);
-		List<EOUnlimitsVisualize> eoUnlimitsVisualizes = unlimitsVisualizeRepository
-				.findAllByUnlimitsExampleId(findObject.getId());
+		List<EOUnlimitsVisualize> eoUnlimitsVisualizes = findObject.getUnlimitsVisualizeList();
 		Map<Integer, UIDeviceUnlimitsVisualize> unlimitsVisualizeList = eoUnlimitsVisualizes.stream()
 				.collect(Collectors.toMap(unlimitsVisualize -> unlimitsVisualize.getVisualizeYear(),
 						unlimitsVisualize -> deviceUnlimitsVisualizeMapper.mapToDTO(unlimitsVisualize)));

@@ -27,15 +27,15 @@ public class EOUnlimitsVisualize extends EOCustObject {
 	@Column(name = "VISUALIZE_YEAR")
 	private Integer visualizeYear;
 	
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "UNLIMITS_IMAGE_ID")
 	private EOUnlimitsImage unlimitsImage;
 	
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "UNLIMITS_EXAMPLE_ID")
 	private EOUnlimitsExample unlimitsExample;
 	
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "UNLIMITS_TAG_ID")
 	private EOUnlimitsTag unlimitsTag;
 	

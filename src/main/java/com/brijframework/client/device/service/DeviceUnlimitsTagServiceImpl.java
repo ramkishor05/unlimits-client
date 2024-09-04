@@ -37,7 +37,6 @@ import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.repository.CustBusinessAppRepository;
 import com.brijframework.client.repository.UnlimitsTagItemRepository;
 import com.brijframework.client.repository.UnlimitsTagRepository;
-import com.brijframework.client.repository.UnlimitsVisualizeRepository;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 import jakarta.persistence.criteria.Path;
@@ -63,9 +62,6 @@ public class DeviceUnlimitsTagServiceImpl extends CrudServiceImpl<UIDeviceUnlimi
 
 	@Autowired
 	private DeviceUnlimitsTagItemMapper clientUnlimitsTagItemMapper;
-
-	@Autowired
-	private UnlimitsVisualizeRepository unlimitsVisualizeRepository;
 
 	@Autowired
 	private DeviceUnlimitsVisualizeMapper deviceUnlimitsVisualizeMapper;
@@ -165,8 +161,7 @@ public class DeviceUnlimitsTagServiceImpl extends CrudServiceImpl<UIDeviceUnlimi
 	@Override
 	public void postFetch(EOUnlimitsTag findObject, UIDeviceUnlimitsTag dtoObject) {
 		dtoObject.setType(UnlimitsType.WORDS);
-		List<EOUnlimitsVisualize> eoUnlimitsVisualizes = unlimitsVisualizeRepository
-				.findAllByUnlimitsTagId(findObject.getId());
+		List<EOUnlimitsVisualize> eoUnlimitsVisualizes = findObject.getUnlimitsVisualizeList();
 		Map<Integer, UIDeviceUnlimitsVisualize> unlimitsVisualizeList = eoUnlimitsVisualizes.stream()
 				.collect(Collectors.toMap(unlimitsVisualize -> unlimitsVisualize.getVisualizeYear(),
 						unlimitsVisualize -> deviceUnlimitsVisualizeMapper.mapToDTO(unlimitsVisualize)));

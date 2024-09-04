@@ -2,8 +2,11 @@ package com.brijframework.client.device.model;
 
 import org.unlimits.rest.model.UIModel;
 
+import com.brijframework.client.constants.UnlimitsType;
 import com.brijframework.client.entities.EOUnlimits;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.validation.constraints.NotNull;
 
 public class UIDeviceUnlimitsVisualize extends UIModel {
 
@@ -18,6 +21,11 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 	private Integer errorCode;
 	private String errorMsg;
 	private String traceMsg;
+	@NotNull
+	private UnlimitsType type;
+	
+	@NotNull
+	private Long unlimitId;
 
 	@JsonIgnore
 	private EOUnlimits eoUnlimits;
@@ -85,4 +93,21 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 	public void setEoUnlimits(EOUnlimits eoUnlimits) {
 		this.eoUnlimits = eoUnlimits;
 	}
+
+	public UnlimitsType getType() {
+		return type;
+	}
+
+	public void setType(UnlimitsType type) {
+		this.type = type;
+	}
+
+	public Long getUnlimitId() {
+		return unlimitId;
+	}
+
+	public void setUnlimitId(Long unlimitId) {
+		this.unlimitId = unlimitId;
+	}
+
 }
