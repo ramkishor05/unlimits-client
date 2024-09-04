@@ -97,7 +97,7 @@ public class EOUnlimitsVisualize extends EOCustObject {
 	public void setUnlimitsTag(EOUnlimitsTag unlimitsTag) {
 		this.unlimitsTag = unlimitsTag;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
@@ -105,5 +105,5 @@ public class EOUnlimitsVisualize extends EOCustObject {
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	
 }
