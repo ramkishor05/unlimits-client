@@ -1,8 +1,17 @@
 package com.brijframework.client.constants;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum UnlimitsType {
 
-	WORDS("WORDS"), IMAGE("IMAGE"), EXAMPLE("EXAMPLE");
+	@JsonProperty("WORDS")
+	WORDS("WORDS"), 
+	
+	@JsonProperty("IMAGE")
+	IMAGE("IMAGE"), 
+	
+	@JsonProperty("EXAMPLE")
+	EXAMPLE("EXAMPLE");
 
 	private String type;
 
@@ -14,5 +23,4 @@ public enum UnlimitsType {
 		return type;
 	}
 	
-
 }

@@ -37,6 +37,9 @@ public class UIDeviceUnlimits extends UIModel {
 	}
 
 	public UnlimitsType getType() {
+		if(type==null) {
+			type=UnlimitsType.WORDS;
+		}
 		return type;
 	}
 

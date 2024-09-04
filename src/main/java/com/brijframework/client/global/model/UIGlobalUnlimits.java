@@ -37,6 +37,9 @@ public class UIGlobalUnlimits extends UIGlobalModel {
 	}
 
 	public UnlimitsType getType() {
+		if(type==null) {
+			type=UnlimitsType.WORDS;
+		}
 		return type;
 	}
 

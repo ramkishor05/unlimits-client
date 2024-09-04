@@ -165,21 +165,23 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 	@Override
 	public void preAdd(UIDeviceUnlimitsVisualize data, Map<String, List<String>> headers) {
 		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
-		switch (data.getType()) {
-		case WORDS: {
-			data.setEoUnlimits(clientUnlimitsTagRepository.getReferenceById(data.getUnlimitId()));
-			break;
-		}
-		case IMAGE: {
-			data.setEoUnlimits(clientUnlimitsImageRepository.getReferenceById(data.getUnlimitId()));
-			break;
-		}
-		case EXAMPLE: {
-			data.setEoUnlimits(clientUnlimitsExampleRepository.getReferenceById(data.getUnlimitId()));
-			break;
-		}
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + data.getType());
+		if(data.getEoUnlimits()==null && data.getUnlimitId()!=null) {
+			switch (data.getType()) {
+			case WORDS: {
+				data.setEoUnlimits(clientUnlimitsTagRepository.getReferenceById(data.getUnlimitId()));
+				break;
+			}
+			case IMAGE: {
+				data.setEoUnlimits(clientUnlimitsImageRepository.getReferenceById(data.getUnlimitId()));
+				break;
+			}
+			case EXAMPLE: {
+				data.setEoUnlimits(clientUnlimitsExampleRepository.getReferenceById(data.getUnlimitId()));
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + data.getType());
+			}
 		}
 	}
 	
@@ -260,6 +262,12 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 	private String buildCptResponse(String prompts, UIDeviceUnlimitsVisualize buildVisualize) {
 		try {
 			return chatGptClient.getTextResult(prompts);
+		}catch (RuntimeException e) {
+			e.printStackTrace();
+			buildVisualize.setErrorCode(504);
+			buildVisualize.setErrorMsg("Due to some technical issue. Please try after sometime.");
+			buildVisualize.setTraceMsg(e.getMessage());
+			return null;
 		}catch (Exception e) {
 			e.printStackTrace();
 			buildVisualize.setErrorCode(504);

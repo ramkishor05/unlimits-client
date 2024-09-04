@@ -40,7 +40,7 @@ public class DeviceVisualizeController implements CrudController<UIDeviceUnlimit
 	}
 
 	@PostMapping("/request")
-	public Response<Object>  add(@RequestBody  UIDeviceVisualizeRequest clientVisualizeRequest, @RequestHeader MultiValueMap<String,String> headers) {
+	public Response<Object> add(@RequestBody  UIDeviceVisualizeRequest clientVisualizeRequest, @RequestHeader MultiValueMap<String,String> headers) {
 		Response<Object> response=new Response<Object>();
 		try {
 			response.setData(clientVisualizeService.request(clientVisualizeRequest, headers));

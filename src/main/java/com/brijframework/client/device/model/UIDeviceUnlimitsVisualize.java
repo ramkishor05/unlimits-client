@@ -6,8 +6,6 @@ import com.brijframework.client.constants.UnlimitsType;
 import com.brijframework.client.entities.EOUnlimits;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.validation.constraints.NotNull;
-
 public class UIDeviceUnlimitsVisualize extends UIModel {
 
 	/**
@@ -21,10 +19,9 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 	private Integer errorCode;
 	private String errorMsg;
 	private String traceMsg;
-	@NotNull
+	
 	private UnlimitsType type;
 	
-	@NotNull
 	private Long unlimitId;
 
 	@JsonIgnore
@@ -95,6 +92,9 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 	}
 
 	public UnlimitsType getType() {
+		if(type==null) {
+			type=UnlimitsType.WORDS;
+		}
 		return type;
 	}
 

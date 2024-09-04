@@ -4,16 +4,13 @@ import com.brijframework.client.constants.UnlimitsType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import jakarta.validation.constraints.NotNull;
-
 @JsonInclude(value = Include.NON_NULL)
 public class UIGlobalVisualizeRequest {
 	
-	@NotNull
 	private Integer year;
-	@NotNull
+	
 	private UnlimitsType type;
-	@NotNull
+	
 	private Long unlimitId;
 
 	public Integer getYear() {
@@ -25,6 +22,9 @@ public class UIGlobalVisualizeRequest {
 	}
 
 	public UnlimitsType getType() {
+		if(type==null) {
+			type=UnlimitsType.WORDS;
+		}
 		return type;
 	}
 

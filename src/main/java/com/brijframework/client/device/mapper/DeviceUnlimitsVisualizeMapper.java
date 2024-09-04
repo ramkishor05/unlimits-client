@@ -37,7 +37,7 @@ public interface DeviceUnlimitsVisualizeMapper extends GenericMapper<EOUnlimitsV
 		if(e.getUnlimitsTag() !=null) {
 			return UnlimitsType.WORDS;
 		}
-		return UnlimitsType.valueOf(e.getType());
+		return e.getType();
 	}
 	
 	static Long getUnlimitsId(EOUnlimitsVisualize e){

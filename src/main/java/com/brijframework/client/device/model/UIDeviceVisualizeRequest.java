@@ -4,19 +4,14 @@ import org.unlimits.rest.model.UIModel;
 
 import com.brijframework.client.constants.UnlimitsType;
 
-import jakarta.validation.constraints.NotNull;
-
 public class UIDeviceVisualizeRequest extends UIModel{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@NotNull
 	private Integer year;
-	@NotNull
 	private UnlimitsType type;
-	@NotNull
 	private Long unlimitId;
 
 	public Integer getYear() {
@@ -28,6 +23,9 @@ public class UIDeviceVisualizeRequest extends UIModel{
 	}
 
 	public UnlimitsType getType() {
+		if(type==null) {
+			type=UnlimitsType.WORDS;
+		}
 		return type;
 	}
 
