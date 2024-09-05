@@ -3,8 +3,6 @@
  */
 package com.brijframework.client.entities;
 
-import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,8 +10,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -40,18 +36,6 @@ public class EOGoalGroup extends EOCustObject {
 	
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
 	private List<EOGoalItem> goals;
-	
-	@JoinColumn(name = CUST_BUSINESS_APP_ID, nullable = false)
-	@ManyToOne
-	private EOCustBusinessApp custBusinessApp;
-
-	public EOCustBusinessApp getCustBusinessApp() {
-		return custBusinessApp;
-	}
-
-	public void setCustBusinessApp(EOCustBusinessApp custBusinessApp) {
-		this.custBusinessApp = custBusinessApp;
-	}
 
 	public Date getGoalDate() {
 		return goalDate;

@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "EOCLIENT_AFFIRMATION_ITEM")
-public class EOAffirmationItem extends EOCustObject {
+public class EOAffirmationItem extends EOEntityObject {
 
 	/**
 	 * 

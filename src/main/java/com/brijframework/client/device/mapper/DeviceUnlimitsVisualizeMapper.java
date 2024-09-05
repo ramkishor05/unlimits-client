@@ -28,27 +28,20 @@ public interface DeviceUnlimitsVisualizeMapper extends GenericMapper<EOUnlimitsV
 	UIDeviceUnlimitsVisualize mapToDTO(EOUnlimitsVisualize e);
 	
 	static UnlimitsType getType(EOUnlimitsVisualize e){
-		if(e.getUnlimitsExample() !=null) {
-			return UnlimitsType.EXAMPLE;
-		}
-		if(e.getUnlimitsImage() !=null) {
-			return UnlimitsType.IMAGE;
-		}
-		if(e.getUnlimitsTag() !=null) {
-			return UnlimitsType.WORDS;
-		}
 		return e.getType();
 	}
 	
 	static Long getUnlimitsId(EOUnlimitsVisualize e){
-		if(e.getUnlimitsExample() !=null) {
-			return e.getUnlimitsExample().getId();
-		}
-		if(e.getUnlimitsImage() !=null) {
-			return e.getUnlimitsImage().getId();
-		}
-		if(e.getUnlimitsTag() !=null) {
-			return e.getUnlimitsTag().getId();
+		switch (e.getType()) {
+			case WORDS: {
+				return e.getUnlimitsTag().getId();
+			}
+			case IMAGE: {
+				return e.getUnlimitsImage().getId();
+			}
+			case EXAMPLE: {
+				return e.getUnlimitsExample().getId();
+			}
 		}
 		return null;
 	}

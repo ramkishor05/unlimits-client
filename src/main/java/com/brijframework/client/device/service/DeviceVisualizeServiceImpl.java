@@ -158,24 +158,48 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		buildVisualize.setVisualizeResponse(buildCptResponse(visualizeRequest, buildVisualize));
 		buildVisualize.setVisualizeYear(year);
 		buildVisualize.setEoUnlimits(unlimitsTag);
-		
+		buildVisualize.setUnlimitId(unlimitId);
 		return add(buildVisualize, headers);
 	}
 	
-	@Override
-	public void preAdd(UIDeviceUnlimitsVisualize data, Map<String, List<String>> headers) {
+	private void preSave(UIDeviceUnlimitsVisualize data, EOUnlimitsVisualize entity) {
+		if(data.getEoUnlimits() instanceof EOUnlimitsExample) {
+			entity.setUnlimitsExample((EOUnlimitsExample) data.getEoUnlimits());
+		}
+		if(data.getEoUnlimits() instanceof EOUnlimitsImage) {
+			entity.setUnlimitsImage((EOUnlimitsImage) data.getEoUnlimits());
+		}
+		if(data.getEoUnlimits() instanceof EOUnlimitsTag) {
+			entity.setUnlimitsTag((EOUnlimitsTag) data.getEoUnlimits());
+		}
+	}
+	
+
+	private void preSave(UIDeviceUnlimitsVisualize data) {
 		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
-		if(data.getEoUnlimits()==null && data.getUnlimitId()!=null) {
+		if(data.getUnlimitId()!=null) {
 			switch (data.getType()) {
 			case WORDS: {
+				unlimitsVisualizeRepository.findOneByUnlimitsTagIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
+					data.setId(unlimitsVisualize.getId());
+				});
+				if(data.getEoUnlimits()==null)
 				data.setEoUnlimits(clientUnlimitsTagRepository.getReferenceById(data.getUnlimitId()));
 				break;
 			}
 			case IMAGE: {
+				unlimitsVisualizeRepository.findOneByUnlimitsImageIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
+					data.setId(unlimitsVisualize.getId());
+				});
+				if(data.getEoUnlimits()==null)
 				data.setEoUnlimits(clientUnlimitsImageRepository.getReferenceById(data.getUnlimitId()));
 				break;
 			}
 			case EXAMPLE: {
+				unlimitsVisualizeRepository.findOneByUnlimitsExampleIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
+					data.setId(unlimitsVisualize.getId());
+				});
+				if(data.getEoUnlimits()==null)
 				data.setEoUnlimits(clientUnlimitsExampleRepository.getReferenceById(data.getUnlimitId()));
 				break;
 			}
@@ -185,78 +209,34 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		}
 	}
 	
+	
 	@Override
-	public void preAdd(UIDeviceUnlimitsVisualize data, EOUnlimitsVisualize entity, Map<String, List<String>> headers) {
-		if(data.getEoUnlimits() instanceof EOUnlimitsExample) {
-			unlimitsVisualizeRepository.findOneByUnlimitsExampleIdAndVisualizeYear(data.getEoUnlimits().getId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-				entity.setId(unlimitsVisualize.getId());
-				data.setId(unlimitsVisualize.getId());
-			});
-			entity.setUnlimitsExample((EOUnlimitsExample) data.getEoUnlimits());
-		}
-		if(data.getEoUnlimits() instanceof EOUnlimitsImage) {
-			unlimitsVisualizeRepository.findOneByUnlimitsImageIdAndVisualizeYear(data.getEoUnlimits().getId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-				entity.setId(unlimitsVisualize.getId());
-				data.setId(unlimitsVisualize.getId());
-			});
-			entity.setUnlimitsImage((EOUnlimitsImage) data.getEoUnlimits());
-		}
-		if(data.getEoUnlimits() instanceof EOUnlimitsTag) {
-			unlimitsVisualizeRepository.findOneByUnlimitsTagIdAndVisualizeYear(data.getEoUnlimits().getId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-				entity.setId(unlimitsVisualize.getId());
-				data.setId(unlimitsVisualize.getId());
-			});
-			entity.setUnlimitsTag((EOUnlimitsTag) data.getEoUnlimits());
-		}
-		super.preAdd(data, entity, headers);
+	public void preAdd(UIDeviceUnlimitsVisualize data, Map<String, List<String>> headers) {
+		preSave(data);
 	}
 	
+	@Override
+	public void preAdd(UIDeviceUnlimitsVisualize data, EOUnlimitsVisualize entity, Map<String, List<String>> headers) {
+		preSave(data, entity);
+	}
 
 	@Override
 	public void preUpdate(UIDeviceUnlimitsVisualize data, Map<String, List<String>> headers) {
-		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
-		switch (data.getType()) {
-		case WORDS: {
-			data.setEoUnlimits(clientUnlimitsTagRepository.getReferenceById(data.getUnlimitId()));
-			break;
-		}
-		case IMAGE: {
-			data.setEoUnlimits(clientUnlimitsImageRepository.getReferenceById(data.getUnlimitId()));
-			break;
-		}
-		case EXAMPLE: {
-			data.setEoUnlimits(clientUnlimitsExampleRepository.getReferenceById(data.getUnlimitId()));
-			break;
-		}
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + data.getType());
-		}
+		preSave(data);
+	}
+
+	@Override
+	public List<String> ignoreProperties() {
+		List<String> ignoreProperties = super.ignoreProperties();
+		ignoreProperties.add("unlimitsExample");
+		ignoreProperties.add("unlimitsImage");
+		ignoreProperties.add("unlimitsTag");
+		return ignoreProperties;
 	}
 	
 	@Override
 	public void preUpdate(UIDeviceUnlimitsVisualize data, EOUnlimitsVisualize entity, Map<String, List<String>> headers) {
-		if(data.getEoUnlimits() instanceof EOUnlimitsExample) {
-			unlimitsVisualizeRepository.findOneByUnlimitsExampleIdAndVisualizeYear(data.getEoUnlimits().getId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-				entity.setId(unlimitsVisualize.getId());
-				data.setId(unlimitsVisualize.getId());
-			});
-			entity.setUnlimitsExample((EOUnlimitsExample) data.getEoUnlimits());
-		}
-		if(data.getEoUnlimits() instanceof EOUnlimitsImage) {
-			unlimitsVisualizeRepository.findOneByUnlimitsImageIdAndVisualizeYear(data.getEoUnlimits().getId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-				entity.setId(unlimitsVisualize.getId());
-				data.setId(unlimitsVisualize.getId());
-			});
-			entity.setUnlimitsImage((EOUnlimitsImage) data.getEoUnlimits());
-		}
-		if(data.getEoUnlimits() instanceof EOUnlimitsTag) {
-			unlimitsVisualizeRepository.findOneByUnlimitsTagIdAndVisualizeYear(data.getEoUnlimits().getId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-				entity.setId(unlimitsVisualize.getId());
-				data.setId(unlimitsVisualize.getId());
-			});
-			entity.setUnlimitsTag((EOUnlimitsTag) data.getEoUnlimits());
-		}
-		super.preAdd(data, entity, headers);
+		preSave(data, entity);
 	}
 
 	private String buildCptResponse(String prompts, UIDeviceUnlimitsVisualize buildVisualize) {
@@ -314,6 +294,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		buildVisualize.setVisualizeResponse(buildCptResponse(visualizeRequest, buildVisualize));
 		buildVisualize.setVisualizeYear(year);
 		buildVisualize.setEoUnlimits(unlimitsImage);
+		buildVisualize.setUnlimitId(unlimitId);
 		return add(buildVisualize, headers);
 	}
 
@@ -339,6 +320,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		buildVisualize.setVisualizeResponse(buildCptResponse(visualizeRequest, buildVisualize));
 		buildVisualize.setVisualizeYear(year);
 		buildVisualize.setEoUnlimits(unlimitsExample);
+		buildVisualize.setUnlimitId(unlimitId);
 		return add(buildVisualize, headers);
 	}
 

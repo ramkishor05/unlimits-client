@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.brijframework.util.reflect.FieldUtil;
+import org.brijframework.util.support.ReflectionAccess;
 import org.brijframework.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ import com.brijframework.client.device.mapper.DeviceUnlimitsVisualizeMapper;
 import com.brijframework.client.device.model.UIDeviceUnlimitsTag;
 import com.brijframework.client.device.model.UIDeviceUnlimitsVisualize;
 import com.brijframework.client.entities.EOCustBusinessApp;
+import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.entities.EOUnlimitsTag;
 import com.brijframework.client.entities.EOUnlimitsTagItem;
 import com.brijframework.client.entities.EOUnlimitsVisualize;
@@ -85,6 +88,14 @@ public class DeviceUnlimitsTagServiceImpl extends CrudServiceImpl<UIDeviceUnlimi
 		};
 
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
+	}
+	
+	@Override
+	public List<String> ignoreProperties() {
+		List<String> ignoreProperties = super.ignoreProperties();
+		ignoreProperties.addAll(FieldUtil.getFieldList(EOEntityObject.class, ReflectionAccess.PRIVATE));
+		ignoreProperties.add(CUST_BUSINESS_APP);
+		return ignoreProperties;
 	}
 	
 	@Override

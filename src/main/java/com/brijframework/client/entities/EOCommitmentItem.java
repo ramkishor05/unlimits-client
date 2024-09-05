@@ -20,7 +20,7 @@ import jakarta.persistence.TemporalType;
  */
 @Entity
 @Table(name = "EOCLIENT_COMMITMENT_ITEM")
-public class EOCommitmentItem extends EOCustObject {
+public class EOCommitmentItem extends EOEntityObject{
 	/**
 	 * 
 	 */

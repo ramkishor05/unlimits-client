@@ -3,14 +3,10 @@
  */
 package com.brijframework.client.entities;
 
-import static com.brijframework.client.constants.TableConstants.CUST_BUSINESS_APP_ID;
-
 import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -40,10 +36,6 @@ public class EOJournal extends EOCustObject {
 	@Column(name = "JOURNAL_ANSWER")
 	private String journalAnswer;
 	
-	@JoinColumn(name = CUST_BUSINESS_APP_ID, nullable = false)
-	@ManyToOne
-	private EOCustBusinessApp custBusinessApp;
-
 	public Long getJournalId() {
 		return journalId;
 	}
@@ -75,15 +67,4 @@ public class EOJournal extends EOCustObject {
 	public void setJournalAnswer(String journalAnswer) {
 		this.journalAnswer = journalAnswer;
 	}
-
-	public EOCustBusinessApp getCustBusinessApp() {
-		return custBusinessApp;
-	}
-
-	public void setCustBusinessApp(EOCustBusinessApp custBusinessApp) {
-		this.custBusinessApp = custBusinessApp;
-	}
-
-
-	
 }

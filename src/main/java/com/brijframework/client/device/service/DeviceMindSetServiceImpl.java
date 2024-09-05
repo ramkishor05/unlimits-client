@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.brijframework.util.reflect.FieldUtil;
+import org.brijframework.util.support.ReflectionAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,7 @@ import com.brijframework.client.device.mapper.DeviceMindSetItemMapper;
 import com.brijframework.client.device.model.UIDeviceMindSetGroup;
 import com.brijframework.client.device.model.UIDeviceMindSetItem;
 import com.brijframework.client.entities.EOCustBusinessApp;
+import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.entities.EOMindSetGroup;
 import com.brijframework.client.entities.EOMindSetItem;
 import com.brijframework.client.exceptions.UserNotFoundException;
@@ -96,6 +99,13 @@ public class DeviceMindSetServiceImpl extends CrudServiceImpl<UIDeviceMindSetGro
 		addCustomPredicate(MINDSET_DATE, mindsetDate);
 	}
 
+	@Override
+	public List<String> ignoreProperties() {
+		List<String> ignoreProperties = super.ignoreProperties();
+		ignoreProperties.addAll(FieldUtil.getFieldList(EOEntityObject.class, ReflectionAccess.PRIVATE));
+		ignoreProperties.add(CUST_BUSINESS_APP);
+		return ignoreProperties;
+	}
 
 	@Override
 	public void preAdd(UIDeviceMindSetGroup data, Map<String, List<String>> headers) {

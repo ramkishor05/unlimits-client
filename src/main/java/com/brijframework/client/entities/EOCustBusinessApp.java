@@ -18,7 +18,7 @@ import jakarta.persistence.UniqueConstraint;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = EOCUST_BUSINESS_APP, uniqueConstraints = {@UniqueConstraint (columnNames = {APP_ID, CUST_ID, BUSINESS_ID })})
-public class EOCustBusinessApp extends EOCustObject implements IUserAccount{
+public class EOCustBusinessApp extends EOEntityObject implements IUserAccount{
 
 	private static final long serialVersionUID = 1L;
 	

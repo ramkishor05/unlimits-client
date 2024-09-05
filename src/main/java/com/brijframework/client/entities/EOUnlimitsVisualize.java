@@ -6,13 +6,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "EOCLIENT_UNLIMITS_VISUALIZE")
-public class EOUnlimitsVisualize extends EOCustObject {
+@Table(name = "EOCLIENT_UNLIMITS_VISUALIZE", uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"VISUALIZE_YEAR", "UNLIMITS_IMAGE_ID" }),
+		@UniqueConstraint(columnNames = {"VISUALIZE_YEAR", "UNLIMITS_EXAMPLE_ID" }),
+		@UniqueConstraint(columnNames = {"VISUALIZE_YEAR", "UNLIMITS_TAG_ID" })
+})
+public class EOUnlimitsVisualize extends EOEntityObject {
 
 	/**
 	 * 
@@ -31,16 +37,16 @@ public class EOUnlimitsVisualize extends EOCustObject {
 	@Column(name = "VISUALIZE_YEAR")
 	private Integer visualizeYear;
 	
-	@ManyToOne
-	@JoinColumn(name = "UNLIMITS_IMAGE_ID")
+	@ManyToOne(fetch = FetchType.EAGER )
+	@JoinColumn(name = "UNLIMITS_IMAGE_ID" , referencedColumnName = "id")
 	private EOUnlimitsImage unlimitsImage;
 	
-	@ManyToOne
-	@JoinColumn(name = "UNLIMITS_EXAMPLE_ID")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "UNLIMITS_EXAMPLE_ID" , referencedColumnName = "id")
 	private EOUnlimitsExample unlimitsExample;
 	
-	@ManyToOne
-	@JoinColumn(name = "UNLIMITS_TAG_ID")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "UNLIMITS_TAG_ID", referencedColumnName = "id")
 	private EOUnlimitsTag unlimitsTag;
 	
 	@Column(name = "VISUALIZE_TYPE")
@@ -104,14 +110,12 @@ public class EOUnlimitsVisualize extends EOCustObject {
 	}
 
 	public UnlimitsType getType() {
-		if(type==null) {
-			type= UnlimitsType.WORDS;
-		}
 		return type;
 	}
 
 	public void setType(UnlimitsType type) {
 		this.type = type;
 	}
-	
+
+
 }

@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "EOCLIENT_UNLIMITS_TAG_ITEM")
-public class EOUnlimitsTagItem extends EOCustObject {
+public class EOUnlimitsTagItem extends EOEntityObject {
 
 	/**
 	 * 

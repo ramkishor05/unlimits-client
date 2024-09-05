@@ -26,7 +26,7 @@ public class EOUnlimitsImage extends EOUnlimits {
 	@OneToMany(mappedBy = "unlimitsImage", cascade = CascadeType.ALL)
 	private List<EOUnlimitsImageItem> imageItems;
 	
-	@OneToMany(mappedBy = "unlimitsImage")
+	@OneToMany(mappedBy = "unlimitsImage", cascade = CascadeType.ALL)
 	private List<EOUnlimitsVisualize> unlimitsVisualizeList;
 
 	public List<EOUnlimitsImageItem> getImageItems() {

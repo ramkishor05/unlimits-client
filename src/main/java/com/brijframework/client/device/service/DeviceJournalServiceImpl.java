@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.brijframework.util.reflect.FieldUtil;
+import org.brijframework.util.support.ReflectionAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +31,7 @@ import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceJournalMapper;
 import com.brijframework.client.device.model.UIDeviceJournalItem;
 import com.brijframework.client.entities.EOCustBusinessApp;
+import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.entities.EOJournal;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.repository.JournalRepository;
@@ -85,6 +88,15 @@ public class DeviceJournalServiceImpl extends CrudServiceImpl<UIDeviceJournalIte
  
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 		addCustomPredicate(JOURNAL_DATE, journalDate);
+	}
+	
+
+	@Override
+	public List<String> ignoreProperties() {
+		List<String> ignoreProperties = super.ignoreProperties();
+		ignoreProperties.addAll(FieldUtil.getFieldList(EOEntityObject.class, ReflectionAccess.PRIVATE));
+		ignoreProperties.add(CUST_BUSINESS_APP);
+		return ignoreProperties;
 	}
 	
 	@Override

@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "EOCLIENT_REPROGRAM_ITEM")
-public class EOReProgramItem extends EOCustObject {
+public class EOReProgramItem extends EOEntityObject {
 
 	/**
 	 * 

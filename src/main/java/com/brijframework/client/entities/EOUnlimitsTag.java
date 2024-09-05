@@ -26,7 +26,7 @@ public class EOUnlimitsTag extends EOUnlimits{
 	@OneToMany(mappedBy = "unlimitsTag", cascade = CascadeType.ALL)
 	private List<EOUnlimitsTagItem> tagItems;
 	
-	@OneToMany(mappedBy = "unlimitsTag")
+	@OneToMany(mappedBy = "unlimitsTag", cascade = CascadeType.ALL)
 	private List<EOUnlimitsVisualize> unlimitsVisualizeList;
 
 	public List<EOUnlimitsTagItem> getTagItems() {

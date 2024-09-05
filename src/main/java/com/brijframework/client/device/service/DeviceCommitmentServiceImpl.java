@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.brijframework.util.reflect.FieldUtil;
+import org.brijframework.util.support.ReflectionAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ import com.brijframework.client.device.model.UIDeviceCommitmentGroup;
 import com.brijframework.client.entities.EOCommitmentGroup;
 import com.brijframework.client.entities.EOCommitmentItem;
 import com.brijframework.client.entities.EOCustBusinessApp;
+import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.repository.CommitmentGroupRepository;
 import com.brijframework.client.repository.CommitmentItemRepository;
@@ -95,6 +98,15 @@ public class DeviceCommitmentServiceImpl
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 		addCustomPredicate(COMMITMENT_DATE, commitmentDate);
 	}
+
+	@Override
+	public List<String> ignoreProperties() {
+		List<String> ignoreProperties = super.ignoreProperties();
+		ignoreProperties.addAll(FieldUtil.getFieldList(EOEntityObject.class, ReflectionAccess.PRIVATE));
+		ignoreProperties.add(CUST_BUSINESS_APP);
+		return ignoreProperties;
+	}
+
 	
 	@Override
 	public void preAdd(UIDeviceCommitmentGroup data, Map<String, List<String>> headers) {

@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.brijframework.util.reflect.FieldUtil;
+import org.brijframework.util.support.ReflectionAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,7 @@ import com.brijframework.client.device.mapper.DeviceReProgramItemMapper;
 import com.brijframework.client.device.model.UIDeviceReProgramGroup;
 import com.brijframework.client.device.model.UIDeviceReProgramItem;
 import com.brijframework.client.entities.EOCustBusinessApp;
+import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.entities.EOReProgramGroup;
 import com.brijframework.client.entities.EOReProgramItem;
 import com.brijframework.client.exceptions.UserNotFoundException;
@@ -101,6 +104,14 @@ public class DeviceReProgramServiceImpl extends CrudServiceImpl<UIDeviceReProgra
  
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 		addCustomPredicate(REPROGRAM_DATE, reprogramDate);
+	}
+
+	@Override
+	public List<String> ignoreProperties() {
+		List<String> ignoreProperties = super.ignoreProperties();
+		ignoreProperties.addAll(FieldUtil.getFieldList(EOEntityObject.class, ReflectionAccess.PRIVATE));
+		ignoreProperties.add(CUST_BUSINESS_APP);
+		return ignoreProperties;
 	}
 	
 	@Override

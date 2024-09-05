@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.brijframework.util.casting.DateUtil;
+import org.brijframework.util.reflect.FieldUtil;
+import org.brijframework.util.support.ReflectionAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,7 @@ import com.brijframework.client.constants.RecordStatus;
 import com.brijframework.client.device.mapper.DeviceCoachGroupMapper;
 import com.brijframework.client.device.model.UIUnlimitsCoachConversion;
 import com.brijframework.client.entities.EOCustBusinessApp;
+import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.entities.EOUnlimitsCoachConversion;
 import com.brijframework.client.exceptions.UserNotFoundException;
 import com.brijframework.client.repository.CoachLibararyRepository;
@@ -80,6 +83,15 @@ public class DeviceUnlimitCoachConversionServiceImpl extends CrudServiceImpl<UIU
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 		addCustomPredicate(COACH_DATE, coachDate);
 	}
+
+	@Override
+	public List<String> ignoreProperties() {
+		List<String> ignoreProperties = super.ignoreProperties();
+		ignoreProperties.addAll(FieldUtil.getFieldList(EOEntityObject.class, ReflectionAccess.PRIVATE));
+		ignoreProperties.add(CUST_BUSINESS_APP);
+		return ignoreProperties;
+	}
+
 	
 	@Override
 	public void preAdd(UIUnlimitsCoachConversion data, Map<String, List<String>> headers) {

@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "EOCLIENT_MINDSET_ITEM")
-public class EOMindSetItem extends EOCustObject {
+public class EOMindSetItem extends EOEntityObject {
 
 	/**
 	 * 
