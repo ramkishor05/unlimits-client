@@ -15,5 +15,7 @@ import com.brijframework.client.entities.EOUnlimitsExampleItem;
 @Repository
 @Transactional
 public interface UnlimitsExampleItemRepository extends CustomRepository<EOUnlimitsExampleItem, Long>{
+
+	void deleteByUnlimitsExampleId(Long id);
 	
 }

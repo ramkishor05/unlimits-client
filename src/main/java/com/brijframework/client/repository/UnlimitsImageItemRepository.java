@@ -16,4 +16,6 @@ import com.brijframework.client.entities.EOUnlimitsImageItem;
 @Transactional
 public interface UnlimitsImageItemRepository extends CustomRepository<EOUnlimitsImageItem, Long>{
 
+	void deleteByUnlimitsImageId(Long id);
+
 }

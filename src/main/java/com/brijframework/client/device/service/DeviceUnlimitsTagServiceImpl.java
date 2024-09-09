@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.unlimits.rest.context.ApiSecurityContext;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 import org.unlimits.rest.crud.service.CrudServiceImpl;
@@ -154,10 +155,13 @@ public class DeviceUnlimitsTagServiceImpl extends CrudServiceImpl<UIDeviceUnlimi
 	@Override
 	public void merge(UIDeviceUnlimitsTag dtoObject, EOUnlimitsTag entityObject, UIDeviceUnlimitsTag updateDtoObject,
 			EOUnlimitsTag updateEntityObject, Map<String, List<String>> headers) {
-		List<EOUnlimitsTagItem> mindSetItems = clientUnlimitsTagItemMapper.mapToDAO(dtoObject.getTagItems());
-		mindSetItems.forEach(item -> item.setUnlimitsTag(updateEntityObject));
-		List<EOUnlimitsTagItem> tagItemsReturn = clientUnlimitsTagItemRepository.saveAll(mindSetItems);
-		updateDtoObject.setTagItems(clientUnlimitsTagItemMapper.mapToDTO(tagItemsReturn));
+		clientUnlimitsTagItemRepository.deleteByUnlimitsTagId(entityObject.getId());
+		if(!CollectionUtils.isEmpty(dtoObject.getTagItems())) {
+			List<EOUnlimitsTagItem> mindSetItems = clientUnlimitsTagItemMapper.mapToDAO(dtoObject.getTagItems());
+			mindSetItems.forEach(item -> item.setUnlimitsTag(updateEntityObject));
+			List<EOUnlimitsTagItem> tagItemsReturn = clientUnlimitsTagItemRepository.saveAll(mindSetItems);
+			updateDtoObject.setTagItems(clientUnlimitsTagItemMapper.mapToDTO(tagItemsReturn));
+		}
 	}
 
 	@Override
@@ -173,10 +177,12 @@ public class DeviceUnlimitsTagServiceImpl extends CrudServiceImpl<UIDeviceUnlimi
 	public void postFetch(EOUnlimitsTag findObject, UIDeviceUnlimitsTag dtoObject) {
 		dtoObject.setType(UnlimitsType.WORDS);
 		List<EOUnlimitsVisualize> eoUnlimitsVisualizes = findObject.getUnlimitsVisualizeList();
-		Map<Integer, UIDeviceUnlimitsVisualize> unlimitsVisualizeList = eoUnlimitsVisualizes.stream()
-				.collect(Collectors.toMap(unlimitsVisualize -> unlimitsVisualize.getVisualizeYear(),
-						unlimitsVisualize -> deviceUnlimitsVisualizeMapper.mapToDTO(unlimitsVisualize)));
-		dtoObject.setVisualizeMap(unlimitsVisualizeList);
+		if(!CollectionUtils.isEmpty(eoUnlimitsVisualizes)) {
+			Map<Integer, UIDeviceUnlimitsVisualize> unlimitsVisualizeList = eoUnlimitsVisualizes.stream().filter(unlimitsVisualize -> unlimitsVisualize.getVisualizeYear()!=null)
+					.collect(Collectors.toMap(unlimitsVisualize -> unlimitsVisualize.getVisualizeYear(),
+							unlimitsVisualize -> deviceUnlimitsVisualizeMapper.mapToDTO(unlimitsVisualize)));
+			dtoObject.setVisualizeMap(unlimitsVisualizeList);
+		}
 	}
 
 	@Override

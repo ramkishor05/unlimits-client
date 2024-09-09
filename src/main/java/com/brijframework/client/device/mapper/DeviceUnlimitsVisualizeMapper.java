@@ -34,12 +34,15 @@ public interface DeviceUnlimitsVisualizeMapper extends GenericMapper<EOUnlimitsV
 	static Long getUnlimitsId(EOUnlimitsVisualize e){
 		switch (e.getType()) {
 			case WORDS: {
+				if(e.getUnlimitsTag()!=null)
 				return e.getUnlimitsTag().getId();
 			}
 			case IMAGE: {
+				if(e.getUnlimitsImage()!=null)
 				return e.getUnlimitsImage().getId();
 			}
 			case EXAMPLE: {
+				if(e.getUnlimitsExample()!=null)
 				return e.getUnlimitsExample().getId();
 			}
 		}

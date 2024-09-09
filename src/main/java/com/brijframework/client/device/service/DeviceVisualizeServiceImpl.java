@@ -137,22 +137,20 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		UIDeviceUnlimitsVisualize buildVisualize = buildVisualize(year);
 		StringBuffer request = new StringBuffer(buildVisualize.getVisualizeRequest());
 
-		List<EOUnlimitsTagItem> tagItems = unlimitsTag.getTagItems().stream()
-				.filter(item -> item.getYear().equals(year)).toList();
-		Map<Long, List<EOUnlimitsTagItem>> imageItemsBySubCategory = tagItems.stream()
-				.collect(Collectors.groupingBy(EOUnlimitsTagItem::getSubCategoryId));
-		imageItemsBySubCategory.forEach((subCategoryId, tagItemList) -> {
-			PromptLibarary subCategoryPrompt = getPrompt(promptClient.getPromptsBySubCategory(subCategoryId));
-			if (subCategoryPrompt != null && StringUtil.isNonEmpty(subCategoryPrompt.getDescription())) {
-				request.append(subCategoryPrompt.getDescription());
-			}
-
-			for (EOUnlimitsTagItem clientUnlimitsTagItem : tagItemList) {
-				String tagName = clientUnlimitsTagItem.getTagName();
-				addTagNameFromTag(request, tagName);
-			}
-		});
-
+		List<EOUnlimitsTagItem> tagItems = unlimitsTag.getTagItems().stream().filter(item -> item.getYear().equals(year)).toList();
+		if(!CollectionUtils.isEmpty(tagItems)) {
+			Map<Long, List<EOUnlimitsTagItem>> imageItemsBySubCategory = tagItems.stream().collect(Collectors.groupingBy(EOUnlimitsTagItem::getSubCategoryId));
+			imageItemsBySubCategory.forEach((subCategoryId, tagItemList) -> {
+				PromptLibarary subCategoryPrompt = getPrompt(promptClient.getPromptsBySubCategory(subCategoryId));
+				if (subCategoryPrompt != null && StringUtil.isNonEmpty(subCategoryPrompt.getDescription())) {
+					request.append(subCategoryPrompt.getDescription());
+				}
+				for (EOUnlimitsTagItem clientUnlimitsTagItem : tagItemList) {
+					String tagName = clientUnlimitsTagItem.getTagName();
+					addTagNameFromTag(request, tagName);
+				}
+			});
+		}
 		String visualizeRequest = request.toString();
 		buildVisualize.setVisualizeRequest(visualizeRequest);
 		buildVisualize.setVisualizeResponse(buildCptResponse(visualizeRequest, buildVisualize));
@@ -183,24 +181,27 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 				unlimitsVisualizeRepository.findOneByUnlimitsTagIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
 					data.setId(unlimitsVisualize.getId());
 				});
-				if(data.getEoUnlimits()==null)
-				data.setEoUnlimits(clientUnlimitsTagRepository.getReferenceById(data.getUnlimitId()));
+				if(data.getEoUnlimits()==null) {
+					data.setEoUnlimits(clientUnlimitsTagRepository.getReferenceById(data.getUnlimitId()));
+				}
 				break;
 			}
 			case IMAGE: {
 				unlimitsVisualizeRepository.findOneByUnlimitsImageIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
 					data.setId(unlimitsVisualize.getId());
 				});
-				if(data.getEoUnlimits()==null)
-				data.setEoUnlimits(clientUnlimitsImageRepository.getReferenceById(data.getUnlimitId()));
+				if(data.getEoUnlimits()==null) {
+					data.setEoUnlimits(clientUnlimitsImageRepository.getReferenceById(data.getUnlimitId()));
+				}
 				break;
 			}
 			case EXAMPLE: {
 				unlimitsVisualizeRepository.findOneByUnlimitsExampleIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
 					data.setId(unlimitsVisualize.getId());
 				});
-				if(data.getEoUnlimits()==null)
-				data.setEoUnlimits(clientUnlimitsExampleRepository.getReferenceById(data.getUnlimitId()));
+				if(data.getEoUnlimits()==null) {
+					data.setEoUnlimits(clientUnlimitsExampleRepository.getReferenceById(data.getUnlimitId()));
+				}
 				break;
 			}
 			default:
@@ -274,21 +275,24 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		UIDeviceUnlimitsVisualize buildVisualize = buildVisualize(year);
 		StringBuffer request = new StringBuffer(buildVisualize.getVisualizeRequest());
 
-		List<EOUnlimitsImageItem> imageItems = unlimitsImage.getImageItems().stream()
-				.filter(item -> item.getYear().equals(year)).toList();
-		Map<Long, List<EOUnlimitsImageItem>> imageItemsBySubCategory = imageItems.stream()
-				.collect(Collectors.groupingBy(EOUnlimitsImageItem::getSubCategoryId));
-		imageItemsBySubCategory.forEach((subCategoryId, imageItemList) -> {
-			PromptLibarary subCategoryPrompt = getPrompt(promptClient.getPromptsBySubCategory(subCategoryId));
-			if (subCategoryPrompt != null && StringUtil.isNonEmpty(subCategoryPrompt.getDescription())) {
-				request.append(subCategoryPrompt.getDescription());
-			}
-
-			for (EOUnlimitsImageItem clientUnlimitsImageItem : imageItems) {
-				String imageUrl = clientUnlimitsImageItem.getImageUrl();
-				addTagNameFromImage(request, imageUrl);
-			}
-		});
+		
+		if(!CollectionUtils.isEmpty( unlimitsImage.getImageItems())) {
+			List<EOUnlimitsImageItem> imageItems = unlimitsImage.getImageItems().stream()
+					.filter(item -> item.getYear().equals(year)).toList();
+			Map<Long, List<EOUnlimitsImageItem>> imageItemsBySubCategory = imageItems.stream()
+					.collect(Collectors.groupingBy(EOUnlimitsImageItem::getSubCategoryId));
+			imageItemsBySubCategory.forEach((subCategoryId, imageItemList) -> {
+				PromptLibarary subCategoryPrompt = getPrompt(promptClient.getPromptsBySubCategory(subCategoryId));
+				if (subCategoryPrompt != null && StringUtil.isNonEmpty(subCategoryPrompt.getDescription())) {
+					request.append(subCategoryPrompt.getDescription());
+				}
+	
+				for (EOUnlimitsImageItem clientUnlimitsImageItem : imageItems) {
+					String imageUrl = clientUnlimitsImageItem.getImageUrl();
+					addTagNameFromImage(request, imageUrl);
+				}
+			});
+		}
 		String visualizeRequest = request.toString();
 		buildVisualize.setVisualizeRequest(visualizeRequest);
 		buildVisualize.setVisualizeResponse(buildCptResponse(visualizeRequest, buildVisualize));
@@ -299,21 +303,22 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 	}
 
 	private UIDeviceUnlimitsVisualize buildVisualizeByExample(Integer year, Long unlimitId, Map<String, List<String>> headers) {
-		EOUnlimitsExample unlimitsExample = clientUnlimitsExampleRepository.findById(unlimitId)
-				.orElseThrow(() -> new RuntimeException("Invalid unlimt!"));
+		EOUnlimitsExample unlimitsExample = clientUnlimitsExampleRepository.findById(unlimitId).orElseThrow(() -> new RuntimeException("Invalid unlimitId!"));
 		UIDeviceUnlimitsVisualize buildVisualize = buildVisualize(year);
 		List<EOUnlimitsExampleItem> exampleItems = unlimitsExample.getExampleItems();
 		StringBuffer request = new StringBuffer(buildVisualize.getVisualizeRequest());
-		for (EOUnlimitsExampleItem clientUnlimitsExampleItem : exampleItems) {
-
-			String tagName = clientUnlimitsExampleItem.getTagName();
-
-			if (addTagNameFromTag(request, tagName)) {
-				continue;
+		if(!CollectionUtils.isEmpty(exampleItems)) {
+			for (EOUnlimitsExampleItem clientUnlimitsExampleItem : exampleItems) {
+	
+				String tagName = clientUnlimitsExampleItem.getTagName();
+	
+				if (addTagNameFromTag(request, tagName)) {
+					continue;
+				}
+	
+				String imageUrl = clientUnlimitsExampleItem.getImageUrl();
+				addTagNameFromImage(request, imageUrl);
 			}
-
-			String imageUrl = clientUnlimitsExampleItem.getImageUrl();
-			addTagNameFromImage(request, imageUrl);
 		}
 		String visualizeRequest = request.toString();
 		buildVisualize.setVisualizeRequest(visualizeRequest);
@@ -345,9 +350,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		}
 		List<ClientOnBoardingQuestion> onboardings = getBoardingQuestion(onboardingClient.getOnboardings());
 		if (!CollectionUtils.isEmpty(onboardings)) {
-			onboardings.sort(
-					(q1, q2) -> q1.getQuestion().getOrderSequence().compareTo(q1.getQuestion().getOrderSequence()));
-
+			onboardings.sort((q1, q2) -> q1.getQuestion().getOrderSequence().compareTo(q1.getQuestion().getOrderSequence()));
 			for (ClientOnBoardingQuestion clientOnBoardingQuestion : onboardings) {
 				if (CollectionUtils.isEmpty(clientOnBoardingQuestion.getAnswers())) {
 					continue;
@@ -361,8 +364,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		Calendar instance = Calendar.getInstance();
 		instance.add(Calendar.YEAR, year);
 		UIDeviceUnlimitsVisualize uiVisualize = new UIDeviceUnlimitsVisualize();
-		uiVisualize.setVisualizeDate(
-				DateUtil.getDateStringForPattern(instance.getTime(), Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY));
+		uiVisualize.setVisualizeDate(DateUtil.getDateStringForPattern(instance.getTime(), Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY));
 		uiVisualize.setVisualizeRequest(request.toString());
 		return uiVisualize;
 	}

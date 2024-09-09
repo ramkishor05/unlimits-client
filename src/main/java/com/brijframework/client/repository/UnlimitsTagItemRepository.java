@@ -16,4 +16,6 @@ import com.brijframework.client.entities.EOUnlimitsTagItem;
 @Transactional
 public interface UnlimitsTagItemRepository extends CustomRepository<EOUnlimitsTagItem, Long>{
 
+	void deleteByUnlimitsTagId(Long id);
+
 }
