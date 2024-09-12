@@ -32,6 +32,7 @@ import com.brijframework.client.entities.EOUnlimitsImageItem;
 import com.brijframework.client.entities.EOUnlimitsTag;
 import com.brijframework.client.entities.EOUnlimitsTagItem;
 import com.brijframework.client.entities.EOUnlimitsVisualize;
+import com.brijframework.client.exceptions.InvalidParameterException;
 import com.brijframework.client.forgin.model.ClientBoardingAnswer;
 import com.brijframework.client.forgin.model.ClientOnBoardingQuestion;
 import com.brijframework.client.forgin.model.PromptLibarary;
@@ -132,8 +133,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 	}
 
 	private UIDeviceUnlimitsVisualize buildVisualizeByWords(Integer year, Long unlimitId, Map<String, List<String>> headers) {
-		EOUnlimitsTag unlimitsTag = clientUnlimitsTagRepository.findById(unlimitId)
-				.orElseThrow(() -> new RuntimeException("Invalid unlimt!"));
+		EOUnlimitsTag unlimitsTag = clientUnlimitsTagRepository.findById(unlimitId).orElseThrow(() -> new RuntimeException("Invalid unlimt!"));
 		UIDeviceUnlimitsVisualize buildVisualize = buildVisualize(year);
 		StringBuffer request = new StringBuffer(buildVisualize.getVisualizeRequest());
 
@@ -161,52 +161,58 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 	}
 	
 	private void preSave(UIDeviceUnlimitsVisualize data, EOUnlimitsVisualize entity) {
-		if(data.getEoUnlimits() instanceof EOUnlimitsExample) {
-			entity.setUnlimitsExample((EOUnlimitsExample) data.getEoUnlimits());
+		if(data.getEoUnlimits() instanceof EOUnlimitsTag) {
+			unlimitsVisualizeRepository.findOneByUnlimitsTagIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
+				entity.setId(unlimitsVisualize.getId());
+				data.setId(unlimitsVisualize.getId());
+			});
+			entity.setUnlimitsTag((EOUnlimitsTag) data.getEoUnlimits());
 		}
 		if(data.getEoUnlimits() instanceof EOUnlimitsImage) {
+			unlimitsVisualizeRepository.findOneByUnlimitsImageIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
+				entity.setId(unlimitsVisualize.getId());
+				data.setId(unlimitsVisualize.getId());
+			});
 			entity.setUnlimitsImage((EOUnlimitsImage) data.getEoUnlimits());
 		}
-		if(data.getEoUnlimits() instanceof EOUnlimitsTag) {
-			entity.setUnlimitsTag((EOUnlimitsTag) data.getEoUnlimits());
+		
+		if(data.getEoUnlimits() instanceof EOUnlimitsExample) {
+			unlimitsVisualizeRepository.findOneByUnlimitsExampleIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
+				entity.setId(unlimitsVisualize.getId());
+				data.setId(unlimitsVisualize.getId());
+			});
+			entity.setUnlimitsExample((EOUnlimitsExample) data.getEoUnlimits());
 		}
 	}
 	
 
 	private void preSave(UIDeviceUnlimitsVisualize data) {
 		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
-		if(data.getUnlimitId()!=null) {
-			switch (data.getType()) {
+		if(data.getUnlimitsType()!=null && data.getUnlimitId()!=null) {
+			switch (data.getUnlimitsType()) {
 			case WORDS: {
-				unlimitsVisualizeRepository.findOneByUnlimitsTagIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-					data.setId(unlimitsVisualize.getId());
-				});
 				if(data.getEoUnlimits()==null) {
 					data.setEoUnlimits(clientUnlimitsTagRepository.getReferenceById(data.getUnlimitId()));
 				}
 				break;
 			}
 			case IMAGE: {
-				unlimitsVisualizeRepository.findOneByUnlimitsImageIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-					data.setId(unlimitsVisualize.getId());
-				});
 				if(data.getEoUnlimits()==null) {
 					data.setEoUnlimits(clientUnlimitsImageRepository.getReferenceById(data.getUnlimitId()));
 				}
 				break;
 			}
 			case EXAMPLE: {
-				unlimitsVisualizeRepository.findOneByUnlimitsExampleIdAndVisualizeYear(data.getUnlimitId(), data.getVisualizeYear()).ifPresent(unlimitsVisualize->{
-					data.setId(unlimitsVisualize.getId());
-				});
 				if(data.getEoUnlimits()==null) {
 					data.setEoUnlimits(clientUnlimitsExampleRepository.getReferenceById(data.getUnlimitId()));
 				}
 				break;
 			}
 			default:
-				throw new IllegalArgumentException("Unexpected value: " + data.getType());
+				throw new InvalidParameterException("Unexpected value: " + data.getType());
 			}
+		} else {
+			throw new InvalidParameterException("Unexpected value: " + data.getType());
 		}
 	}
 	
@@ -227,6 +233,11 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 	}
 
 	@Override
+	public void preUpdate(UIDeviceUnlimitsVisualize data, EOUnlimitsVisualize entity, Map<String, List<String>> headers) {
+		preSave(data, entity);
+	}
+
+	@Override
 	public List<String> ignoreProperties() {
 		List<String> ignoreProperties = super.ignoreProperties();
 		ignoreProperties.add("unlimitsExample");
@@ -235,10 +246,6 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		return ignoreProperties;
 	}
 	
-	@Override
-	public void preUpdate(UIDeviceUnlimitsVisualize data, EOUnlimitsVisualize entity, Map<String, List<String>> headers) {
-		preSave(data, entity);
-	}
 
 	private String buildCptResponse(String prompts, UIDeviceUnlimitsVisualize buildVisualize) {
 		try {
@@ -303,7 +310,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 	}
 
 	private UIDeviceUnlimitsVisualize buildVisualizeByExample(Integer year, Long unlimitId, Map<String, List<String>> headers) {
-		EOUnlimitsExample unlimitsExample = clientUnlimitsExampleRepository.findById(unlimitId).orElseThrow(() -> new RuntimeException("Invalid unlimitId!"));
+		EOUnlimitsExample unlimitsExample = clientUnlimitsExampleRepository.findById(unlimitId).orElseThrow(() -> new InvalidParameterException("Invalid unlimitId!"));
 		UIDeviceUnlimitsVisualize buildVisualize = buildVisualize(year);
 		List<EOUnlimitsExampleItem> exampleItems = unlimitsExample.getExampleItems();
 		StringBuffer request = new StringBuffer(buildVisualize.getVisualizeRequest());

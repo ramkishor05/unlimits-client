@@ -4,6 +4,7 @@
 package com.brijframework.client.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +25,10 @@ public interface UnlimitsVisualizeRepository extends CustomRepository<EOUnlimits
 	
 	List<EOUnlimitsVisualize> findAllByUnlimitsTagId(Long id);
 
-	java.util.Optional<EOUnlimitsVisualize> findOneByUnlimitsExampleIdAndVisualizeYear(Long id, Integer visualizeYear);
+	Optional<EOUnlimitsVisualize> findOneByUnlimitsExampleIdAndVisualizeYear(Long id, Integer visualizeYear);
 	
-	java.util.Optional<EOUnlimitsVisualize> findOneByUnlimitsImageIdAndVisualizeYear(Long id, Integer visualizeYear);
+	Optional<EOUnlimitsVisualize> findOneByUnlimitsImageIdAndVisualizeYear(Long id, Integer visualizeYear);
 
-	java.util.Optional<EOUnlimitsVisualize> findOneByUnlimitsTagIdAndVisualizeYear(Long id, Integer visualizeYear);
+	Optional<EOUnlimitsVisualize> findOneByUnlimitsTagIdAndVisualizeYear(Long id, Integer visualizeYear);
 
 }

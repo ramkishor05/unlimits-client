@@ -20,7 +20,7 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 	private String errorMsg;
 	private String traceMsg;
 	
-	private UnlimitsType type;
+	private String type;
 	
 	private Long unlimitId;
 
@@ -91,14 +91,16 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 		this.eoUnlimits = eoUnlimits;
 	}
 
-	public UnlimitsType getType() {
-		if(type==null) {
-			type=UnlimitsType.WORDS;
-		}
+	@JsonIgnore
+	public UnlimitsType getUnlimitsType() {
+		return UnlimitsType.findByType(type);
+	}
+	
+	public String getType() {
 		return type;
 	}
 
-	public void setType(UnlimitsType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

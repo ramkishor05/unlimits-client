@@ -3,6 +3,7 @@
  */
 package com.brijframework.client.entities;
 
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -10,6 +11,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  *  @author omnie
@@ -27,7 +30,8 @@ public class EOUnlimitsExample extends EOUnlimits {
 	private Long exampleId;
 	
 	@Column(name = "EXAMPLE_DATE", nullable = true)
-	private Long exampleDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date exampleDate;
 	
 	@Column(name = "PROFILE_NAME", nullable = true)
 	private String profileName;
@@ -61,11 +65,11 @@ public class EOUnlimitsExample extends EOUnlimits {
 		this.exampleId = exampleId;
 	}
 
-	public Long getExampleDate() {
+	public Date getExampleDate() {
 		return exampleDate;
 	}
 
-	public void setExampleDate(Long exampleDate) {
+	public void setExampleDate(Date exampleDate) {
 		this.exampleDate = exampleDate;
 	}
 

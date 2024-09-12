@@ -33,18 +33,18 @@ public class DeviceMediaController {
 		}
 		Vector<String> imgLst = new Vector<>();
 		if (dir.isDirectory()) {
-			int counter = 1;
-			for (final File f : dir.listFiles(imageFilter)) {
+			for (final File f : dir.listFiles()) {
 				imgLst.add(f.getAbsolutePath());
 			}
 		}
+		System.out.println(imgLst);
 		makeVideo("file:\\" + file.getAbsolutePath(), imgLst);
 	}
 
-	public static void makeVideo(String fileName, Vector imgLst) throws MalformedURLException {
+	public static void makeVideo(String fileName, Vector<String> imgLst) throws MalformedURLException {
 		JpegImagesToMovie imageToMovie = new JpegImagesToMovie();
-		MediaLocator oml;
-		if ((oml = imageToMovie.createMediaLocator(fileName)) == null) {
+		MediaLocator oml=imageToMovie.createMediaLocator(fileName);
+		if (oml == null) {
 			System.err.println("Cannot build media locator from: " + fileName);
 			System.exit(0);
 		}

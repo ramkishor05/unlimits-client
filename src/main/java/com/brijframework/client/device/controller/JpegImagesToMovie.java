@@ -29,18 +29,41 @@ package com.brijframework.client.device.controller;
  * redistribute the Software for such purposes.
  */
 
-import java.io.*;
-import java.util.*;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
-import javax.media.*;
-import javax.media.control.*;
-import javax.media.protocol.*;
-import javax.media.datasink.*;
+import javax.media.Buffer;
+import javax.media.ConfigureCompleteEvent;
+import javax.media.Controller;
+import javax.media.ControllerEvent;
+import javax.media.ControllerListener;
+import javax.media.DataSink;
+import javax.media.EndOfMediaEvent;
+import javax.media.Format;
+import javax.media.Manager;
+import javax.media.MediaLocator;
+import javax.media.PrefetchCompleteEvent;
+import javax.media.Processor;
+import javax.media.RealizeCompleteEvent;
+import javax.media.ResourceUnavailableEvent;
+import javax.media.Time;
+import javax.media.control.TrackControl;
+import javax.media.datasink.DataSinkErrorEvent;
+import javax.media.datasink.DataSinkEvent;
+import javax.media.datasink.DataSinkListener;
+import javax.media.datasink.EndOfStreamEvent;
 import javax.media.format.RGBFormat;
 import javax.media.format.VideoFormat;
+import javax.media.protocol.ContentDescriptor;
+import javax.media.protocol.DataSource;
+import javax.media.protocol.FileTypeDescriptor;
+import javax.media.protocol.PullBufferDataSource;
+import javax.media.protocol.PullBufferStream;
 
 /**
  * This program takes a list of JPEG image files and convert them into a
@@ -48,7 +71,7 @@ import javax.media.format.VideoFormat;
  */
 public class JpegImagesToMovie implements ControllerListener, DataSinkListener {
 
-   private static Vector<String> getImageFilesPathsVector(String imagesFolderPath) {
+   private Vector<String> getImageFilesPathsVector(String imagesFolderPath) {
 		File imagesFolder = new File(imagesFolderPath);
 		String[] imageFilesArray = imagesFolder.list();
 		Vector<String> imageFilesPathsVector = new Vector<String>();
@@ -242,126 +265,6 @@ public class JpegImagesToMovie implements ControllerListener, DataSinkListener {
 				waitFileSync.notifyAll();
 			}
 		}
-	}
-
-	public static void main(String args[]) {
-		// changed this method a bit
-
-		if (args.length == 0)
-			prUsage();
-
-		// Parse the arguments.
-		int i = 0;
-		int width = -1, height = -1, frameRate = -1;
-		Vector<String> inputFiles = new Vector<String>();
-		String rootDir = null;
-		String outputURL = null;
-
-		while (i < args.length) {
-
-			if (args[i].equals("-w")) {
-				i++;
-				if (i >= args.length)
-					prUsage();
-				width = new Integer(args[i]).intValue();
-			} else if (args[i].equals("-h")) {
-				i++;
-				if (i >= args.length)
-					prUsage();
-				height = new Integer(args[i]).intValue();
-			} else if (args[i].equals("-f")) {
-				i++;
-				if (i >= args.length)
-					prUsage();
-				// new Integer(args[i]).intValue();
-				frameRate = Integer.parseInt(args[i]);
-
-			} else if (args[i].equals("-o")) {
-				i++;
-				if (i >= args.length)
-					prUsage();
-				outputURL = args[i];
-			} else if (args[i].equals("-i")) {
-				i++;
-				if (i >= args.length)
-					prUsage();
-				rootDir = args[i];
-
-			} else {
-				System.out.println(".");
-				prUsage();
-			}
-			i++;
-		}
-
-		if (rootDir == null) {
-			System.out.println("Since no input (-i) forder provided, assuming this JAR is inside JPEGs folder.");
-			rootDir = (new File(".")).getAbsolutePath();
-		}
-		inputFiles = getImageFilesPathsVector(rootDir);
-
-		if (inputFiles.size() == 0)
-			prUsage();
-		if (outputURL == null) {
-			outputURL = (new File(rootDir)).getAbsolutePath() + File.separator + "pngs2movie.mov";
-		}
-		if (!outputURL.toLowerCase().startsWith("file:///")) {
-			outputURL = "file:///" + outputURL;
-		}
-
-		// Check for output file extension.
-		if (!outputURL.toLowerCase().endsWith(".mov")) {
-			prUsage();
-			outputURL += ".mov";
-			System.out.println(
-					"outputURL should be ending with mov. Making this happen.\nNow outputURL is: " + outputURL);
-		}
-
-		if (width < 0 || height < 0) {
-			prUsage();
-			System.out.println("Trying to guess movie size from first image");
-			BufferedImage firstImageInFolder = getFirstImageInFolder(rootDir);
-			width = firstImageInFolder.getWidth();
-			height = firstImageInFolder.getHeight();
-			System.out.println("width = " + width);
-			System.out.println("height = " + height);
-		}
-
-		// Check the frame rate.
-		if (frameRate < 1)
-			frameRate = 30;
-
-		// Generate the output media locators.
-		MediaLocator oml;
-
-		if ((oml = createMediaLocator(outputURL)) == null) {
-			System.err.println("Cannot build media locator from: " + outputURL);
-			System.exit(0);
-		}
-
-		JpegImagesToMovie imageToMovie = new JpegImagesToMovie();
-		imageToMovie.doIt(width, height, frameRate, inputFiles, oml);
-
-		System.exit(0);
-	}
-
-	private static BufferedImage getFirstImageInFolder(String rootDir) {
-		File rootFile = new File(rootDir);
-		String[] list = (rootFile).list();
-		BufferedImage bufferedImage = null;
-		for (String filePath : list) {
-			if (!filePath.toLowerCase().endsWith(".png") && !filePath.toLowerCase().endsWith(".png")) {
-				continue;
-			}
-			try {
-				bufferedImage = ImageIO.read(new File(rootFile.getAbsoluteFile() + File.separator + filePath));
-				break;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
-		return bufferedImage;
 	}
 
 	static void prUsage() {

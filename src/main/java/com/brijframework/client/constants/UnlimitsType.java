@@ -23,4 +23,12 @@ public enum UnlimitsType {
 		return type;
 	}
 	
+	public static UnlimitsType findByType(String type) {
+		for (UnlimitsType unlimitsType : values()) {
+			if(unlimitsType.type.equalsIgnoreCase(type)) {
+				return unlimitsType;
+			}
+		}
+		return null;
+	}
 }
