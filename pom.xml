@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-		<parent>
+	<parent>
 		<groupId>com.brijframework</groupId>
 		<artifactId>unlimits-api</artifactId>
 		<version>1.1</version>
@@ -18,12 +18,33 @@
 		<org.mapstruct.version>1.6.0.Beta1</org.mapstruct.version>
 	</properties>
 	<dependencies>
-<!-- https://mvnrepository.com/artifact/javax.media/jmf -->
-<dependency>
-    <groupId>javax.media</groupId>
-    <artifactId>jmf</artifactId>
-    <version>2.1.1e</version>
-</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.media/jmf -->
+		<dependency>
+			<groupId>javax.media</groupId>
+			<artifactId>jmf</artifactId>
+			<version>2.1.1e</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jcodec/jcodec -->
+		<dependency>
+			<groupId>org.jcodec</groupId>
+			<artifactId>jcodec</artifactId>
+			<version>0.2.5</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jcodec/jcodec-streaming -->
+		<dependency>
+			<groupId>org.jcodec</groupId>
+			<artifactId>jcodec-streaming</artifactId>
+			<version>0.2.3</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jcodec/jcodec-javase -->
+		<dependency>
+			<groupId>org.jcodec</groupId>
+			<artifactId>jcodec-javase</artifactId>
+			<version>0.2.5</version>
+		</dependency>
 
 
 		<dependency>
@@ -31,12 +52,12 @@
 			<artifactId>unlimits-rest</artifactId>
 			<version>1.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -46,7 +67,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -56,7 +77,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -69,27 +90,32 @@
 			<artifactId>mapstruct</artifactId>
 			<version>${org.mapstruct.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 			<version>2.0.2</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.brijframework</groupId>
+			<artifactId>unlimits-auth</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -101,7 +127,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -109,8 +135,10 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<!-- or newer version -->
 				<configuration>
-					<source>${maven.compiler.source>}</source> <!-- depending on your project -->
-					<target>${maven.compiler.target}}</target> <!-- depending on your project -->
+					<source>${maven.compiler.source>}</source> <!-- depending on
+					your project -->
+					<target>${maven.compiler.target}}</target> <!-- depending on
+					your project -->
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
