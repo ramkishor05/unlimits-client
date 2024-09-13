@@ -11,7 +11,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.unlimits.rest.crud.mapper.GenericMapper;
 
-import com.brijframework.client.constants.UnlimitsType;
 import com.brijframework.client.device.model.UIDeviceUnlimitsVisualize;
 import com.brijframework.client.entities.EOUnlimitsVisualize;
 
@@ -27,8 +26,8 @@ public interface DeviceUnlimitsVisualizeMapper extends GenericMapper<EOUnlimitsV
 	@Mapping(target = "unlimitId", expression = "java(DeviceUnlimitsVisualizeMapper.getUnlimitsId(e))")
 	UIDeviceUnlimitsVisualize mapToDTO(EOUnlimitsVisualize e);
 	
-	static UnlimitsType getType(EOUnlimitsVisualize e){
-		return e.getType();
+	static String getType(EOUnlimitsVisualize e){
+		return e.getType()==null ?"": e.getType().getType();
 	}
 	
 	static Long getUnlimitsId(EOUnlimitsVisualize e){

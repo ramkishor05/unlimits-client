@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
 import javax.media.MediaLocator;
 
 import org.jcodec.codecs.h264.H264Encoder;
-import org.jcodec.codecs.h264.encode.DumbRateControl;
 import org.jcodec.codecs.h264.encode.H264FixedRateControl;
 import org.jcodec.codecs.h264.encode.RateControl;
 import org.jcodec.common.model.ColorSpace;

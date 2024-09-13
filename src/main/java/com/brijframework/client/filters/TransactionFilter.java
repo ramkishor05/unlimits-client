@@ -9,7 +9,6 @@ import static com.brijframework.client.constants.Constants.USER_ROLE;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import org.brijframework.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,19 +53,19 @@ public class TransactionFilter implements Filter {
 	        }
 	        String appId = req.getHeader(APP_ID_KEY);
 	        String businessId = req.getHeader(BUSINESS_ID_KEY);
-	        if(Objects.nonNull(ownerId)&& CommanUtil.isNumeric(ownerId) && Objects.nonNull(businessId) && CommanUtil.isNumeric(businessId) && Objects.nonNull(appId) && CommanUtil.isNumeric(appId)) {
+	        if(StringUtil.hasText(ownerId)&& CommanUtil.isNumeric(ownerId) && StringUtil.hasText(businessId) && CommanUtil.isNumeric(businessId) && StringUtil.hasText(appId) && CommanUtil.isNumeric(appId)) {
 	        	EOCustBusinessApp custBusinessApp =custBusinessAppRepository.findByCustIdAndAppIdAndBusinessId(Long.valueOf(ownerId), Long.valueOf(appId),Long.valueOf(businessId)).orElse(new EOCustBusinessApp(Long.valueOf(appId), Long.valueOf(ownerId), Long.valueOf(businessId)));
 	        	EOCustBusinessApp eoCustBusinessApp=custBusinessAppRepository.save(custBusinessApp);
 	        	requestWrapper.putHeader(CUST_APP_ID, ""+eoCustBusinessApp.getId());
 	    		req.setAttribute(CUST_APP_ID, ""+eoCustBusinessApp.getId());
 	    		ApiSecurityContext.getContext().setCurrentAccount(eoCustBusinessApp);
-	        } else  if(Objects.nonNull(ownerId) && CommanUtil.isNumeric(ownerId) && Objects.nonNull(businessId)&& CommanUtil.isNumeric(businessId)) {
+	        } else  if(StringUtil.hasText(ownerId) && CommanUtil.isNumeric(ownerId) && StringUtil.hasText(businessId)&& CommanUtil.isNumeric(businessId)) {
 	         	EOCustBusinessApp custBusinessApp = custBusinessAppRepository.findByCustIdAndAppIdAndBusinessId(Long.valueOf(ownerId), Long.valueOf(1l),Long.valueOf(businessId)).orElse(new EOCustBusinessApp(Long.valueOf(1l), Long.valueOf(ownerId), Long.valueOf(businessId)));
 	         	EOCustBusinessApp eoCustBusinessApp=custBusinessAppRepository.save(custBusinessApp);
 	     		requestWrapper.putHeader(CUST_APP_ID, ""+eoCustBusinessApp.getId());
 	     		req.setAttribute(CUST_APP_ID, ""+eoCustBusinessApp.getId());
 	     		ApiSecurityContext.getContext().setCurrentAccount(eoCustBusinessApp);
-	         } else  if(Objects.nonNull(ownerId)&& CommanUtil.isNumeric(ownerId)) {
+	         } else  if(StringUtil.hasText(ownerId)&& CommanUtil.isNumeric(ownerId)) {
 	        	List<EOCustBusinessApp> custBusinessAppList = custBusinessAppRepository.findByCustIdAndAppId(Long.valueOf(ownerId), Long.valueOf(1l)).orElse(Arrays.asList(new EOCustBusinessApp(Long.valueOf(1l), Long.valueOf(ownerId), Long.valueOf(1l))));
 	        	for(EOCustBusinessApp custBusinessApp : custBusinessAppList) {
 	      			EOCustBusinessApp eoCustBusinessApp=custBusinessAppRepository.save(custBusinessApp);
