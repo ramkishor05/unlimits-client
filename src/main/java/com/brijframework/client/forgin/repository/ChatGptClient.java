@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.brijframework.client.forgin.config.FeignClientConfig;
 
-@FeignClient(name= "UNLIMITS-INTEGRATION" ,configuration = FeignClientConfig.class, url = "http://localhost:4444")
+@FeignClient(name= "UNLIMITS-INTEGRATION" ,configuration = FeignClientConfig.class, url = "http://${server.gateway.host}:${server.gateway.port}/integration")
 public interface ChatGptClient {
 
 	@PostMapping(value = "/api/chatgpt/media/text", consumes = {MediaType.TEXT_PLAIN_VALUE}, produces = {MediaType.TEXT_PLAIN_VALUE})

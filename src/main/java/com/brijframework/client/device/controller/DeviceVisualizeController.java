@@ -48,6 +48,7 @@ public class DeviceVisualizeController implements CrudController<UIDeviceUnlimit
 			response.setMessage(CQRSController.SUCCESSFULLY_PROCCEED);
 			return response;
 		}catch (Exception e) {
+			e.printStackTrace();
 			response.setSuccess(CQRSController.FAILED);
 			response.setMessage(e.getMessage());
 			return response;

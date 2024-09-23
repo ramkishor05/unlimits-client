@@ -4,7 +4,7 @@
 package com.brijframework.client.device.service;
 
 import static com.brijframework.client.constants.Constants.CUST_BUSINESS_APP;
-import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
+import static com.brijframework.client.constants.Constants.UI_DATE_FORMAT_MM_DD_YY;
 import static com.brijframework.client.constants.Constants.INVALID_CLIENT;
 import static com.brijframework.client.constants.Constants.MY_UNLIMITS;
 
@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.support.ReflectionAccess;
 import org.brijframework.util.text.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,6 +59,7 @@ import jakarta.persistence.criteria.Path;
 @Service
 public class DeviceUnlimitsExampleServiceImpl extends CrudServiceImpl<UIDeviceUnlimitsExample, EOUnlimitsExample, Long>
 		implements DeviceUnlimitsExampleService {
+	private static final Logger LOGGER= LoggerFactory.getLogger(DeviceUnlimitsExampleServiceImpl.class);
 
 	private static final String EXAMPLE_DATE = "exampleDate";
 
@@ -90,24 +93,32 @@ public class DeviceUnlimitsExampleServiceImpl extends CrudServiceImpl<UIDeviceUn
 
 	{
 		CustomPredicate<EOUnlimitsExample> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
-			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
-			custBusinessAppIn.value(filter.getColumnValue());
-			return custBusinessAppIn;
+			try {
+				Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
+				In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
+				custBusinessAppIn.value(filter.getColumnValue());
+				return custBusinessAppIn;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected exception for custBusinessApp: " + filter.getColumnValue(), e);
+				return null;
+			}
 		};
 
 		CustomPredicate<EOUnlimitsExample> exampleDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Date> exampleDatePath = root.get(EXAMPLE_DATE);
-			In<Object> exampleDateIn = criteriaBuilder.in(exampleDatePath);
-			DateFormat timeFormat = new SimpleDateFormat(DEVICE_DATE_FORMAT_MMMM_DD_YYYY);
-			Date date = null;
 			try {
-				date = timeFormat.parse(filter.getColumnValue().toString());
-			} catch (ParseException e) {
-				System.err.println("WARN: unexpected object in Object.dateValue(): " + filter.getColumnValue());
+				Path<Date> exampleDatePath = root.get(EXAMPLE_DATE);
+				In<Object> exampleDateIn = criteriaBuilder.in(exampleDatePath);
+				DateFormat timeFormat = new SimpleDateFormat(UI_DATE_FORMAT_MM_DD_YY);
+				Date date = timeFormat.parse(filter.getColumnValue().toString());
+				exampleDateIn.value(new java.sql.Date(date.getTime()));
+				return exampleDateIn;
+			}catch (ParseException e) {
+				LOGGER.error("WARN: unexpected parse exception in exampleDate: " + filter.getColumnValue(), e);
+				return null;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected exception in exampleDate: " + filter.getColumnValue(), e);
+				return null;
 			}
-			exampleDateIn.value(new java.sql.Date(date.getTime()));
-			return exampleDateIn;
 		};
 
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);

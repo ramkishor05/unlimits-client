@@ -3,7 +3,7 @@
  */
 package com.brijframework.client.device.service;
 import static com.brijframework.client.constants.Constants.CUST_BUSINESS_APP;
-import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
+import static com.brijframework.client.constants.Constants.UI_DATE_FORMAT_MM_DD_YY;
 import static com.brijframework.client.constants.Constants.INVALID_CLIENT;
 
 import java.text.DateFormat;
@@ -15,6 +15,8 @@ import java.util.Map;
 
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.support.ReflectionAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +52,7 @@ import jakarta.persistence.criteria.Path;
 @Service
 public class DeviceReProgramServiceImpl extends CrudServiceImpl<UIDeviceReProgramGroup, EOReProgramGroup, Long>
 		implements DeviceReProgramService {
+	private static final Logger LOGGER= LoggerFactory.getLogger(DeviceReProgramServiceImpl.class);
 
 	private static final String REPROGRAM_DATE = "reprogramDate";
 
@@ -82,24 +85,32 @@ public class DeviceReProgramServiceImpl extends CrudServiceImpl<UIDeviceReProgra
 	
 	{
 		CustomPredicate<EOReProgramGroup> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
-			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
-			custBusinessAppIn.value(filter.getColumnValue());
-			return custBusinessAppIn;
+			try {
+				Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
+				In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
+				custBusinessAppIn.value(filter.getColumnValue());
+				return custBusinessAppIn;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected exception for custBusinessApp: " + filter.getColumnValue(), e);
+				return null;
+			}
 		};
 		
 		CustomPredicate<EOReProgramGroup> reprogramDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Date> reprogramPath = root.get(REPROGRAM_DATE);
-			In<Object> reprogramIn = criteriaBuilder.in(reprogramPath);
-			DateFormat timeFormat = new SimpleDateFormat(DEVICE_DATE_FORMAT_MMMM_DD_YYYY);
-			Date date = null;
 			try {
-				date = timeFormat.parse(filter.getColumnValue().toString());
+				Path<Date> reprogramPath = root.get(REPROGRAM_DATE);
+				In<Object> reprogramIn = criteriaBuilder.in(reprogramPath);
+				DateFormat timeFormat = new SimpleDateFormat(UI_DATE_FORMAT_MM_DD_YY);
+				Date date = timeFormat.parse(filter.getColumnValue().toString());
+				reprogramIn.value(new java.sql.Date(date.getTime()) );
+				return reprogramIn;
 			} catch (ParseException e) {
-				System.err.println("WARN: unexpected object in Object.dateValue(): " + filter.getColumnValue());
+				LOGGER.error("WARN: unexpected parse exception for reprogramDate: " + filter.getColumnValue(), e);
+				return null;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected exception for reprogramDate: " + filter.getColumnValue(), e);
+				return null;
 			}
-			reprogramIn.value(new java.sql.Date(date.getTime()) );
-			return reprogramIn;
 		};
  
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);

@@ -10,7 +10,7 @@ import org.unlimits.rest.crud.beans.Response;
 import com.brijframework.client.forgin.config.FeignClientConfig;
 import com.brijframework.client.forgin.model.PromptLibarary;
 
-@FeignClient(name= "UNLIMITS-CONTENT" ,configuration = FeignClientConfig.class, url = "http://51.79.159.7:3333")
+@FeignClient(name= "UNLIMITS-CONTENT" ,configuration = FeignClientConfig.class, url = "http://${server.gateway.host}:${server.gateway.port}/content")
 public interface PromptClient {
 
 	@GetMapping(value = "/api/global/prompt/libarary")

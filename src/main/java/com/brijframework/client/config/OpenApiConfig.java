@@ -25,7 +25,7 @@ public class OpenApiConfig {
 	
 	@Bean
 	public OpenAPI customOpenAPI() {
-		final String securitySchemeName = Constants. AUTHORIZATION;
+		final String securitySchemeName = Constants.AUTHORIZATION;
 		final String apiTitle = String.format("%s API", StringUtils.capitalize(moduleName));
 		return new OpenAPI().addServersItem(new Server().url(serverUrl))
 				.addSecurityItem(new SecurityRequirement()

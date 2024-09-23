@@ -1,6 +1,6 @@
 package com.brijframework.client.device.service;
 import static com.brijframework.client.constants.Constants.CUST_BUSINESS_APP;
-import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
+import static com.brijframework.client.constants.Constants.UI_DATE_FORMAT_MM_DD_YY;
 import static com.brijframework.client.constants.Constants.INVALID_CLIENT;
 
 import java.text.DateFormat;
@@ -12,6 +12,8 @@ import java.util.Map;
 
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.support.ReflectionAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +45,7 @@ import jakarta.persistence.criteria.Path;
 
 @Service
 public class DeviceMindSetServiceImpl extends CrudServiceImpl<UIDeviceMindSetGroup, EOMindSetGroup, Long> implements DeviceMindSetService {
+	private static final Logger LOGGER= LoggerFactory.getLogger(DeviceMindSetServiceImpl.class);
 
 	private static final String MINDSET_DATE = "mindsetDate";
 
@@ -75,24 +78,32 @@ public class DeviceMindSetServiceImpl extends CrudServiceImpl<UIDeviceMindSetGro
 	
 	{
 		CustomPredicate<EOMindSetGroup> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
-			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
-			custBusinessAppIn.value(filter.getColumnValue());
-			return custBusinessAppIn;
+			try {
+				Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
+				In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
+				custBusinessAppIn.value(filter.getColumnValue());
+				return custBusinessAppIn;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected exception for custBusinessApp: " + filter.getColumnValue(), e);
+				return null;
+			}
 		};
 		
 		CustomPredicate<EOMindSetGroup> mindsetDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Date> mindsetDatePath = root.get(MINDSET_DATE);
-			In<Object> mindsetDateIn = criteriaBuilder.in(mindsetDatePath);
-			DateFormat timeFormat = new SimpleDateFormat(DEVICE_DATE_FORMAT_MMMM_DD_YYYY);
-			Date date = null;
 			try {
-				date = timeFormat.parse(filter.getColumnValue().toString());
+				Path<Date> mindsetDatePath = root.get(MINDSET_DATE);
+				In<Object> mindsetDateIn = criteriaBuilder.in(mindsetDatePath);
+				DateFormat timeFormat = new SimpleDateFormat(UI_DATE_FORMAT_MM_DD_YY);
+				Date date = timeFormat.parse(filter.getColumnValue().toString());
+				mindsetDateIn.value(new java.sql.Date(date.getTime()) );
+				return mindsetDateIn;
 			} catch (ParseException e) {
-				System.err.println("WARN: unexpected object in Object.dateValue(): " + filter.getColumnValue());
+				LOGGER.error("WARN: unexpected parse exception for mindsetDate: " + filter.getColumnValue(), e);
+				return null;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected exception for mindsetDate: " + filter.getColumnValue(), e);
+				return null;
 			}
-			mindsetDateIn.value(new java.sql.Date(date.getTime()) );
-			return mindsetDateIn;
 		};
  
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);

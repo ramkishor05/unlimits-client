@@ -18,6 +18,7 @@ import org.unlimits.rest.crud.service.CrudServiceImpl;
 
 import com.brijframework.client.constants.Constants;
 import com.brijframework.client.constants.RecordStatus;
+import com.brijframework.client.constants.UnlimitsType;
 import com.brijframework.client.device.mapper.DeviceUnlimitsVisualizeMapper;
 import com.brijframework.client.device.model.UIDeviceUnlimits;
 import com.brijframework.client.device.model.UIDeviceUnlimitsExample;
@@ -117,7 +118,10 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 
 	@Override
 	public UIDeviceUnlimitsVisualize request(UIDeviceVisualizeRequest clientVisualizeRequest, Map<String, List<String>> headers) {
-		switch (clientVisualizeRequest.getType()) {
+		if(clientVisualizeRequest.getUnlmitsType()==null) {
+			throw new IllegalArgumentException("Unexpected value: " + clientVisualizeRequest.getType());
+		}
+		switch (clientVisualizeRequest.getUnlmitsType()) {
 		case WORDS: {
 			return buildVisualizeByWords(clientVisualizeRequest.getYear(), clientVisualizeRequest.getUnlimitId(), headers);
 		}
@@ -157,6 +161,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		buildVisualize.setVisualizeYear(year);
 		buildVisualize.setEoUnlimits(unlimitsTag);
 		buildVisualize.setUnlimitId(unlimitId);
+		buildVisualize.setType(UnlimitsType.WORDS.getType());
 		return add(buildVisualize, headers);
 	}
 	
@@ -306,6 +311,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		buildVisualize.setVisualizeYear(year);
 		buildVisualize.setEoUnlimits(unlimitsImage);
 		buildVisualize.setUnlimitId(unlimitId);
+		buildVisualize.setType(UnlimitsType.IMAGE.getType());
 		return add(buildVisualize, headers);
 	}
 
@@ -333,6 +339,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		buildVisualize.setVisualizeYear(year);
 		buildVisualize.setEoUnlimits(unlimitsExample);
 		buildVisualize.setUnlimitId(unlimitId);
+		buildVisualize.setType(UnlimitsType.EXAMPLE.getType());
 		return add(buildVisualize, headers);
 	}
 
@@ -371,7 +378,7 @@ public class DeviceVisualizeServiceImpl extends CrudServiceImpl<UIDeviceUnlimits
 		Calendar instance = Calendar.getInstance();
 		instance.add(Calendar.YEAR, year);
 		UIDeviceUnlimitsVisualize uiVisualize = new UIDeviceUnlimitsVisualize();
-		uiVisualize.setVisualizeDate(DateUtil.getDateStringForPattern(instance.getTime(), Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY));
+		uiVisualize.setVisualizeDate(DateUtil.getDateStringForPattern(instance.getTime(), Constants.UI_DATE_FORMAT_MM_DD_YY));
 		uiVisualize.setVisualizeRequest(request.toString());
 		return uiVisualize;
 	}

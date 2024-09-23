@@ -1,6 +1,6 @@
 package com.brijframework.client.global.model;
 
-import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
+import static com.brijframework.client.constants.Constants.UI_DATE_FORMAT_MM_DD_YY;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,7 +56,7 @@ public class UIGlobalJournalItem extends UIGlobalModel{
 
 	public Date toJournalDate() {
 		try {
-			return new SimpleDateFormat(DEVICE_DATE_FORMAT_MMMM_DD_YYYY).parse(journalDate);
+			return new SimpleDateFormat(UI_DATE_FORMAT_MM_DD_YY).parse(journalDate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

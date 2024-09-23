@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.support.ReflectionAccess;
 import org.brijframework.util.text.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,6 +53,8 @@ import jakarta.persistence.criteria.Path;
 @Service
 public class DeviceUnlimitsTagServiceImpl extends CrudServiceImpl<UIDeviceUnlimitsTag, EOUnlimitsTag, Long>
 		implements DeviceUnlimitsTagService {
+	
+	private static final Logger LOGGER= LoggerFactory.getLogger(DeviceUnlimitsTagServiceImpl.class);
 
 	@Autowired
 	private CustBusinessAppRepository custBusinessAppRepository;
@@ -82,10 +86,15 @@ public class DeviceUnlimitsTagServiceImpl extends CrudServiceImpl<UIDeviceUnlimi
 
 	{
 		CustomPredicate<EOUnlimitsTag> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
-			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
-			custBusinessAppIn.value(filter.getColumnValue());
-			return custBusinessAppIn;
+			try {
+				Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
+				In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
+				custBusinessAppIn.value(filter.getColumnValue());
+				return custBusinessAppIn;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected object for custBusinessApp: " + filter.getColumnValue(), e);
+				return null;
+			}
 		};
 
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);

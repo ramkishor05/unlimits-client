@@ -4,8 +4,6 @@ import com.brijframework.client.constants.UnlimitsType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -50,8 +48,7 @@ public class EOUnlimitsVisualize extends EOEntityObject {
 	private EOUnlimitsTag unlimitsTag;
 	
 	@Column(name = "VISUALIZE_TYPE")
-	@Enumerated(EnumType.STRING)
-	private UnlimitsType type;
+	private String type;
 
 	public String getVisualizeDate() {
 		return visualizeDate;
@@ -109,13 +106,16 @@ public class EOUnlimitsVisualize extends EOEntityObject {
 		this.unlimitsTag = unlimitsTag;
 	}
 
-	public UnlimitsType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(UnlimitsType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
+	public UnlimitsType getUnlimitsType() {
+		return UnlimitsType.findByType(type);
+	}
 
 }

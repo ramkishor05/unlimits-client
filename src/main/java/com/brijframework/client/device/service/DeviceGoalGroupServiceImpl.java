@@ -3,7 +3,7 @@
  */
 package com.brijframework.client.device.service;
 import static com.brijframework.client.constants.Constants.CUST_BUSINESS_APP;
-import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
+import static com.brijframework.client.constants.Constants.UI_DATE_FORMAT_MM_DD_YY;
 import static com.brijframework.client.constants.Constants.INVALID_CLIENT;
 
 import java.text.DateFormat;
@@ -15,6 +15,8 @@ import java.util.Map;
 
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.support.ReflectionAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,6 +49,7 @@ import jakarta.persistence.criteria.Path;
 @Service
 public class DeviceGoalGroupServiceImpl extends CrudServiceImpl<UIDeviceGoalGroup, EOGoalGroup, Long>
 		implements DeviceGoalGroupService {
+	private static final Logger LOGGER= LoggerFactory.getLogger(DeviceGoalGroupServiceImpl.class);
 
 	private static final String GOAL_DATE = "goalDate";
 
@@ -74,26 +77,33 @@ public class DeviceGoalGroupServiceImpl extends CrudServiceImpl<UIDeviceGoalGrou
 	
 	{
 		CustomPredicate<EOGoalGroup> custBusinessApp = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
-			In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
-			custBusinessAppIn.value(filter.getColumnValue());
-			return custBusinessAppIn;
+			try {
+				Path<Object> custBusinessAppPath = root.get(CUST_BUSINESS_APP);
+				In<Object> custBusinessAppIn = criteriaBuilder.in(custBusinessAppPath);
+				custBusinessAppIn.value(filter.getColumnValue());
+				return custBusinessAppIn;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected exception for custBusinessApp: " + filter.getColumnValue(), e);
+				return null;
+			}
 		};
 		
 		CustomPredicate<EOGoalGroup> goalDate = (type, root, criteriaQuery, criteriaBuilder, filter) -> {
-			Path<Date> goalDatePath = root.get(GOAL_DATE);
-			In<Object> goalDateIn = criteriaBuilder.in(goalDatePath);
-			DateFormat timeFormat = new SimpleDateFormat(DEVICE_DATE_FORMAT_MMMM_DD_YYYY);
-			Date date = null;
 			try {
-				date = timeFormat.parse(filter.getColumnValue().toString());
+				Path<Date> goalDatePath = root.get(GOAL_DATE);
+				In<Object> goalDateIn = criteriaBuilder.in(goalDatePath);
+				DateFormat timeFormat = new SimpleDateFormat(UI_DATE_FORMAT_MM_DD_YY);
+				Date date = timeFormat.parse(filter.getColumnValue().toString());
+				goalDateIn.value(new java.sql.Date(date.getTime()) );
+				return goalDateIn;
 			} catch (ParseException e) {
-				System.err.println("WARN: unexpected object in Object.dateValue(): " + filter.getColumnValue());
+				LOGGER.error("WARN: unexpected parse exception for goalDate: " + filter.getColumnValue(), e);
+				return null;
+			}catch (Exception e) {
+				LOGGER.error("WARN: unexpected exception for goalDate: " + filter.getColumnValue());
+				return null;
 			}
-			goalDateIn.value(new java.sql.Date(date.getTime()) );
-			return goalDateIn;
 		};
- 
 		addCustomPredicate(CUST_BUSINESS_APP, custBusinessApp);
 		addCustomPredicate(GOAL_DATE, goalDate);
 	}

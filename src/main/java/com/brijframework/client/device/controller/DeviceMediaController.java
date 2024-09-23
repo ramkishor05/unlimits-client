@@ -26,7 +26,7 @@ import org.jcodec.scale.RgbToYuv420j;
 
 public class DeviceMediaController {
 
-	public static final File dir = new File("E:\\full_interview\\sapient_interview");
+	public static final File dir = new File("C:\\app_runs\\unlimits-resources\\resource\\sub_cat_images\\");
 	public static final String[] extensions = new String[] { "webp" };
 
 	public static final FilenameFilter imageFilter = new FilenameFilter() {
@@ -60,7 +60,7 @@ public class DeviceMediaController {
 
 	public static void makeVideo(String fileName, Vector<String> imgLst) throws MalformedURLException {
 		JpegImagesToMovie imageToMovie = new JpegImagesToMovie();
-		MediaLocator oml=imageToMovie.createMediaLocator(fileName);
+		MediaLocator oml=JpegImagesToMovie.createMediaLocator(fileName);
 		if (oml == null) {
 			System.err.println("Cannot build media locator from: " + fileName);
 			System.exit(0);
@@ -69,17 +69,19 @@ public class DeviceMediaController {
 		imageToMovie.doIt(720, 360, (1000 / interval), imgLst, oml);
 	}
 	
-	public static void create(List<String> frames, OutputStream output) {
+	public static void create(List<String> fileUrls, OutputStream output) {
 		RateControl control=new H264FixedRateControl(1);
         H264Encoder encoder=new H264Encoder(control);
         RgbToYuv420j transform=new RgbToYuv420j();
         try {
-            for ( String s : frames ) {
-                File f= new File(s);
-                BufferedImage i= ImageIO.read(f);
-                Picture yuv=Picture.create(i.getWidth(), i.getHeight(), ColorSpace.YUV420);
-                transform.transform(AWTUtil.fromBufferedImageRGB(i), yuv);
-                ByteBuffer buf= ByteBuffer.allocate(i.getWidth() * i.getHeight() * 3);
+            for ( String fileUrl : fileUrls ) {
+                File filen= new File(fileUrl);
+                System.out.println("image="+filen);
+                BufferedImage image= ImageIO.read(filen);
+                System.out.println("image="+image);
+                Picture yuv=Picture.create(image.getWidth(), image.getHeight(), ColorSpace.YUV420);
+                transform.transform(AWTUtil.fromBufferedImageRGB(image), yuv);
+                ByteBuffer buf= ByteBuffer.allocate(image.getWidth() * image.getHeight() * 3);
                 ByteBuffer ff=encoder.encodePFrame( yuv, buf);
                 WritableByteChannel channel = Channels.newChannel(output);
                 channel.write(ff);

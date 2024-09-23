@@ -1,7 +1,7 @@
 package com.brijframework.client.device.mapper;
 
 import static com.brijframework.client.constants.Constants.APP_CLIENT_PACKAGE_IMPL;
-import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
+import static com.brijframework.client.constants.Constants.UI_DATE_FORMAT_MM_DD_YY;
 import static com.brijframework.client.constants.Constants.SPRING;
 
 import org.mapstruct.Mapper;
@@ -16,11 +16,11 @@ import com.brijframework.client.entities.EOUnlimitsCoachConversion;
 public interface DeviceCoachGroupMapper extends GenericMapper<EOUnlimitsCoachConversion, UIUnlimitsCoachConversion> {
 
 	@Override
-	@Mapping(target = "coachDate" , source = "coachDate", dateFormat = DEVICE_DATE_FORMAT_MMMM_DD_YYYY)
+	@Mapping(target = "coachDate" , source = "coachDate", dateFormat = UI_DATE_FORMAT_MM_DD_YY)
 	EOUnlimitsCoachConversion mapToDAO(UIUnlimitsCoachConversion d);
 
 	@Override
-	@Mapping(target = "coachDate" , source = "coachDate", dateFormat = DEVICE_DATE_FORMAT_MMMM_DD_YYYY)
+	@Mapping(target = "coachDate" , source = "coachDate", dateFormat = UI_DATE_FORMAT_MM_DD_YY)
 	UIUnlimitsCoachConversion mapToDTO(EOUnlimitsCoachConversion e);
 
 }

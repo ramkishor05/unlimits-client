@@ -11,8 +11,6 @@ public class FeignClientConfig {
     @Bean
     public RequestInterceptor bearerAuthRequestInterceptor() {
         return requestTemplate -> {
-        	System.out.println("Calling getRestTemplate getInterceptors");
-
         	requestTemplate.header("Authorization", ApiTokenContext.getContext().getCurrentToken());
         };
     }

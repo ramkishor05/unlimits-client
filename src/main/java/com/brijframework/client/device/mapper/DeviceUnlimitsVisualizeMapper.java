@@ -27,11 +27,12 @@ public interface DeviceUnlimitsVisualizeMapper extends GenericMapper<EOUnlimitsV
 	UIDeviceUnlimitsVisualize mapToDTO(EOUnlimitsVisualize e);
 	
 	static String getType(EOUnlimitsVisualize e){
-		return e.getType()==null ?"": e.getType().getType();
+		return e.getType()==null ?"": e.getType();
 	}
 	
 	static Long getUnlimitsId(EOUnlimitsVisualize e){
-		switch (e.getType()) {
+		
+		switch (e.getUnlimitsType()) {
 			case WORDS: {
 				if(e.getUnlimitsTag()!=null)
 				return e.getUnlimitsTag().getId();

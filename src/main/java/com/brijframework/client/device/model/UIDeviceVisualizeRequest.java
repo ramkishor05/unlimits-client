@@ -3,15 +3,16 @@ package com.brijframework.client.device.model;
 import org.unlimits.rest.model.UIModel;
 
 import com.brijframework.client.constants.UnlimitsType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class UIDeviceVisualizeRequest extends UIModel{
-	
+public class UIDeviceVisualizeRequest extends UIModel {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer year;
-	private UnlimitsType type;
+	private String type;
 	private Long unlimitId;
 
 	public Integer getYear() {
@@ -22,14 +23,11 @@ public class UIDeviceVisualizeRequest extends UIModel{
 		this.year = year;
 	}
 
-	public UnlimitsType getType() {
-		if(type==null) {
-			type=UnlimitsType.WORDS;
-		}
+	public String getType() {
 		return type;
 	}
 
-	public void setType(UnlimitsType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -41,10 +39,9 @@ public class UIDeviceVisualizeRequest extends UIModel{
 		this.unlimitId = unlimitId;
 	}
 
-	@Override
-	public String toString() {
-		return "UIVisualizeRequest [year=" + year + ", type=" + type + ", unlimitId=" + unlimitId + "]";
+	@JsonIgnore
+	public UnlimitsType getUnlmitsType() {
+		return UnlimitsType.findByType(type);
 	}
 
-	
 }

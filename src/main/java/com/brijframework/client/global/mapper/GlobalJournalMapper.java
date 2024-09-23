@@ -5,7 +5,7 @@ package com.brijframework.client.global.mapper;
 
 import static com.brijframework.client.constants.Constants.APP_CLIENT_PACKAGE_IMPL;
 import static com.brijframework.client.constants.Constants.SPRING;
-import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
+import static com.brijframework.client.constants.Constants.UI_DATE_FORMAT_MM_DD_YY;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,10 +23,10 @@ import com.brijframework.client.global.model.UIGlobalJournalItem;
 public interface GlobalJournalMapper extends GenericMapper<EOJournal, UIGlobalJournalItem>{
 
 	@Override
-	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = DEVICE_DATE_FORMAT_MMMM_DD_YYYY)
+	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = UI_DATE_FORMAT_MM_DD_YY)
     UIGlobalJournalItem mapToDTO(EOJournal e) ;
 	
 	@Override
-	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = DEVICE_DATE_FORMAT_MMMM_DD_YYYY)
+	@Mapping(target = "journalDate" , source = "journalDate", dateFormat = UI_DATE_FORMAT_MM_DD_YY)
     EOJournal mapToDAO(UIGlobalJournalItem d);
 }

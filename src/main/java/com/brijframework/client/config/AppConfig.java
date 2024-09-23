@@ -10,7 +10,6 @@ import org.springframework.web.client.RestTemplate;
 import org.unlimits.rest.context.ApiTokenContext;
 
 import com.fasterxml.jackson.core.StreamReadConstraints;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 
 @Configuration
 public class AppConfig {
@@ -34,6 +33,6 @@ public class AppConfig {
 	@Bean
 	Jackson2ObjectMapperBuilderCustomizer customStreamReadConstraints() {
 		return (builder) -> builder.postConfigurer((objectMapper) -> objectMapper.getFactory()
-			.setStreamReadConstraints(StreamReadConstraints.builder().maxStringLength(200000000).build())).featuresToEnable(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS);
+			.setStreamReadConstraints(StreamReadConstraints.builder().maxStringLength(200000000).build()));
 	}
 }

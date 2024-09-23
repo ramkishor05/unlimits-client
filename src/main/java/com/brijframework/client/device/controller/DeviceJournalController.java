@@ -2,7 +2,7 @@
  * 
  */
 package com.brijframework.client.device.controller;
-import static com.brijframework.client.constants.Constants.DEVICE_DATE_FORMAT_MMMM_DD_YYYY;
+import static com.brijframework.client.constants.Constants.UI_DATE_FORMAT_MM_DD_YY;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -40,13 +40,13 @@ public class DeviceJournalController implements CrudController<UIDeviceJournalIt
 	
 	@Override
 	public Object customizedResponse(List<UIDeviceJournalItem> values, QueryRequest queryRequest ) {
-		SimpleDateFormat dateFormat=new SimpleDateFormat(DEVICE_DATE_FORMAT_MMMM_DD_YYYY);
+		SimpleDateFormat dateFormat=new SimpleDateFormat(UI_DATE_FORMAT_MM_DD_YY);
 		return values.stream().collect(Collectors.groupingBy(UIDeviceJournalItem::toJournalDate)).entrySet().stream().map(entry->new UIDeviceJournalGroup(dateFormat.format(entry.getKey()), entry.getValue())).toList();
 	}
 	
 	@Override
 	public Object customizedResponse(PageDetail<UIDeviceJournalItem> fetchPageObject, QueryRequest queryRequest) {
-		SimpleDateFormat dateFormat=new SimpleDateFormat(DEVICE_DATE_FORMAT_MMMM_DD_YYYY);
+		SimpleDateFormat dateFormat=new SimpleDateFormat(UI_DATE_FORMAT_MM_DD_YY);
 		List<UIDeviceJournalGroup> list = fetchPageObject.getElements().stream().collect(Collectors.groupingBy(UIDeviceJournalItem::toJournalDate)).entrySet().stream().map(entry->new UIDeviceJournalGroup(dateFormat.format(entry.getKey()), entry.getValue())).toList();
 		PageDetail<UIDeviceJournalGroup> returnPageObject=new PageDetail<UIDeviceJournalGroup>();
 		returnPageObject.setTotalCount(fetchPageObject.getTotalCount());
