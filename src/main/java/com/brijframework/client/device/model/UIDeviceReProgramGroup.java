@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.unlimits.rest.model.UIModel;
 
-import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.model.ResourceFileModel;
 
 public class UIDeviceReProgramGroup extends UIModel {
 
@@ -20,7 +20,7 @@ public class UIDeviceReProgramGroup extends UIModel {
 
 	private Long reprogramId;
 
-	private ResourceFile content;
+	private ResourceFileModel content;
 
 	private String url;
 
@@ -50,11 +50,11 @@ public class UIDeviceReProgramGroup extends UIModel {
 		this.reprogramId = reprogramId;
 	}
 
-	public ResourceFile getContent() {
+	public ResourceFileModel getContent() {
 		return content;
 	}
 
-	public void setContent(ResourceFile content) {
+	public void setContent(ResourceFileModel content) {
 		this.content = content;
 	}
 

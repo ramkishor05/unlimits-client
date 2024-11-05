@@ -3,11 +3,11 @@ package com.brijframework.client.service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.brijframework.client.forgin.model.UIUserAccount;
+import com.brijframework.client.forgin.model.UserAccountModel;
 
 public interface UserAccountService extends UserDetailsService {
 
 	@Override
-	UIUserAccount loadUserByUsername(String username) throws UsernameNotFoundException;
+	UserAccountModel loadUserByUsername(String username) throws UsernameNotFoundException;
 
 }

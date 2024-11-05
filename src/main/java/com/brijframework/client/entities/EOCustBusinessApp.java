@@ -10,8 +10,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -30,18 +28,6 @@ public class EOCustBusinessApp extends EOEntityObject implements IUserAccount{
 
 	@Column(name = BUSINESS_ID, nullable = false)
 	private long businessId;
-	
-	@JoinColumn(name = "CURRENT_UNLIMITS_TAG_ID")
-	@OneToOne
-	private EOUnlimitsTag unlimitsTag;
-	
-	@JoinColumn(name = "CURRENT_UNLIMITS_IMAGE_ID")
-	@OneToOne
-	private EOUnlimitsImage unlimitsImage;
-	
-	@JoinColumn(name = "CURRENT_UNLIMITS_EXAMPLE_ID")
-	@OneToOne
-	private EOUnlimitsExample unlimitsExample;
 	
 	public EOCustBusinessApp() {
 	}
@@ -77,28 +63,5 @@ public class EOCustBusinessApp extends EOEntityObject implements IUserAccount{
 		this.businessId = businessId;
 	}
 
-	public EOUnlimitsTag getUnlimitsTag() {
-		return unlimitsTag;
-	}
-
-	public void setUnlimitsTag(EOUnlimitsTag clientUnlimitsTag) {
-		this.unlimitsTag = clientUnlimitsTag;
-	}
-
-	public EOUnlimitsImage getUnlimitsImage() {
-		return unlimitsImage;
-	}
-
-	public void setUnlimitsImage(EOUnlimitsImage clientUnlimitsImage) {
-		this.unlimitsImage = clientUnlimitsImage;
-	}
-
-	public EOUnlimitsExample getUnlimitsExample() {
-		return unlimitsExample;
-	}
-
-	public void setUnlimitsExample(EOUnlimitsExample clientUnlimitsExample) {
-		this.unlimitsExample = clientUnlimitsExample;
-	}
 	
 }

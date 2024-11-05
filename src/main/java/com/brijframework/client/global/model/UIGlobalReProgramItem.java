@@ -1,6 +1,6 @@
 package com.brijframework.client.global.model;
 
-import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.model.ResourceFileModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -10,7 +10,7 @@ public class UIGlobalReProgramItem extends UIGlobalModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ResourceFile content;
+	private ResourceFileModel content;
 
 	private String url;
 
@@ -18,11 +18,11 @@ public class UIGlobalReProgramItem extends UIGlobalModel {
 
 	private String description;
 
-	public ResourceFile getContent() {
+	public ResourceFileModel getContent() {
 		return content;
 	}
 
-	public void setContent(ResourceFile content) {
+	public void setContent(ResourceFileModel content) {
 		this.content = content;
 	}
 

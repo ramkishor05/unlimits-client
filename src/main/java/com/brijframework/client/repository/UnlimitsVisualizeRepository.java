@@ -19,16 +19,8 @@ import com.brijframework.client.entities.EOUnlimitsVisualize;
 @Transactional
 public interface UnlimitsVisualizeRepository extends CustomRepository<EOUnlimitsVisualize, Long>{
 
-	List<EOUnlimitsVisualize> findAllByUnlimitsExampleId(Long id);
+	List<EOUnlimitsVisualize> findAllByUnlimitsId(Long id);
 	
-	List<EOUnlimitsVisualize> findAllByUnlimitsImageId(Long id);
+	Optional<EOUnlimitsVisualize> findOneByUnlimitsIdAndVisualizeYear(Long id, Integer visualizeYear);
 	
-	List<EOUnlimitsVisualize> findAllByUnlimitsTagId(Long id);
-
-	Optional<EOUnlimitsVisualize> findOneByUnlimitsExampleIdAndVisualizeYear(Long id, Integer visualizeYear);
-	
-	Optional<EOUnlimitsVisualize> findOneByUnlimitsImageIdAndVisualizeYear(Long id, Integer visualizeYear);
-
-	Optional<EOUnlimitsVisualize> findOneByUnlimitsTagIdAndVisualizeYear(Long id, Integer visualizeYear);
-
 }

@@ -3,7 +3,10 @@
  */
 package com.brijframework.client.device.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.unlimits.rest.crud.beans.Response;
@@ -32,6 +36,7 @@ import com.brijframework.client.entities.EOUnlimitsVisualize;
 public class DeviceVisualizeController implements CrudController<UIDeviceUnlimitsVisualize, EOUnlimitsVisualize, Long> {
 
 	@Autowired
+	@Qualifier("DeviceVisualizeService")
 	private DeviceVisualizeService clientVisualizeService;
 	
 	@Override
@@ -40,10 +45,35 @@ public class DeviceVisualizeController implements CrudController<UIDeviceUnlimit
 	}
 
 	@PostMapping("/request")
-	public Response<Object> add(@RequestBody  UIDeviceVisualizeRequest clientVisualizeRequest, @RequestHeader MultiValueMap<String,String> headers) {
+	public Response<Object> requestUnlimits(@RequestBody  UIDeviceVisualizeRequest clientVisualizeRequest, @RequestHeader MultiValueMap<String,String> headers, WebRequest webRequest) {
 		Response<Object> response=new Response<Object>();
+		Map<String, Object> filters = CQRSController.getfilters(webRequest);
+		Map<String, Object> actions = CQRSController.getActions(webRequest);
 		try {
-			response.setData(clientVisualizeService.request(clientVisualizeRequest, headers));
+			response.setData(clientVisualizeService.requestUnlimits(clientVisualizeRequest, headers, filters, actions));
+			response.setSuccess(CQRSController.SUCCESS);
+			response.setMessage(CQRSController.SUCCESSFULLY_PROCCEED);
+			return response;
+		}catch (Exception e) {
+			e.printStackTrace();
+			response.setSuccess(CQRSController.FAILED);
+			response.setMessage(e.getMessage());
+			return response;
+		}
+	}
+
+	@GetMapping("/find/unlimits")
+	public Response<Object> findUnlimits(@RequestParam Long unlimitsId, @RequestParam Long subCategoryId, @RequestParam  String type,
+			@RequestHeader MultiValueMap<String,String> headers, WebRequest webRequest) {
+		UIDeviceVisualizeRequest clientVisualizeRequest=new UIDeviceVisualizeRequest();
+		clientVisualizeRequest.setType(type);
+		clientVisualizeRequest.setUnlimitsId(unlimitsId);
+		clientVisualizeRequest.setSubCategoryId(subCategoryId);
+		Response<Object> response=new Response<Object>();
+		Map<String, Object> filters = CQRSController.getfilters(webRequest);
+		Map<String, Object> actions = CQRSController.getActions(webRequest);
+		try {
+			response.setData(clientVisualizeService.findUnlimits(clientVisualizeRequest, headers, filters, actions));
 			response.setSuccess(CQRSController.SUCCESS);
 			response.setMessage(CQRSController.SUCCESSFULLY_PROCCEED);
 			return response;
@@ -55,12 +85,14 @@ public class DeviceVisualizeController implements CrudController<UIDeviceUnlimit
 		}
 	}
 	
-	@GetMapping("/unlimits")
-	public Response<Object> findAllDeviceUnlimits(@RequestHeader(required = false) MultiValueMap<String, String> headers,
+	@GetMapping("/all/unlimits")
+	public Response<Object> findAllUnlimits(@RequestHeader(required = false) MultiValueMap<String,String> headers,
 			WebRequest webRequest) {
 		Response<Object> response=new Response<Object>();
+		Map<String, Object> filters = CQRSController.getfilters(webRequest);
+		Map<String, Object> actions = CQRSController.getActions(webRequest);
 		try {
-			response.setData(clientVisualizeService.findAllDeviceUnlimits(headers, CQRSController.getfilters(webRequest)));
+			response.setData(clientVisualizeService.findAllUnlimits(headers,filters, actions));
 			response.setSuccess(CQRSController.SUCCESS);
 			response.setMessage(CQRSController.SUCCESSFULLY_PROCCEED);
 			return response;

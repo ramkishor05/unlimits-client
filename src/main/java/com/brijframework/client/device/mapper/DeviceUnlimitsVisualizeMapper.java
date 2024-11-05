@@ -23,7 +23,7 @@ public interface DeviceUnlimitsVisualizeMapper extends GenericMapper<EOUnlimitsV
 
 	@Override
 	@Mapping(target = "type", expression = "java(DeviceUnlimitsVisualizeMapper.getType(e))")
-	@Mapping(target = "unlimitId", expression = "java(DeviceUnlimitsVisualizeMapper.getUnlimitsId(e))")
+	@Mapping(target = "unlimitsId", expression = "java(DeviceUnlimitsVisualizeMapper.getUnlimitsId(e))")
 	UIDeviceUnlimitsVisualize mapToDTO(EOUnlimitsVisualize e);
 	
 	static String getType(EOUnlimitsVisualize e){
@@ -34,16 +34,16 @@ public interface DeviceUnlimitsVisualizeMapper extends GenericMapper<EOUnlimitsV
 		
 		switch (e.getUnlimitsType()) {
 			case WORDS: {
-				if(e.getUnlimitsTag()!=null)
-				return e.getUnlimitsTag().getId();
+				if(e.getUnlimits()!=null)
+				return e.getUnlimits().getId();
 			}
 			case IMAGE: {
-				if(e.getUnlimitsImage()!=null)
-				return e.getUnlimitsImage().getId();
+				if(e.getUnlimits()!=null)
+				return e.getUnlimits().getId();
 			}
 			case EXAMPLE: {
-				if(e.getUnlimitsExample()!=null)
-				return e.getUnlimitsExample().getId();
+				if(e.getUnlimits()!=null)
+				return e.getUnlimits().getId();
 			}
 		}
 		return null;

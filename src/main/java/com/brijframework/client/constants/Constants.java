@@ -37,5 +37,7 @@ public class Constants {
 	public static final String CUST_BUSINESS_APP = "custBusinessApp";
 	
 	public static final String COACH_DATE ="coachDate";
+	
+	public static final String RECORD_STATE = "recordState";
 
 }

@@ -2,7 +2,7 @@ package com.brijframework.client.global.model;
 
 import java.util.List;
 
-import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.model.ResourceFileModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -18,7 +18,7 @@ public class UIGlobalMindSetGroup extends UIGlobalModel{
 	
 	private Long mindsetId;
 
-	private ResourceFile content;
+	private ResourceFileModel content;
 	
 	private String url;
 
@@ -48,11 +48,11 @@ public class UIGlobalMindSetGroup extends UIGlobalModel{
 		this.mindsetId = mindsetId;
 	}
 
-	public ResourceFile getContent() {
+	public ResourceFileModel getContent() {
 		return content;
 	}
 
-	public void setContent(ResourceFile content) {
+	public void setContent(ResourceFileModel content) {
 		this.content = content;
 	}
 

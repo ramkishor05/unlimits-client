@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.brijframework.client.constants.Authority;
-import com.brijframework.client.forgin.model.UIUserAccount;
+import com.brijframework.client.forgin.model.UserAccountModel;
 import com.brijframework.client.service.UserAccountService;
 
 
@@ -49,7 +49,7 @@ public class TokenAuthenticationProvider extends DaoAuthenticationProvider {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
 	
-	public UIUserAccount loadUserByUsername(String username, String authority) {
+	public UserAccountModel loadUserByUsername(String username, String authority) {
 		UserAccountService userDetailsService=null; 
 		if(authority.equalsIgnoreCase(Authority.ADMIN.toString())) {
 			userDetailsService=userAccountService;

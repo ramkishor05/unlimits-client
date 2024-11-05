@@ -35,7 +35,7 @@ import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.entities.EOMindSetGroup;
 import com.brijframework.client.entities.EOMindSetItem;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.model.ResourceFileModel;
 import com.brijframework.client.forgin.repository.ResourceClient;
 import com.brijframework.client.repository.MindSetGroupRepository;
 import com.brijframework.client.repository.MindSetItemRepository;
@@ -121,13 +121,13 @@ public class DeviceMindSetServiceImpl extends CrudServiceImpl<UIDeviceMindSetGro
 	@Override
 	public void preAdd(UIDeviceMindSetGroup data, Map<String, List<String>> headers) {
 		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
-		ResourceFile resource = data.getContent();
+		ResourceFileModel resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(MINDSET);
 			resourceClient.add(MINDSET, resource.getFileName(), resource.getFileContent());
 		}
 		for(UIDeviceMindSetItem mindSetItem:   data.getMindSets()) {
-			ResourceFile resourceFile = mindSetItem.getContent();
+			ResourceFileModel resourceFile = mindSetItem.getContent();
 			if(resourceFile!=null) {
 				resourceFile.setFolderName(MINDSET);
 				resourceClient.add(MINDSET, resourceFile.getFileName(), resourceFile.getFileContent());
@@ -137,13 +137,13 @@ public class DeviceMindSetServiceImpl extends CrudServiceImpl<UIDeviceMindSetGro
 	
 	@Override
 	public void preUpdate(UIDeviceMindSetGroup data, Map<String, List<String>> headers) {
-		ResourceFile resource = data.getContent();
+		ResourceFileModel resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(MINDSET);
 			resourceClient.add(MINDSET, resource.getFileName(), resource.getFileContent());
 		}
 		for(UIDeviceMindSetItem mindSetItem:   data.getMindSets()) {
-			ResourceFile resourceFile = mindSetItem.getContent();
+			ResourceFileModel resourceFile = mindSetItem.getContent();
 			if(resourceFile!=null) {
 				resourceFile.setFolderName(MINDSET);
 				resourceClient.add(MINDSET, resourceFile.getFileName(), resourceFile.getFileContent());

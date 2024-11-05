@@ -12,9 +12,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "EOCLIENT_UNLIMITS_VISUALIZE", uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"VISUALIZE_YEAR", "UNLIMITS_IMAGE_ID" }),
-		@UniqueConstraint(columnNames = {"VISUALIZE_YEAR", "UNLIMITS_EXAMPLE_ID" }),
-		@UniqueConstraint(columnNames = {"VISUALIZE_YEAR", "UNLIMITS_TAG_ID" })
+	@UniqueConstraint(columnNames = {"VISUALIZE_YEAR", "UNLIMITS_ID" })
 })
 public class EOUnlimitsVisualize extends EOEntityObject {
 
@@ -35,17 +33,12 @@ public class EOUnlimitsVisualize extends EOEntityObject {
 	@Column(name = "VISUALIZE_YEAR")
 	private Integer visualizeYear;
 	
+	@Column(name = "SUBCATEGORY_ID")
+	private Long subCategoryId;
+	
 	@ManyToOne(fetch = FetchType.EAGER )
-	@JoinColumn(name = "UNLIMITS_IMAGE_ID" , referencedColumnName = "id")
-	private EOUnlimitsImage unlimitsImage;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "UNLIMITS_EXAMPLE_ID" , referencedColumnName = "id")
-	private EOUnlimitsExample unlimitsExample;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "UNLIMITS_TAG_ID", referencedColumnName = "id")
-	private EOUnlimitsTag unlimitsTag;
+	@JoinColumn(name = "UNLIMITS_ID" , referencedColumnName = "id")
+	private EOUnlimits unlimits;
 	
 	@Column(name = "VISUALIZE_TYPE")
 	private String type;
@@ -82,28 +75,20 @@ public class EOUnlimitsVisualize extends EOEntityObject {
 		this.visualizeYear = visualizeYear;
 	}
 
-	public EOUnlimitsImage getUnlimitsImage() {
-		return unlimitsImage;
+	public Long getSubCategoryId() {
+		return subCategoryId;
 	}
 
-	public void setUnlimitsImage(EOUnlimitsImage unlimitsImage) {
-		this.unlimitsImage = unlimitsImage;
+	public void setSubCategoryId(Long subCategoryId) {
+		this.subCategoryId = subCategoryId;
 	}
 
-	public EOUnlimitsExample getUnlimitsExample() {
-		return unlimitsExample;
+	public EOUnlimits getUnlimits() {
+		return unlimits;
 	}
 
-	public void setUnlimitsExample(EOUnlimitsExample unlimitsExample) {
-		this.unlimitsExample = unlimitsExample;
-	}
-
-	public EOUnlimitsTag getUnlimitsTag() {
-		return unlimitsTag;
-	}
-
-	public void setUnlimitsTag(EOUnlimitsTag unlimitsTag) {
-		this.unlimitsTag = unlimitsTag;
+	public void setUnlimits(EOUnlimits unlimits) {
+		this.unlimits = unlimits;
 	}
 
 	public String getType() {

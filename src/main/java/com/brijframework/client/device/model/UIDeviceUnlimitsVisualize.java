@@ -5,7 +5,10 @@ import org.unlimits.rest.model.UIModel;
 import com.brijframework.client.constants.UnlimitsType;
 import com.brijframework.client.entities.EOUnlimits;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_EMPTY)
 public class UIDeviceUnlimitsVisualize extends UIModel {
 
 	/**
@@ -16,16 +19,19 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 	private String visualizeRequest;
 	private String visualizeResponse;
 	private Integer visualizeYear;
+	private Long subCategoryId;
+	
+	private String type;
+	
+	private Long unlimitsId;
+	
+	@JsonIgnore
+	private EOUnlimits eoUnlimits;
+	
 	private Integer errorCode;
 	private String errorMsg;
 	private String traceMsg;
 	
-	private String type;
-	
-	private Long unlimitId;
-
-	@JsonIgnore
-	private EOUnlimits eoUnlimits;
 
 	public String getVisualizeDate() {
 		return visualizeDate;
@@ -58,31 +64,6 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 	public void setVisualizeYear(Integer visualizeYear) {
 		this.visualizeYear = visualizeYear;
 	}
-
-	public Integer getErrorCode() {
-		return errorCode;
-	}
-
-	public void setErrorCode(Integer errorCode) {
-		this.errorCode = errorCode;
-	}
-
-	public String getErrorMsg() {
-		return errorMsg;
-	}
-
-	public void setErrorMsg(String errorMsg) {
-		this.errorMsg = errorMsg;
-	}
-
-	public String getTraceMsg() {
-		return traceMsg;
-	}
-
-	public void setTraceMsg(String traceMsg) {
-		this.traceMsg = traceMsg;
-	}
-
 	public EOUnlimits getEoUnlimits() {
 		return eoUnlimits;
 	}
@@ -104,12 +85,44 @@ public class UIDeviceUnlimitsVisualize extends UIModel {
 		this.type = type;
 	}
 
-	public Long getUnlimitId() {
-		return unlimitId;
+	public Long getUnlimitsId() {
+		return unlimitsId;
 	}
 
-	public void setUnlimitId(Long unlimitId) {
-		this.unlimitId = unlimitId;
+	public void setUnlimitsId(Long unlimitsId) {
+		this.unlimitsId = unlimitsId;
 	}
 
+	public Long getSubCategoryId() {
+		return subCategoryId;
+	}
+
+	public void setSubCategoryId(Long subCategoryId) {
+		this.subCategoryId = subCategoryId;
+	}
+
+	public void setErrorCode(Integer errorCode) {
+		this.errorCode=errorCode;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg=errorMsg;
+	}
+
+	public void setTraceMsg(String traceMsg) {
+		this.traceMsg=traceMsg;
+	}
+
+	public Integer getErrorCode() {
+		return errorCode;
+	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public String getTraceMsg() {
+		return traceMsg;
+	}
+	
 }

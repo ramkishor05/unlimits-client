@@ -50,7 +50,7 @@ import jakarta.persistence.criteria.Path;
 public class DeviceCommitmentServiceImpl
 		extends CrudServiceImpl<UIDeviceCommitmentGroup, EOCommitmentGroup, Long>
 		implements DeviceCommitmentService {
-	private static final Logger LOGGER= LoggerFactory.getLogger(DeviceUnlimitsTagServiceImpl.class);
+	private static final Logger LOGGER= LoggerFactory.getLogger(DeviceCommitmentServiceImpl.class);
 
 	private static final String COMMITMENT_DATE = "commitmentDate";
 

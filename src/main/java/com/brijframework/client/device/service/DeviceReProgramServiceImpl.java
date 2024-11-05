@@ -38,7 +38,7 @@ import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.entities.EOReProgramGroup;
 import com.brijframework.client.entities.EOReProgramItem;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.model.ResourceFileModel;
 import com.brijframework.client.forgin.repository.ResourceClient;
 import com.brijframework.client.repository.ReProgramGroupRepository;
 import com.brijframework.client.repository.ReProgramItemRepository;
@@ -128,13 +128,13 @@ public class DeviceReProgramServiceImpl extends CrudServiceImpl<UIDeviceReProgra
 	@Override
 	public void preAdd(UIDeviceReProgramGroup data, Map<String, List<String>> headers) {
 		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
-		ResourceFile resource = data.getContent();
+		ResourceFileModel resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(REPROGRAM);
 			resourceClient.add(REPROGRAM, resource.getFileName(), resource.getFileContent());
 		}
 		for(UIDeviceReProgramItem reProgramItem:   data.getReprograms()) {
-			ResourceFile resourceFile = reProgramItem.getContent();
+			ResourceFileModel resourceFile = reProgramItem.getContent();
 			if(resourceFile!=null) {
 				resourceFile.setFolderName(REPROGRAM);
 				resourceClient.add(REPROGRAM, resourceFile.getFileName(), resourceFile.getFileContent());
@@ -144,13 +144,13 @@ public class DeviceReProgramServiceImpl extends CrudServiceImpl<UIDeviceReProgra
 	
 	@Override
 	public void preUpdate(UIDeviceReProgramGroup data, Map<String, List<String>> headers) {
-		ResourceFile resource = data.getContent();
+		ResourceFileModel resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(REPROGRAM);
 			resourceClient.add(REPROGRAM, resource.getFileName(), resource.getFileContent());
 		}
 		for(UIDeviceReProgramItem reProgramItem:   data.getReprograms()) {
-			ResourceFile resourceFile = reProgramItem.getContent();
+			ResourceFileModel resourceFile = reProgramItem.getContent();
 			if(resourceFile!=null) {
 				resourceFile.setFolderName(REPROGRAM);
 				resourceClient.add(REPROGRAM, resourceFile.getFileName(), resourceFile.getFileContent());

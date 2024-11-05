@@ -4,19 +4,23 @@
 package com.brijframework.client.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 /**
  * @author omnie
  */
-@MappedSuperclass
-public abstract class EOUnlimits extends EOCustObject {
+@Entity
+@Table(name = "EOCLIENT_UNLIMITS")
+public class EOUnlimits extends EOCustObject {
 
 	/**
 	 * 
@@ -30,6 +34,16 @@ public abstract class EOUnlimits extends EOCustObject {
 
 	@Column(name = "NAME")
 	private String name;
+	
+	@Column(name = "TYPE")
+    private String type;
+	
+	@OneToMany(mappedBy = "unlimits")
+	private List<EOUnlimitsItem> items;
+	
+	@OneToMany(mappedBy = "unlimits")
+	private List<EOUnlimitsVisualize> visualizes;
+	
 
 	public Date getDate() {
 		return date;
@@ -47,4 +61,28 @@ public abstract class EOUnlimits extends EOCustObject {
 		this.name = name;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public List<EOUnlimitsItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<EOUnlimitsItem> items) {
+		this.items = items;
+	}
+
+	public List<EOUnlimitsVisualize> getVisualizes() {
+		return visualizes;
+	}
+
+	public void setVisualizes(List<EOUnlimitsVisualize> visualizes) {
+		this.visualizes = visualizes;
+	}
+	
 }

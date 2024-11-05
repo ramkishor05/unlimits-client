@@ -36,7 +36,7 @@ import com.brijframework.client.entities.EOAffirmationItem;
 import com.brijframework.client.entities.EOCustBusinessApp;
 import com.brijframework.client.entities.EOEntityObject;
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.model.ResourceFileModel;
 import com.brijframework.client.forgin.repository.ResourceClient;
 import com.brijframework.client.repository.AffirmationGroupRepository;
 import com.brijframework.client.repository.AffirmationItemRepository;
@@ -120,13 +120,13 @@ public class DeviceAffirmationServiceImpl extends CrudServiceImpl<UIDeviceAffirm
 	@Override
 	public void preAdd(UIDeviceAffirmationGroup data, Map<String, List<String>> headers) {
 		data.setRecordState(RecordStatus.ACTIVETED.getStatus());
-		ResourceFile resource = data.getContent();
+		ResourceFileModel resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(AFFIRMATION);
 			resourceClient.add(AFFIRMATION, resource.getFileName(), resource.getFileContent());
 		}
 		for(UIDeviceAffirmationItem AffirmationItem:   data.getAffirmations()) {
-			ResourceFile resourceFile = AffirmationItem.getContent();
+			ResourceFileModel resourceFile = AffirmationItem.getContent();
 			if(resourceFile!=null) {
 				resourceFile.setFolderName(AFFIRMATION);
 				resourceClient.add(AFFIRMATION, resourceFile.getFileName(), resourceFile.getFileContent());
@@ -136,13 +136,13 @@ public class DeviceAffirmationServiceImpl extends CrudServiceImpl<UIDeviceAffirm
 	
 	@Override
 	public void preUpdate(UIDeviceAffirmationGroup data, Map<String, List<String>> headers) {
-		ResourceFile resource = data.getContent();
+		ResourceFileModel resource = data.getContent();
 		if(resource!=null) {
 			resource.setFolderName(AFFIRMATION);
 			resourceClient.add(AFFIRMATION, resource.getFileName(), resource.getFileContent());
 		}
 		for(UIDeviceAffirmationItem AffirmationItem:   data.getAffirmations()) {
-			ResourceFile resourceFile = AffirmationItem.getContent();
+			ResourceFileModel resourceFile = AffirmationItem.getContent();
 			if(resourceFile!=null) {
 				resourceFile.setFolderName(AFFIRMATION);
 				resourceClient.add(AFFIRMATION, resourceFile.getFileName(), resourceFile.getFileContent());

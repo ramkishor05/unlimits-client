@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.unlimits.rest.crud.beans.Response;
 
 import com.brijframework.client.forgin.config.FeignClientConfig;
-import com.brijframework.client.forgin.model.ClientOnBoardingQuestion;
+import com.brijframework.client.forgin.model.ClientOnBoardingQuestionModel;
 
 @FeignClient(name= "UNLIMITS-AUTH" ,configuration = FeignClientConfig.class, url = "http://${server.gateway.host}:${server.gateway.port}/auth")
 public interface OnboardingClient {
 
 	@GetMapping(value = "/api/device/onboarding/question")
-	public Response<List<ClientOnBoardingQuestion>> getOnboardings();
+	public Response<List<ClientOnBoardingQuestionModel>> getOnboardings();
 	
 }

@@ -13,7 +13,8 @@ public class UIDeviceVisualizeRequest extends UIModel {
 	private static final long serialVersionUID = 1L;
 	private Integer year;
 	private String type;
-	private Long unlimitId;
+	private Long unlimitsId;
+	private Long subCategoryId;
 
 	public Integer getYear() {
 		return year;
@@ -31,12 +32,20 @@ public class UIDeviceVisualizeRequest extends UIModel {
 		this.type = type;
 	}
 
-	public Long getUnlimitId() {
-		return unlimitId;
+	public Long getUnlimitsId() {
+		return unlimitsId;
 	}
 
-	public void setUnlimitId(Long unlimitId) {
-		this.unlimitId = unlimitId;
+	public void setUnlimitsId(Long unlimitsId) {
+		this.unlimitsId = unlimitsId;
+	}
+
+	public Long getSubCategoryId() {
+		return subCategoryId;
+	}
+
+	public void setSubCategoryId(Long subCategoryId) {
+		this.subCategoryId = subCategoryId;
 	}
 
 	@JsonIgnore

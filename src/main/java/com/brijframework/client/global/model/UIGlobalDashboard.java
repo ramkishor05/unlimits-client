@@ -1,5 +1,7 @@
 package com.brijframework.client.global.model;
 
+import java.util.Collection;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -17,6 +19,10 @@ public class UIGlobalDashboard {
 	private long totalReprograms;
 
 	private long totalGoals;
+	
+	private Collection<UIGlobalDashboardCategoryWiseUnlimits> totalUnlimitsBySubCategory;
+	
+	private Collection<UIGlobalDashboardCategoryWiseUnlimits> totalUnlimitsByMainCategory;
 
 	public long getTotalUnlimits() {
 		return totalUnlimits;
@@ -64,6 +70,22 @@ public class UIGlobalDashboard {
 
 	public void setTotalGoals(long totalGoals) {
 		this.totalGoals = totalGoals;
+	}
+
+	public Collection<UIGlobalDashboardCategoryWiseUnlimits> getTotalUnlimitsBySubCategory() {
+		return totalUnlimitsBySubCategory;
+	}
+
+	public void setTotalUnlimitsBySubCategory(Collection<UIGlobalDashboardCategoryWiseUnlimits> totalUnlimitsBySubCategory) {
+		this.totalUnlimitsBySubCategory = totalUnlimitsBySubCategory;
+	}
+
+	public Collection<UIGlobalDashboardCategoryWiseUnlimits> getTotalUnlimitsByMainCategory() {
+		return totalUnlimitsByMainCategory;
+	}
+
+	public void setTotalUnlimitsByMainCategory(Collection<UIGlobalDashboardCategoryWiseUnlimits> totalUnlimitsByMainCategory) {
+		this.totalUnlimitsByMainCategory = totalUnlimitsByMainCategory;
 	}
 
 }

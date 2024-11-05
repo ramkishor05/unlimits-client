@@ -5,18 +5,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.brijframework.client.exceptions.UserNotFoundException;
-import com.brijframework.client.forgin.model.UIUserAccount;
-import com.brijframework.client.forgin.repository.UserAccountRepository;
+import com.brijframework.client.forgin.model.UserAccountModel;
+import com.brijframework.client.forgin.repository.UserClient;
 
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
 	
 	@Autowired
-	private UserAccountRepository userLoginRepository;
+	private UserClient userClient;
 
 	@Override
-	public UIUserAccount loadUserByUsername(String token) throws UsernameNotFoundException {
-		UIUserAccount findUserLogin = userLoginRepository.findByToken(token);
+	public UserAccountModel loadUserByUsername(String token) throws UsernameNotFoundException {
+		UserAccountModel findUserLogin = userClient.findByToken(token);
 		if (findUserLogin==null) {
 			throw new UserNotFoundException();
 		}

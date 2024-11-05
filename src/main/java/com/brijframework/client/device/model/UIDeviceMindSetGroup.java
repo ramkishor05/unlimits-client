@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.unlimits.rest.model.UIModel;
 
-import com.brijframework.client.forgin.model.ResourceFile;
+import com.brijframework.client.forgin.model.ResourceFileModel;
 
 public class UIDeviceMindSetGroup extends UIModel{
 
@@ -19,7 +19,7 @@ public class UIDeviceMindSetGroup extends UIModel{
 	
 	private Long mindsetId;
 
-	private ResourceFile content;
+	private ResourceFileModel content;
 	
 	private String url;
 
@@ -49,11 +49,11 @@ public class UIDeviceMindSetGroup extends UIModel{
 		this.mindsetId = mindsetId;
 	}
 
-	public ResourceFile getContent() {
+	public ResourceFileModel getContent() {
 		return content;
 	}
 
-	public void setContent(ResourceFile content) {
+	public void setContent(ResourceFileModel content) {
 		this.content = content;
 	}
 
